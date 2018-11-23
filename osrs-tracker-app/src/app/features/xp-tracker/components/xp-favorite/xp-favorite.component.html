@@ -1,0 +1,53 @@
+<ion-item item-result [button]="true" [detail]="true" color="primary" (click)="goToXp()">
+  <ion-label class="description">
+    <ion-row align-items-center>
+      <ion-col size="auto">
+        <h2 text-capitalize>{{ player }}</h2>
+      </ion-col>
+      <ion-col>
+        <ion-row align-items-center>
+          <img *ngIf="hiscore?.dead" src="./assets/imgs/player_types/dead.png">
+          <img *ngIf="hiscore?.type !== 'normal'" [src]="typeImageUrl">
+        </ion-row>
+      </ion-col>
+    </ion-row>
+  </ion-label>
+  <ion-row slot="end" class="details" align-items-center justify-content-end>
+    <ng-template [ngIf]="loading" [ngIfElse]="doneLoading">
+      <ion-spinner color="dark"></ion-spinner>
+    </ng-template>
+    <ng-template #doneLoading>
+      <ion-col size="auto">
+        <span class="gains">+ {{ gains | numberFormat }} XP</span>
+      </ion-col>
+      <ion-col size="auto">
+        <img src="./assets/imgs/skills/1.gif">
+      </ion-col>
+    </ng-template>
+  </ion-row>
+</ion-item>
+<!-- <button (click)="emitUsername()" class="content" block large ion-item color="primary">
+    <ion-grid no-padding>
+        <ion-row align-items-center>
+            <ion-col col-auto>
+                <div class="username">{{ username }}</div>
+            </ion-col>
+            <ion-col>
+                <ion-row class="icon-type" align-items-center>
+                    <img *ngIf="dead" class="dead" src="./assets/imgs/player_types/dead.png">
+                    <img *ngIf="type !== 'normal'" class="type" [src]="typeImageUrl">
+                </ion-row>
+            </ion-col>
+            <ion-col class="stats" col-auto>
+                <ion-row align-items-center justify-content-end>
+                    <div class="gains">
+                        <span>+</span>
+                        <span>{{ (gains | numberFormat) || '...' }}</span>
+                        <span>XP</span>
+                    </div>
+                    <img class="icon" src="./assets/imgs/skills/1.gif">
+                </ion-row>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+</button> -->

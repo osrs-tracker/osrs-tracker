@@ -1,0 +1,16 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Grand Exchange</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-refresher slot="fixed" pullMin="70" pullMax="300" (ionRefresh)="doRefresh()">
+    <ion-refresher-content pullingText="Pull to refresh" refreshingText="Refreshing..." refreshingSpinner="crescent"></ion-refresher-content>
+  </ion-refresher>
+
+  <search-item></search-item>
+</ion-content>

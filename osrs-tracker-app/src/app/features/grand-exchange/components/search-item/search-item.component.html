@@ -1,0 +1,33 @@
+<ion-card>
+  <ion-card-header>
+    <ion-card-title>Find item</ion-card-title>
+  </ion-card-header>
+  <ion-card-content>
+    <ion-item no-padding color="secondary">
+      <ion-input placeholder="Enter item name" (keyup.enter)="searchItem(search.value)" clearInput padding-start
+        #search></ion-input>
+    </ion-item>
+    <ion-button (click)="searchItem(search.value)" type="submit" expand="full" color="secondary">
+      <ion-icon slot="start" name="search"></ion-icon>
+      Search
+    </ion-button>
+  </ion-card-content>
+</ion-card>
+
+<ion-card *ngIf="favoriteItems?.length > 0">
+  <ion-list lines="full">
+    <ion-list-header no-margin color="secondary">
+      <ion-label>Favorites</ion-label>
+    </ion-list-header>
+    <item-favorite *ngFor="let item of favoriteItems; trackBy:trackByItemId" [itemId]="item"></item-favorite>
+  </ion-list>
+</ion-card>
+
+<ion-card *ngIf="recentItems?.length > 0">
+  <ion-list lines="full">
+    <ion-list-header no-margin color="secondary">
+      <ion-label>Recent</ion-label>
+    </ion-list-header>
+    <item-favorite *ngFor="let item of recentItems; trackBy:trackByItemId" [itemId]="item"></item-favorite>
+  </ion-list>
+</ion-card>

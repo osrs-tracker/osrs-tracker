@@ -1,0 +1,48 @@
+img.icon {
+  display: block;
+  height: 22px;
+  width: auto;
+  image-rendering: pixelated;
+  & + img {
+    margin-left: 4px;
+  }
+}
+ion-header {
+  ion-button[shape=round] {
+    --padding-top: 0;
+    --padding-end: 4px;
+    --padding-bottom: 0;
+    --padding-start: 4px;
+  }
+}
+.pl-xs {
+  padding-left: 4px;
+}
+.pr-none {
+  padding-right: 0;
+}
+ion-card {
+  ion-list-header,
+  ion-item {
+    --padding-start: 0;
+    --ion-safe-area-left: 0;
+    --padding-end: 0;
+    --ion-safe-area-right: 0;
+    --min-height: 30px;
+    min-height: var(--min-height);
+    & > ion-row {
+      width: 100%;
+      font-weight: 500;
+      line-height: 20px;
+      padding-right: 4px;
+    }
+  }
+  ion-item {
+    --ion-color-contrast: var(--ion-color-dark) !important;
+    font-size: 13px;
+    & > ion-row {
+      padding-top: 2px;
+      padding-bottom: 2px;
+    }
+  }
+}

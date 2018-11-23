@@ -1,0 +1,21 @@
+<h6 margin-start>
+  OSRS News
+</h6>
+
+<ion-card *ngFor="let item of items; trackBy:trackByNewsItemDate">
+  <ion-card-header small>
+    <ion-card-subtitle>{{ (item.pubDate | date) }} | {{ item?.categories[0] }}</ion-card-subtitle>
+    <ion-card-title>{{ item.title }}</ion-card-title>
+  </ion-card-header>
+  <ion-card-content>
+    <img (click)="openInBrowser(item.link)" [src]="item.enclosure.link" height="115" class="mb-sm">
+  </ion-card-content>
+  <ion-card-content>
+    <p>{{ item.description }}</p>
+  </ion-card-content>
+  <ion-col no-padding>
+    <ion-button color="secondary" fill="clear" (click)="openInBrowser(item.link)">
+      READ MORE
+    </ion-button>
+  </ion-col>
+</ion-card>

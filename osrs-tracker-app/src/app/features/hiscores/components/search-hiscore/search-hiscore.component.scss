@@ -1,0 +1,17 @@
+.compare {
+  color: var(--ion-color-secondary-tint);
+  ion-toggle {
+    --handle-background: var(--ion-color-light);
+    --ion-color-base-rgb: 50,50,50 !important;
+    padding-top: 5px;
+    padding-right: 0;
+    padding-bottom: 5px;
+  }
+}
+ion-item + ion-item {
+  margin-top: 4px;
+}
+
+ion-list-header {
+  min-height: 30px;
+}

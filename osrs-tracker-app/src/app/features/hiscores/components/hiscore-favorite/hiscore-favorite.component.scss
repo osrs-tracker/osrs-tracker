@@ -1,0 +1,21 @@
+ion-item[item-result] .details {
+  margin-right: 4px;
+  ion-spinner {
+    min-height: 50px;
+  }
+
+  img {
+    display: inline-block;
+    height: 20px;
+    width: auto;
+    image-rendering: pixelated;
+    & + img {
+      margin-left: 4px;
+    }
+  }
+
+  .level {
+    font-weight: 400 !important;
+    margin-right: 8px;
+  }
+}

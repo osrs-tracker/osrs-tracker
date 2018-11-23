@@ -1,0 +1,48 @@
+<ion-card>
+  <ion-card-header>
+    <ion-row align-items-center>
+      <ion-col no-padding>
+        <ion-card-title>Find player</ion-card-title>
+      </ion-col>
+      <ion-col size="auto" no-padding>
+        <ion-row align-items-center class="compare">
+          compare
+          <ion-toggle color="secondary" [(ngModel)]="compare"></ion-toggle>
+        </ion-row>
+      </ion-col>
+    </ion-row>
+  </ion-card-header>
+
+  <ion-card-content>
+    <ion-item color="secondary" no-padding>
+      <ion-input type="text" [(ngModel)]="playerName" name="playerName" placeholder="Enter player name"
+        (keyup.enter)="compare ? comparePlayers(): searchPlayer()" padding-start clearInput></ion-input>
+    </ion-item>
+    <ion-item color="secondary" no-padding *ngIf="compare">
+      <ion-input type="text" [(ngModel)]="compareName" name="compareName" placeholder="Enter compare name"
+        (keyup.enter)="compare ? comparePlayers(): searchPlayer()" padding-start clearInput></ion-input>
+    </ion-item>
+    <ion-button color="secondary" expand="full" (click)="compare ? comparePlayers(): searchPlayer()">
+      <ion-icon slot="start" [name]="compare ? 'swap' : 'search'"></ion-icon>
+      {{ compare ? 'Compare' : 'Search'}}
+    </ion-button>
+  </ion-card-content>
+</ion-card>
+
+<ion-card *ngIf="favorites && favoriteHiscores?.length > 0">
+  <ion-list>
+    <ion-list-header no-margin color="secondary">
+      <ion-label>Favorites</ion-label>
+    </ion-list-header>
+    <hiscore-favorite *ngFor="let player of favoriteHiscores; trackBy:trackByPlayer" [player]="player" (notFound)="removeFavorite(player)"></hiscore-favorite>
+  </ion-list>
+</ion-card>
+
+<ion-card *ngIf="recents && recentHiscores?.length > 0">
+  <ion-list>
+    <ion-list-header no-margin color="secondary">
+      <ion-label>Recent</ion-label>
+    </ion-list-header>
+    <hiscore-favorite *ngFor="let player of recentHiscores; trackBy:trackByPlayer" [player]="player" (notFound)="removeRecent(player)"></hiscore-favorite>
+  </ion-list>
+</ion-card>

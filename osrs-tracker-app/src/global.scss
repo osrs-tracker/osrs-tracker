@@ -1,0 +1,63 @@
+@import "~@ionic/angular/css/core.css";
+@import "~@ionic/angular/css/normalize.css";
+@import "~@ionic/angular/css/structure.css";
+@import "~@ionic/angular/css/typography.css";
+@import "~@ionic/angular/css/padding.css";
+@import "~@ionic/angular/css/float-elements.css";
+@import "~@ionic/angular/css/text-alignment.css";
+@import "~@ionic/angular/css/text-transformation.css";
+@import "~@ionic/angular/css/flex-utils.css";
+
+ion-refresher {
+    height: 70px;
+    padding-top: 10px;
+    z-index: -1;
+}
+
+ion-card {
+  ion-card-header {
+    &[small] {
+      ion-card-title {
+        font-size: 16px;
+      }
+      ion-card-subtitle {
+        font-size: 12px;
+      }
+    }
+  }
+  ion-card-content + ion-card-content {
+    padding-top: 0 !important;
+  }
+}
+
+ion-item[item-result] {
+  --detail-icon-color: var(--ion-color-dark);
+  --ion-color-primary-contrast: var(--ion-color-dark);
+  ion-thumbnail {
+    height: 48px;
+    width: 48px;
+  }
+  * {
+    font-weight: 500;
+  }
+  .description {
+    margin-right: 0;
+  }
+  .details {
+    margin-left: 16px;
+    min-width: 48px;
+  }
+}
+.text-ellipsis {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.positive {
+  color: #00ff00;
+  text-shadow: 1px 1px rgba(0,0,0,0.4);
+}
+.negative {
+  color: #ff0000;
+  text-shadow: 1px 1px rgba(0,0,0,0.4);
+}

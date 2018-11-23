@@ -1,0 +1,34 @@
+<ion-card>
+  <ion-card-header>
+    <ion-card-title>Find player</ion-card-title>
+  </ion-card-header>
+
+  <ion-card-content>
+    <ion-item no-padding color="secondary">
+      <ion-input type="text" placeholder="Enter player name" padding-left #search clearInput (keyup.enter)="searchXp(search.value)"
+        padding-start></ion-input>
+    </ion-item>
+    <ion-button color="secondary" expand="full" (click)="searchXp(search.value)">
+      <ion-icon slot="start" name="search"></ion-icon>
+      Search
+    </ion-button>
+  </ion-card-content>
+</ion-card>
+
+<ion-card *ngIf="favorites && favoriteXp?.length > 0">
+  <ion-list>
+    <ion-list-header no-margin color="secondary">
+      <ion-label>Favorites</ion-label>
+    </ion-list-header>
+    <xp-favorite *ngFor="let player of favoriteXp; trackBy:trackByUsername" [player]="player" (notFound)="removeFavorite(player)"></xp-favorite>
+  </ion-list>
+</ion-card>
+
+<ion-card *ngIf="recents && recentXp?.length > 0">
+  <ion-list>
+    <ion-list-header no-margin color="secondary">
+      <ion-label>Recent</ion-label>
+    </ion-list-header>
+    <xp-favorite *ngFor="let player of recentXp; trackBy:trackByUsername" [player]="player" (notFound)="removeRecent(player)"></xp-favorite>
+  </ion-list>
+</ion-card>

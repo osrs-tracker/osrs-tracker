@@ -1,0 +1,32 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Home</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <ion-refresher slot="fixed" pullMin="70" pullMax="300" (ionRefresh)="doRefresh()">
+    <ion-refresher-content pullingText="Pull to refresh" refreshingText="Refreshing..." refreshingSpinner="crescent"></ion-refresher-content>
+  </ion-refresher>
+
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Welcome to OSRS Tracker</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <p>
+        You can track Grand Exchange prices, lookup players in the hiscores,
+        see the latest OSRS news and even track your XP gains!
+      </p>
+    </ion-card-content>
+  </ion-card>
+
+  <quick-nav></quick-nav>
+
+  <osrs-news></osrs-news>
+
+</ion-content>

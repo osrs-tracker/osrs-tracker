@@ -1,0 +1,26 @@
+img.icon {
+  display: block;
+  height: 18px;
+  width: auto;
+  image-rendering: pixelated;
+  & + img {
+    margin-left: 4px;
+  }
+}
+skill-icon,
+.icon {
+  margin-bottom: 2px;
+}
+ion-list-header {
+  min-height: 30px;
+}
+ion-item {
+  --min-height: 28px;
+  font-size: 14px;
+}
+.pr-xs {
+  padding-right: 8px;
+}
+.pl-xs {
+  padding-left: 4px
+}

@@ -1,0 +1,58 @@
+:root {
+  --ion-background-color: var(--ion-color-dark);
+  --ion-text-color: var(--ion-color-light);
+  --ion-toolbar-background: var(--ion-color-dark-shade);
+
+  body {
+    background-color: var(--ion-background-color);
+  }
+
+  ion-alert {
+    .alert-title,
+    .alert-sub-title,
+    .alert-message {
+      color: var(--ion-color-dark);
+    }
+    .alert-button {
+      color: var(--ion-color-secondary);
+    }
+  }
+  ion-alert {
+    --ion-color-primary: var(--ion-color-secondary) !important;
+  }
+  ion-loading ion-spinner {
+    color: var(--ion-color-secondary);
+  }
+  ion-card {
+    --background: var(--ion-color-primary);
+    --color: var(--ion-color-dark);
+    ion-card-header {
+      ion-card-subtitle {
+        --color: var(--ion-color-secondary);
+        opacity: 0.75;
+      }
+    }
+    ion-card-content h1 {
+      margin-bottom: var(--ion-margin, 16px);
+    }
+  }
+  ion-item {
+    --highlight-height: 0;
+  }
+  ion-menu ion-item {
+    --background-activated: var(--ion-color-primary);
+  }
+  ion-button {
+    // prevents active/focus effect of buttons.
+    --ion-color-base-rgb: transparent !important;
+  }
+  ion-toggle {
+    --background: var(--ion-color-light-shade);
+    --handle-background: var(--ion-color-light);
+    --ion-color-base-rgb: 80,80,80 !important;
+    padding-top: 5px;
+    padding-right: 0;
+    padding-bottom: 5px;
+  }
+
+}

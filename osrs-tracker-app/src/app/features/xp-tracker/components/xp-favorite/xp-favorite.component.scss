@@ -1,0 +1,12 @@
+img {
+  display: inline-block;
+  height: 20px;
+  width: auto;
+  image-rendering: pixelated;
+  & + img {
+    margin-left: 4px;
+  }
+}
+.gains {
+  font-weight: 400;
+}

@@ -1,0 +1,7 @@
+{
+  "name": "osrs-tracker",
+  "integrations": {
+    "cordova": {}
+  },
+  "type": "angular"
+}

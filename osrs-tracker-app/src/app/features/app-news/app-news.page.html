@@ -1,0 +1,40 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>App News</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <ion-refresher slot="fixed" pullMin="70" pullMax="300" (ionRefresh)="doRefresh()">
+    <ion-refresher-content pullingText="Pull to refresh" refreshingText="Refreshing..." refreshingSpinner="crescent"></ion-refresher-content>
+  </ion-refresher>
+
+  <ion-card *ngFor="let item of items; trackBy:trackByNewsItemId">
+    <ion-card-header small>
+      <ion-card-subtitle>{{ item.date | date }} | {{ item.category }}</ion-card-subtitle>
+      <ion-card-title>{{ item.title }}</ion-card-title>
+    </ion-card-header>
+    <ion-card-content class="content" [innerHTML]="item.content"></ion-card-content>
+    <ion-item color="transparant" lines="none">
+      <ion-buttons slot="end" class="votes">
+        <ion-button fill="clear" size="small" color="dark" shape="round" no-padding no-margin (click)="upvote(item.id)"
+          class="upvotes" [ngClass]="{voted: item.vote > 0}">
+          <ion-icon slot="start" name="thumbs-up"></ion-icon> {{ item.upvotes }}
+        </ion-button>
+        <ion-button fill="clear" size="small" color="dark" shape="round" no-padding no-margin (click)="downvote(item.id)"
+          class="downvotes" [ngClass]="{voted: item.vote < 0}">
+          <ion-icon slot="start" name="thumbs-down"></ion-icon> {{ item.downvotes }}
+        </ion-button>
+      </ion-buttons>
+    </ion-item>
+  </ion-card>
+
+  <ion-infinite-scroll (ionInfinite)="doInfinite()">
+    <ion-infinite-scroll-content loadingText="Loading older news..." loadingSpinner="crescent"></ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+
+</ion-content>

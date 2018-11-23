@@ -1,0 +1,25 @@
+img.icon {
+  display: block;
+  height: 22px;
+  width: 22px;
+  width: auto;
+  image-rendering: pixelated;
+  & + img {
+    margin-left: 4px;
+  }
+}
+
+ion-header {
+  ion-button[shape=round] {
+    --padding-top: 0;
+    --padding-end: 4px;
+    --padding-bottom: 0;
+    --padding-start: 4px;
+  }
+}
+.pr-none {
+  padding-right: 0;
+}
+ion-tab-button {
+  --color-selected: var(--ion-color-primary);
+}

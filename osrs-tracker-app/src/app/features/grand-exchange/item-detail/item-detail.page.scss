@@ -1,0 +1,51 @@
+#wiki  {
+  margin-top: 4px
+}
+#id {
+  position: absolute;
+  bottom: 5px;
+  right: 16px;
+  color: var(--ion-color-secondary);
+  opacity: 0.5;
+}
+.item-icon {
+  max-width: 50%;
+  margin: auto;
+  image-rendering: pixelated;
+}
+h2 {
+  margin-bottom: 4px;
+}
+h2, .number {
+  font-weight: 500
+}
+.number {
+  line-height: 29px;
+  font-size: 1.1em;
+}
+.coins img {
+    width: 30px;
+    height: 29px;
+    display: inline-block;
+    vertical-align: bottom;
+    padding-right: 3px;
+    image-rendering: pixelated;
+}
+ion-card {
+  --ion-margin: 0;
+}
+.h-50 {
+  height: 50%
+}
+.bt {
+  border-top: 1px solid var(--ion-color-primary-shade);
+}
+.br {
+  border-right: 1px solid var(--ion-color-primary-shade);
+}
+.pr {
+  padding-right: 16px;
+}
+.pr-sm {
+  padding-right: 8px;
+}

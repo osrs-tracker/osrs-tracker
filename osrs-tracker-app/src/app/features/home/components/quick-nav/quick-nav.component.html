@@ -1,0 +1,10 @@
+<ion-grid>
+  <ion-row>
+    <ion-col *ngFor="let button of buttons; trackBy:trackByButtonId" size="6">
+      <ion-button (click)="navigateTo(button.page)" expand="block" size="large">
+        <ion-icon slot="start" [name]="button.icon"></ion-icon>
+        <span class="title">{{ button.title }}</span>
+      </ion-button>
+    </ion-col>
+  </ion-row>
+</ion-grid>

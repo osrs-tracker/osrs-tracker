@@ -1,0 +1,29 @@
+:host {
+    margin: 10px;
+    display: block;
+}
+
+.title {
+    padding-top: 2px;
+}
+
+ion-button {
+    --color: var(--ion-color-dark);
+    --color-activated: var(--ion-color-dark);
+    --color-focused: var(--ion-color-dark);
+    font-size: 16px;
+}
+
+ion-grid,
+ion-col {
+    padding: 0;
+}
+
+ion-col {
+    &:nth-child(odd) {
+        padding-right: var(--ion-grid-column-padding-xs, var(--ion-grid-column-padding, 5px));
+    }
+    &:nth-child(even) {
+        padding-left: var(--ion-grid-column-padding-xs, var(--ion-grid-column-padding, 5px));
+    }
+}

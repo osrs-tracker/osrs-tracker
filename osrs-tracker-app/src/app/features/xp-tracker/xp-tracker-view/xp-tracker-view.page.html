@@ -1,0 +1,53 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button [defaultHref]="AppRoute.XpTracker"></ion-back-button>
+    </ion-buttons>
+    <ion-title class="pr-none">
+      <ion-row align-items-center>
+        <ion-col size="auto">
+          <ion-label text-capitalize>Player: {{ username }}</ion-label>
+        </ion-col>
+        <ion-col>
+          <ion-row align-items-center>
+            <img *ngIf="dead" class="icon" src="./assets/imgs/player_types/dead.png">
+            <img *ngIf="type !== 'normal'" class="icon" [src]="getTypeImageUrl()">
+          </ion-row>
+        </ion-col>
+      </ion-row>
+    </ion-title>
+    <ion-buttons slot="end">
+      <ion-button shape="round" (click)="goToHiscore()">
+        <ion-icon slot="icon-only" name="trophy"></ion-icon>
+      </ion-button>
+      <ion-button shape="round" (click)="favorite()">
+        <ion-icon slot="icon-only" [name]="isFavorite ? 'star' : 'star-outline'"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-tabs>
+    <ion-tab [tab]="XpTrackerRoute.AdventureLog">
+        <ion-router-outlet name="adventure-log"></ion-router-outlet>
+    </ion-tab>
+    <ion-tab [tab]="XpTrackerRoute.DataTable">
+        <ion-router-outlet name="data-table"></ion-router-outlet>
+    </ion-tab>
+
+    <ion-tab-bar color="dark" slot="bottom">
+
+      <ion-tab-button [tab]="XpTrackerRoute.AdventureLog" [href]="getTabRoute(XpTrackerRoute.AdventureLog)">
+        <ion-label>Adventure Log</ion-label>
+        <ion-icon name="book"></ion-icon>
+      </ion-tab-button>
+
+      <ion-tab-button [tab]="XpTrackerRoute.DataTable" [href]="getTabRoute(XpTrackerRoute.DataTable)">
+        <ion-label>Data Table</ion-label>
+        <ion-icon name="list"></ion-icon>
+      </ion-tab-button>
+
+    </ion-tab-bar>
+  </ion-tabs>
+</ion-content>

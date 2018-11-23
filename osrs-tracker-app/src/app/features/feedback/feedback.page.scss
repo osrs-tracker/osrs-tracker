@@ -1,0 +1,8 @@
+a {
+  color: var(--ion-color-secondary);
+  text-decoration: underline;
+}
+p + p {
+  margin-top: 8px;
+  margin-bottom: 2px;
+}
