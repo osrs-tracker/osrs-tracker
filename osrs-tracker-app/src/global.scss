@@ -14,6 +14,10 @@ ion-refresher {
     z-index: -1;
 }
 
+ion-list {
+  padding: 0 !important;
+}
+
 ion-card {
   ion-card-header {
     &[small] {
@@ -40,11 +44,8 @@ ion-item[item-result] {
   * {
     font-weight: 500;
   }
-  .description {
-    margin-right: 0;
-  }
   .details {
-    margin-left: 16px;
+    margin: 0 8px;
     min-width: 48px;
   }
 }

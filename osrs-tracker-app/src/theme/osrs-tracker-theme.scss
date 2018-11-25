@@ -39,8 +39,16 @@
   ion-item {
     --highlight-height: 0;
   }
-  ion-menu ion-item {
-    --background-activated: var(--ion-color-primary);
+  ion-menu {
+    ion-icon {
+      color: rgba(var(--ion-text-color-rgb,0),.54); // bugged value in ionic beta-16: rgba(var(--ion-text-color-rgb,0,0,0),.54);
+      &[slot=start] {
+        margin-right: 16px;
+      }
+    }
+    ion-item {
+      --background-activated: var(--ion-color-primary);
+    }
   }
   ion-button {
     // prevents active/focus effect of buttons.
