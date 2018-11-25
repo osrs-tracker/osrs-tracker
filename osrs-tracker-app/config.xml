@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget android-versionCode="3000100" id="com.toxsickproductions.geptv2" version="3.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:android="http://schemas.android.com/apk/res/android" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget android-versionCode="3000101" id="com.toxsickproductions.geptv2" version="3.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:android="http://schemas.android.com/apk/res/android" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>OSRS Tracker</name>
     <description>Track OSRS news, item prices, hiscores and more!</description>
     <author email="info@toxsickproductions.com" href="https://twitter.com/FreekMencke">Freek Mencke</author>
@@ -23,6 +23,7 @@
     <preference name="StatusBarStyle" value="blacktranslucent" />
     <preference name="StatusBarBackgroundColor" value="#181a1c" />
     <preference name="HeaderColor" value="#05070A" />
+    <preference name="AndroidPersistentFileLocation" value="Internal" />
     <platform name="android">
         <edit-config file="AndroidManifest.xml" mode="merge" target="/manifest/supports-screens">
             <supports-screens android:smallScreens="false" />
@@ -86,7 +87,6 @@
     <plugin name="cordova-plugin-whitelist" spec="1.3.3" />
     <plugin name="cordova-plugin-ionic-webview" spec="^2.0.0" />
     <plugin name="cordova-plugin-ionic-keyboard" spec="^2.0.5" />
-    <plugin name="cordova-sqlite-storage" spec="2.5.1" />
     <plugin name="cordova-plugin-device" spec="2.0.2" />
     <plugin name="cordova-plugin-inappbrowser" spec="3.0.0" />
     <plugin name="cordova-plugin-statusbar" spec="2.4.2" />
@@ -94,6 +94,7 @@
     <plugin name="cordova-plugin-browsertab" spec="0.2.0" />
     <plugin name="cordova-plugin-advanced-http" spec="2.0.1" />
     <plugin name="cordova-plugin-splashscreen" spec="~5.0.2" />
+    <plugin name="cordova-sqlite-storage" spec="2.5.2" />
     <preference name="SplashScreenDelay" value="3000" />
-    <engine name="android" spec="7.1.2" />
+    <engine name="android" spec="7.1.4" />
 </widget>
