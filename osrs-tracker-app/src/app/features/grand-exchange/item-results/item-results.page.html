@@ -8,9 +8,9 @@
 </ion-header>
 
 <ion-content>
-  <ion-list lines="full" no-margin>
+  <ion-list lines="full">
     <ion-item item-result [button]="true" [detail]="true" color="primary" (click)="itemDetails(item)" *ngFor="let item of items; trackBy:trackByItemId">
-      <ion-thumbnail slot="start" no-margin>
+      <ion-thumbnail slot="start">
         <ion-img [src]="item.icon"></ion-img>
       </ion-thumbnail>
       <ion-label class="description">
