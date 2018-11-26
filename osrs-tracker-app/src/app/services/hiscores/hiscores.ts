@@ -69,7 +69,7 @@ export class HiscoresProvider {
           if (hoursSinceCheck < CACHE_TIME_TYPES) {
             return this.getHiscore(username, player.deIroned ? 'normal' : player.dead ? 'ironman' : player.playerType).pipe(
               map((hiscore: Hiscore) => this.addPlayerToHiscore(hiscore, player)),
-              catchError(err => Observable.throw(err))
+              catchError(err => throwError(err))
             );
           }
         }

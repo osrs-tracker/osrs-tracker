@@ -45,10 +45,7 @@ export class SearchHiscoreComponent {
   }
 
   public refresh() {
-    return forkJoin(
-      timer(500),
-      ...(this.hiscoreFavoriteComponents || []).map(fav => fav.getData())
-    );
+    return forkJoin([timer(500), ...(this.hiscoreFavoriteComponents || []).map(fav => fav.getData())]);
   }
 
   removeFavorite(username: string) {

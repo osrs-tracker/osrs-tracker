@@ -41,10 +41,7 @@ export class SearchXpComponent {
   }
 
   public refresh() {
-    return forkJoin(
-      timer(500),
-      ...(this.xpFavoriteComponents || []).map(fav => fav.getData())
-    );
+    return forkJoin([timer(500), ...(this.xpFavoriteComponents || []).map(fav => fav.getData())]);
   }
 
   removeFavorite(username: string) {
