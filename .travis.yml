@@ -18,7 +18,6 @@ jobs:
     - script: 
         - cd osrs-tracker-cron
         - npm install
-
     - stage: lint
       script: 
         - cd osrs-tracker-api
@@ -29,7 +28,6 @@ jobs:
     - script: 
         - cd osrs-tracker-cron
         - npm run lint
-
     - stage: build
           script: 
         - cd osrs-tracker-api
