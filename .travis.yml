@@ -4,12 +4,11 @@ node_js: '10.13'
 
 cache: npm
 
-install:
-
+install: false
 
 jobs:
   include:
     - stage: lint
-    - script: ./scripts/install-and-lint.sh osrs-tracker-api
+      script: ./scripts/install-and-lint.sh osrs-tracker-api
     - script: ./scripts/install-and-lint.sh osrs-tracker-app
     - script: ./scripts/install-and-lint.sh osrs-tracker-cron
