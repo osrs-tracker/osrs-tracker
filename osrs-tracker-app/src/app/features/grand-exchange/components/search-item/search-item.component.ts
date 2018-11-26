@@ -41,10 +41,7 @@ export class SearchItemComponent {
   }
 
   public refresh(): Observable<any> {
-    return forkJoin(
-      timer(500),
-      ...(this.itemFavoriteComponents || []).map(fav => fav.getData())
-    );
+    return forkJoin([timer(500), ...(this.itemFavoriteComponents || []).map(fav => fav.getData())]);
   }
 
   async searchItem(query: string) {

@@ -1,0 +1,29 @@
+language: node_js
+dist: trusty
+node_js: '10.13'
+
+cache: npm
+
+install: false
+
+jobs:
+  include:
+    - stage: "Projects"
+      script: 
+        - cd osrs-tracker-api
+        - npm install
+        - npm run lint
+        - npm run build:ci
+      name: "OSRS Tracker API"
+    - script: 
+        - cd osrs-tracker-app
+        - npm install
+        - npm run lint
+        - npm run build
+      name: "OSRS Tracker App"
+    - script: 
+        - cd osrs-tracker-cron
+        - npm install
+        - npm run lint
+        - npm run build:ci
+      name: "OSRS Tracker Cron"
