@@ -20,10 +20,10 @@ jobs:
         - npm install
         - npm run lint
         - npm run build
-      name: "OSRS Tracke API"
+      name: "OSRS Tracke App"
     - script: 
         - cd osrs-tracker-cron
         - npm install
         - npm run lint
         - npm run build:ci
-      name: "OSRS Tracke API"
+      name: "OSRS Tracke Cron"
