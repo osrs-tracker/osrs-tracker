@@ -8,7 +8,35 @@ install: false
 
 jobs:
   include:
+    - stage: install
+      script: 
+        - cd osrs-tracker-api
+        - npm install
+    - script: 
+        - cd osrs-tracker-app
+        - npm install
+    - script: 
+        - cd osrs-tracker-cron
+        - npm install
+
     - stage: lint
-      script: ./scripts/install-and-lint.sh osrs-tracker-api
-    - script: ./scripts/install-and-lint.sh osrs-tracker-app
-    - script: ./scripts/install-and-lint.sh osrs-tracker-cron
+      script: 
+        - cd osrs-tracker-api
+        - npm run lint
+    - script: 
+        - cd osrs-tracker-app
+        - npm run lint
+    - script: 
+        - cd osrs-tracker-cron
+        - npm run lint
+
+    - stage: build
+          script: 
+        - cd osrs-tracker-api
+        - npm run build:ci
+    - script: 
+        - cd osrs-tracker-app
+        - npm run build
+    - script: 
+        - cd osrs-tracker-cron
+        - npm run build:ci
