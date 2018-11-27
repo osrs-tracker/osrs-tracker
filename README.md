@@ -2,7 +2,8 @@
 # OSRS Tracker
 Track Old School RuneScape XP gains, GE prices, news, hiscores and more!  
 
-[Get the app on Google Play](https://play.google.com/store/apps/details?id=com.toxsickproductions.geptv2).
+<a href='https://play.google.com/store/apps/details?id=com.toxsickproductions.geptv2'>
+  <img width="180px" alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png'/></a>
 
 ### API
 
