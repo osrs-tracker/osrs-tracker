@@ -71,7 +71,7 @@ export class StorageProvider {
     });
   }
 
-  private uniqueArrayAdd(key: string, value: string, isFavorite: (isFavorite: boolean) => boolean) {
+  private uniqueArrayToggle(key: string, value: string, isFavorite: (isToggled: boolean) => boolean) {
     value = value.toLowerCase();
     this.getValue(key, (values: string[]) => {
       values = values || [];
@@ -150,8 +150,8 @@ export class StorageProvider {
     this.limitedArrayAdd(STORAGE_KEY.RECENT_ITEMS, itemId, 5);
   }
 
-  addToFavoriteItems(itemId: string, isFavorite: (isFavorite: boolean) => boolean): void {
-    this.uniqueArrayAdd(STORAGE_KEY.FAVORITE_ITEMS, itemId, isFavorite);
+  toggleFavoriteItem(itemId: string, isFavorited: (isFavorited: boolean) => boolean): void {
+    this.uniqueArrayToggle(STORAGE_KEY.FAVORITE_ITEMS, itemId, isFavorited);
   }
 
   getHiscores(favoriteCallback: FavoritesCallback, recentCallback: RecentCallback): void {
@@ -172,7 +172,7 @@ export class StorageProvider {
   }
 
   addToFavoriteHiscores(username: string, isFavorite: (isFavorite: boolean) => boolean): void {
-    this.uniqueArrayAdd(STORAGE_KEY.FAVORITE_HISCORES, username, isFavorite);
+    this.uniqueArrayToggle(STORAGE_KEY.FAVORITE_HISCORES, username, isFavorite);
   }
 
   getXp(favoriteCallback: FavoritesCallback, recentCallback: RecentCallback): void {
@@ -193,7 +193,7 @@ export class StorageProvider {
   }
 
   addToFavoriteXp(username: string, isFavorite: (isFavorite: boolean) => boolean): void {
-    this.uniqueArrayAdd(STORAGE_KEY.FAVORITE_XP, username, isFavorite);
+    this.uniqueArrayToggle(STORAGE_KEY.FAVORITE_XP, username, isFavorite);
   }
 
 }

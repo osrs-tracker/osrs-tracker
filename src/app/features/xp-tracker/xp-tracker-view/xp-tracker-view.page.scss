@@ -20,6 +20,12 @@ ion-header {
 .pr-none {
   padding-right: 0;
 }
+
 ion-tab-button {
   --color-selected: var(--ion-color-primary);
+  // Below is fix since beta 17 for active tab color
+  &.tab-selected {
+    color: var(--ion-color-primary) !important;
+  }
 }
+

@@ -5,7 +5,7 @@ import { GrandExchangeRoute } from 'features/grand-exchange/grand-exchange.route
 import { forkJoin, Observable, timer } from 'rxjs';
 import { AlertManager } from 'services/alert-manager/alert-manager';
 import { StorageProvider } from 'services/storage/storage';
-import { ItemFavoriteComponent } from '../item-favorite/item-favorite.component';
+import { ItemResultComponent } from '../item-result/item-result.component';
 
 @Component({
   selector: 'search-item',
@@ -13,10 +13,7 @@ import { ItemFavoriteComponent } from '../item-favorite/item-favorite.component'
   styleUrls: ['./search-item.component.scss']
 })
 export class SearchItemComponent {
-  @Input() favorites = true;
-  @Input() recents = true;
-
-  @ViewChildren(ItemFavoriteComponent) itemFavoriteComponents: ItemFavoriteComponent[];
+  @ViewChildren(ItemResultComponent) itemFavoriteComponents: ItemResultComponent[];
   favoriteItems: string[] = [];
   recentItems: string[] = [];
 

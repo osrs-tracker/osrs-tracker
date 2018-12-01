@@ -10,7 +10,6 @@ import { ItemResultsCache } from './item-results-cache.service';
 @Component({
   selector: 'page-item-results',
   templateUrl: './item-results.page.html',
-  styleUrls: ['./item-results.page.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ItemResultsPage implements OnInit, OnDestroy {
@@ -31,8 +30,8 @@ export class ItemResultsPage implements OnInit, OnDestroy {
     this.items = (this.activatedRoute.snapshot.data.itemResults || [])
       .filter((item: ItemSearchModel) => item.current)
       .map((item: ItemSearchModel) => {
-        item.icon = `${environment.API_GEPT}/icon/${item.id}`;
         item.trendClass = getTrendClass(item.today);
+        item.icon = `${environment.API_GEPT}/icon/${item.id}`;
         return item;
       });
     this.itemResultsCache.store(this.items);

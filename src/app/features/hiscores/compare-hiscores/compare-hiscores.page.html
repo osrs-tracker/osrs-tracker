@@ -7,8 +7,7 @@
     <ion-buttons slot="end" padding-end>
       <ion-row align-items-center>
         <span class="exp-toggle">{{ expToggle ? 'Experience' : 'Rank' }}</span>
-        <!-- Temp fix, added [checked]="expToggle" for initial value, broken since beta 16  -->
-        <ion-toggle color="secondary" [(ngModel)]="expToggle" [checked]="expToggle"></ion-toggle>
+        <ion-toggle color="secondary" [(ngModel)]="expToggle"></ion-toggle>
       </ion-row>
     </ion-buttons>
   </ion-toolbar>

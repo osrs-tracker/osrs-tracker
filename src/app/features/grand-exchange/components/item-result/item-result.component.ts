@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { NavController } from '@ionic/angular';
 import { AppRoute } from 'app-routing.routes';
 import { environment } from 'environments/environment';
@@ -10,41 +10,46 @@ import { StorageProvider } from 'services/storage/storage';
 import { GrandExchangeRoute } from '../../grand-exchange.routes';
 
 @Component({
-  selector: 'item-favorite',
-  templateUrl: './item-favorite.component.html',
-  styleUrls: ['./item-favorite.component.scss']
+  selector: 'item-result',
+  templateUrl: './item-result.component.html',
+  styleUrls: ['./item-result.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ItemFavoriteComponent implements OnInit {
+export class ItemResultComponent implements OnInit {
 
-  @Input() itemId: string;
-  @Output() itemSelect = new EventEmitter<ItemSearchModel>();
-
-  item = ItemSearchModel.empty();
-  totalLevel: string;
-  combatLevel: string;
+  @Input() itemId: string = null;
+  @Input() item: ItemSearchModel = null;
 
   loading = true;
 
   constructor(
+    private changeDetectorRef: ChangeDetectorRef,
     private itemService: ItemProvider,
     private storageProvider: StorageProvider,
     private navCtrl: NavController
   ) { }
 
-  ngOnInit() {
-    this.storageProvider.getItemFromCache(this.itemId).then(item => {
-      if (!item) { return; }
-      this.item.id = +this.itemId;
-      this.item.name = item.name;
-      this.item.description = item.description;
-    });
-    this.getData().subscribe();
+  async ngOnInit() {
+    if (this.itemId && !this.item) {
+      this.item = ItemSearchModel.empty();
+      await this.storageProvider.getItemFromCache(this.itemId).then(item => {
+        if (!item) { return; }
+        this.item = item;
+      });
+      this.getData().subscribe();
+    } else {
+      this.loading = false;
+    }
   }
 
   getData(): Observable<ItemSearchModel> {
     this.loading = true;
+    this.changeDetectorRef.markForCheck();
     return this.itemService.getItem(+this.itemId).pipe(
-      finalize(() => this.loading = false),
+      finalize(() => {
+        this.loading = false;
+        this.changeDetectorRef.markForCheck();
+      }),
       tap(item => {
         this.item = item;
         this.item.trendClass = getTrendClass(this.item.today);
@@ -53,7 +58,7 @@ export class ItemFavoriteComponent implements OnInit {
     );
   }
 
-  goToDetails() {
+  goToDetails(): void {
     this.navCtrl.navigateForward([AppRoute.GrandExchange, GrandExchangeRoute.ItemDetails, this.item.id], true);
   }
 

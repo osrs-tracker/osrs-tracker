@@ -25,8 +25,8 @@ export class ItemDetailPage {
     private storageProvider: StorageProvider
   ) {
     this.item = this.activatedRoute.snapshot.data.itemDetail;
-    this.item.icon = `${environment.API_GEPT}/icon/${this.item.id}`;
-    this.item.trendClass = getTrendClass(this.item.today);
+    this.item.icon = this.item.icon || `${environment.API_GEPT}/icon/${this.item.id}`;
+    this.item.trendClass = this.item.trendClass || getTrendClass(this.item.today);
     this.storageProvider.addItemToCache(this.item.id, this.item);
 
     this.storageProvider.getFavoriteItems(
@@ -35,8 +35,8 @@ export class ItemDetailPage {
     this.storageProvider.addToRecentItems(`${this.item.id}`);
   }
 
-  favorite() {
-    this.storageProvider.addToFavoriteItems(`${this.item.id}`, isFavorite => (this.isFavorite = isFavorite));
+  toggleFavorite() {
+    this.storageProvider.toggleFavoriteItem(`${this.item.id}`, isFavorited => (this.isFavorite = isFavorited));
   }
 
   openWiki() {
