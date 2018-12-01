@@ -13,7 +13,8 @@ class Page {
     public icon: string,
     public title: string,
     public badge: string,
-    public route: string
+    public route?: string,
+    public action?: () => void
   ) { }
 }
 
@@ -31,7 +32,8 @@ export class AppComponent implements AfterViewInit {
     new Page(2, 'trending-up', 'Grand Exchange', null, AppRoute.GrandExchange),
     new Page(3, 'trophy', 'Hiscores', null, AppRoute.Hiscores),
     new Page(4, 'ios-podium', 'XP Tracker', null, AppRoute.XpTracker),
-    new Page(5, 'text', 'Feedback', null, AppRoute.Feedback),
+    new Page(5, 'discord', 'Discord', null, null, () => window.open('https://discord.gg/k7E6WZj', '_system')),
+    new Page(5, 'star', 'Rate App', null, null, () => window.open('market://details?id=com.toxsickproductions.geptv2', '_system')),
     new Page(6, 'settings', 'Settings', null, AppRoute.Settings),
   ];
 
@@ -63,8 +65,12 @@ export class AppComponent implements AfterViewInit {
       .subscribe();
   }
 
-  openPage(page: Page) {
-    this.navCtrl.navigateRoot(page.route, false);
+  linkClicked(page: Page) {
+    if (page.route) {
+      this.navCtrl.navigateRoot(page.route, false);
+    } else if (page.action) {
+      page.action();
+    }
   }
 
   trackByPageId(index: number, page: Page) {

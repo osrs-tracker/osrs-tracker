@@ -40,11 +40,9 @@
     --highlight-height: 0;
   }
   ion-menu {
-    ion-icon {
+    .menu-icon[slot=start] {
       color: rgba(var(--ion-text-color-rgb,0),.54); // bugged value in ionic beta-17: rgba(var(--ion-text-color-rgb,0,0,0),.54);
-      &[slot=start] {
-        margin-right: 16px;
-      }
+      margin-right: 16px;
     }
     ion-item {
       --background-activated: var(--ion-color-primary);
