@@ -1,0 +1,26 @@
+<ion-item item-result [button]="true" [detail]="true" color="primary" (click)="goToDetails()">
+  <ion-thumbnail slot="start">
+    <ion-img *ngIf="item?.icon" [src]="item?.icon"></ion-img>
+  </ion-thumbnail>
+  <ion-label class="description">
+    <div class="text-ellipsis">{{ item?.name }}</div>
+    <div class="text-ellipsis"><small>{{ item?.description }}</small></div>
+  </ion-label>
+  <ion-row slot="end" class="details" align-items-center justify-content-end>
+    <ng-template [ngIf]="loading" [ngIfElse]="doneLoading">
+      <ion-spinner color="dark"></ion-spinner>
+    </ng-template>
+    <ng-template #doneLoading>
+      <ion-col>
+        <ion-row align-items-center justify-content-end>
+          <div><small class="price">{{ item?.current }} gp</small></div>
+        </ion-row>
+        <ion-row align-items-center justify-content-end>
+          <div [class]="item.trendClass">
+            <small>{{ item?.today !== '0' ? item?.today + ' gp' : '-' }} </small>
+          </div>
+        </ion-row>
+      </ion-col>
+    </ng-template>
+  </ion-row>
+</ion-item>

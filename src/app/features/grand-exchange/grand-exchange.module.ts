@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { SharedModule } from 'app/shared/shared.module';
-import { ItemFavoriteComponent } from './components/item-favorite/item-favorite.component';
+import { ItemResultComponent } from './components/item-result/item-result.component';
 import { SearchItemComponent } from './components/search-item/search-item.component';
 import { GrandExchangePage } from './grand-exchange.page';
 import { GrandExchangeRoute } from './grand-exchange.routes';
@@ -24,7 +24,7 @@ import { ItemResultsResolver } from './item-results/item-results.resolver';
     GrandExchangePage,
     ItemDetailPage,
     ItemResultsPage,
-    ItemFavoriteComponent,
+    ItemResultComponent,
     SearchItemComponent,
     PriceTrendComponent
   ]

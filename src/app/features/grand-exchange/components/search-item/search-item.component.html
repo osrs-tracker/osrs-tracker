@@ -19,7 +19,7 @@
     <ion-list-header no-margin color="secondary">
       <ion-label>Favorites</ion-label>
     </ion-list-header>
-    <item-favorite *ngFor="let item of favoriteItems; trackBy:trackByItemId" [itemId]="item"></item-favorite>
+    <item-result *ngFor="let item of favoriteItems; trackBy:trackByItemId" [itemId]="item"></item-result>
   </ion-list>
 </ion-card>
 
@@ -28,6 +28,6 @@
     <ion-list-header no-margin color="secondary">
       <ion-label>Recent</ion-label>
     </ion-list-header>
-    <item-favorite *ngFor="let item of recentItems; trackBy:trackByItemId" [itemId]="item"></item-favorite>
+    <item-result *ngFor="let item of recentItems; trackBy:trackByItemId" [itemId]="item"></item-result>
   </ion-list>
 </ion-card>
