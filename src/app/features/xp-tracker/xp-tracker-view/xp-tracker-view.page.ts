@@ -6,7 +6,7 @@ import { StorageProvider } from 'services/storage/storage';
 import { SettingsProvider } from 'services/settings/settings';
 import { Hiscore } from 'services/hiscores/hiscore.model';
 import { AppRoute } from 'app-routing.routes';
-import { Router, ActivatedRoute } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { XpTrackerRoute } from '../hiscores.routes';
 import { HiscoresRoute } from 'features/hiscores/hiscores.routes';
 import { XpTrackerViewCache } from './xp-tracker-view-cache.service';
