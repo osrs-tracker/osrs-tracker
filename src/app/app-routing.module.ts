@@ -9,7 +9,6 @@ const routes: Routes = [
   { path: AppRoute.GrandExchange, loadChildren: './features/grand-exchange/grand-exchange.module#GrandExchangePageModule' },
   { path: AppRoute.Hiscores, loadChildren: './features/hiscores/hiscores.module#HiscoresPageModule' },
   { path: AppRoute.XpTracker, loadChildren: './features/xp-tracker/xp-tracker.module#XpTrackerPageModule' },
-  { path: AppRoute.Feedback, loadChildren: './features/feedback/feedback.module#FeedbackPageModule' },
   { path: AppRoute.Settings, loadChildren: './features/settings/settings.module#SettingsPageModule' },
 ];
 
