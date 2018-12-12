@@ -30,7 +30,7 @@
 </ion-card>
 
 <ion-card *ngIf="favorites && favoriteHiscores?.length > 0">
-  <ion-list>
+  <ion-list lines="full">
     <ion-list-header no-margin color="secondary">
       <ion-label>Favorites</ion-label>
     </ion-list-header>
@@ -39,7 +39,7 @@
 </ion-card>
 
 <ion-card *ngIf="recents && recentHiscores?.length > 0">
-  <ion-list>
+  <ion-list lines="full">
     <ion-list-header no-margin color="secondary">
       <ion-label>Recent</ion-label>
     </ion-list-header>
