@@ -8,7 +8,6 @@ import { XpFavoriteComponent } from './components/xp-favorite/xp-favorite.compon
 import { XpTrackerRoute } from './hiscores.routes';
 import { XpTrackerAdventureLogPage } from './xp-tracker-adventure-log/xp-tracker-adventure-log.page';
 import { XpTrackerDataTablePage } from './xp-tracker-data-table/xp-tracker-data-table.page';
-import { XpTrackerViewGuard } from './xp-tracker-view/xp-tracker-view.guard';
 import { XpTrackerViewPage } from './xp-tracker-view/xp-tracker-view.page';
 import { XpTrackerViewResolver } from './xp-tracker-view/xp-tracker-view.resolver';
 import { XpTrackerPage } from './xp-tracker.page';
@@ -22,7 +21,6 @@ import { XpTrackerPage } from './xp-tracker.page';
       {
         path: `${XpTrackerRoute.View}/:player`,
         component: XpTrackerViewPage,
-        canActivate: [XpTrackerViewGuard],
         children: [
           { path: XpTrackerRoute.AdventureLog, outlet: XpTrackerRoute.AdventureLog, component: XpTrackerAdventureLogPage },
           { path: XpTrackerRoute.DataTable, outlet: XpTrackerRoute.DataTable, component: XpTrackerDataTablePage },

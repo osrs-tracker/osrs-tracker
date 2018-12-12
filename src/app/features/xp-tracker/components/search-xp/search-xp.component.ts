@@ -58,7 +58,7 @@ export class SearchXpComponent {
     playerName = playerName.trim();
     if (playerName.length > 0) {
       this.navCtrl.navigateForward([AppRoute.XpTracker, XpTrackerRoute.View, playerName])
-        .catch(err => this.alertManger.create({
+        .catch(() => this.alertManger.create({
           header: 'Player not found',
           buttons: ['OK']
         }));

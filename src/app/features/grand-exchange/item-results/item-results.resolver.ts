@@ -26,6 +26,7 @@ export class ItemResultsResolver implements Resolve<ItemSearchModel[]> {
 
     const loader = await this.loadCtrl.create({ message: 'Please wait...' });
     await loader.present();
+
     return this.itemProvider.searchItems(route.params.query).pipe(
       finalize(() => loader.dismiss()),
       mergeMap(response => response.status === 204 ? throwError(204) : of(response.body))
