@@ -1,8 +1,13 @@
 {
   "name": "osrs-tracker-app",
-  "version": "3.1.0",
+  "version": "3.1.1",
+  "license": "MIT",
   "author": "Freek Mencke",
   "homepage": "https://twitter.com/FreekMencke",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/osrs-tracker/osrs-tracker.git"
+  },
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
