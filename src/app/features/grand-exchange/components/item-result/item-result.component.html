@@ -1,6 +1,8 @@
 <ion-item item-result [button]="true" [detail]="true" color="primary" (click)="goToDetails()">
   <ion-thumbnail slot="start">
-    <ion-img *ngIf="item?.icon" [src]="item?.icon"></ion-img>
+    <ng-template [ngIf]="item?.icon">
+      <img [src]="item.icon">
+    </ng-template>
   </ion-thumbnail>
   <ion-label class="description">
     <div class="text-ellipsis">{{ item?.name }}</div>
