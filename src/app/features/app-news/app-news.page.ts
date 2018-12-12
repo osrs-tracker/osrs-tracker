@@ -6,6 +6,8 @@ import { NewsItemApp, NewsProvider } from 'services/news/news';
 import { StorageProvider } from 'services/storage/storage';
 import { Device } from '@ionic-native/device/ngx';
 import { environment } from 'environments/environment';
+import { BrowserTab } from '@ionic-native/browser-tab/ngx';
+import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 
 @Component({
   selector: 'page-app-news',
@@ -23,7 +25,9 @@ export class AppNewsPage implements OnInit {
   loading = false;
 
   constructor(
+    private browserTab: BrowserTab,
     private device: Device,
+    private inAppBrowser: InAppBrowser,
     private newsProvider: NewsProvider,
     private storageProvider: StorageProvider,
     private toastController: ToastController,
@@ -45,16 +49,9 @@ export class AppNewsPage implements OnInit {
         this.items = items;
         this.originalItems = items.map(item => Object.assign({}, item));
         this.storageProvider.setAppNews(items);
+        this.replaceNewsLinks();
       })
     );
-  }
-
-  private async voteErrorToast() {
-    const toast = await this.toastController.create({
-      message: 'Failed to process vote. Check your internet connection.',
-      duration: 3000
-    });
-    toast.present();
   }
 
   upvote(id) {
@@ -111,6 +108,30 @@ export class AppNewsPage implements OnInit {
 
   trackByNewsItemId(index: number, newsItem: NewsItemApp) {
     return newsItem.id;
+  }
+
+  private replaceNewsLinks() {
+    document.querySelectorAll('a[href]').forEach((el: HTMLAnchorElement) => {
+      el.onclick = (event: Event) => {
+        event.preventDefault();
+        this.browserTab.isAvailable()
+          .then(isAvailabe => {
+            if (isAvailabe) {
+              this.browserTab.openUrl(el.href);
+            } else {
+              this.inAppBrowser.create(el.href, '_system');
+            }
+          });
+      };
+    });
+  }
+
+  private async voteErrorToast() {
+    const toast = await this.toastController.create({
+      message: 'Failed to process vote. Check your internet connection.',
+      duration: 3000
+    });
+    toast.present();
   }
 
   private offlineUpvoteLogic(item: NewsItemApp) {
