@@ -66,14 +66,22 @@
             <ion-col size="1" class="pl-xs" no-padding>
               <skill-icon [skill]="skill.name" height="22px"></skill-icon>
             </ion-col>
-            <ion-col size="3" class="pr-none">{{ skill.name }}</ion-col>
+            <ion-col size="3" class="pr-none">
+              <div>{{ skill.name }}</div>
+            </ion-col>
             <ion-col size="4" no-padding>
               <ion-row>
-                <ion-col size="7" class="pr-none" text-right>{{ skill.rank | numberFormat | notFound }}</ion-col>
-                <ion-col size="5" class="pr-none" text-right>{{ skill.level | numberFormat | notFound }}</ion-col>
+                <ion-col size="7" class="pr-none" text-right>
+                  <div>{{ skill.rank | numberFormat | notFound }}</div>
+                </ion-col>
+                <ion-col size="5" class="pr-none" text-right>
+                  <div>{{ skill.level | numberFormat | notFound }}</div>
+                </ion-col>
               </ion-row>
             </ion-col>
-            <ion-col size="4" text-right>{{ skill.exp | numberFormat | notFound }}</ion-col>
+            <ion-col size="4" text-right>
+              <div>{{ skill.exp | numberFormat | notFound }}</div>
+            </ion-col>
           </ion-row>
         </ion-item>
       </ion-list>
@@ -96,9 +104,15 @@
             <ion-col size="1" class="pl-xs" no-padding>
               <img class="icon" src="./assets/imgs/hiscore/cluescroll.gif">
             </ion-col>
-            <ion-col size="5">{{ clue.name }}</ion-col>
-            <ion-col size="3" text-right>{{ clue.rank | numberFormat | notFound }}</ion-col>
-            <ion-col size="3" text-right>{{ clue.amount | numberFormat | notFound }}</ion-col>
+            <ion-col size="5">
+              <div>{{ clue.name }}</div>
+            </ion-col>
+            <ion-col size="3" text-right>
+              <div>{{ clue.rank | numberFormat | notFound }}</div>
+            </ion-col>
+            <ion-col size="3" text-right>
+              <div>{{ clue.amount | numberFormat | notFound }}</div>
+            </ion-col>
           </ion-row>
         </ion-item>
       </ion-list>
@@ -121,9 +135,15 @@
             <ion-col size="1" class="icon" class="pl-xs" no-padding>
               <img class="icon" [src]="'./assets/imgs/hiscore/bountyhunter-' + (index === 0 ? 'hunter.gif' : 'rogue.gif')">
             </ion-col>
-            <ion-col size="5">{{ bounty.name }}</ion-col>
-            <ion-col size="3" text-right>{{ bounty.rank | numberFormat | notFound }}</ion-col>
-            <ion-col size="3" text-right>{{ bounty.amount | numberFormat | notFound }}</ion-col>
+            <ion-col size="5">
+              <div>{{ bounty.name }}</div>
+            </ion-col>
+            <ion-col size="3" text-right>
+              <div>{{ bounty.rank | numberFormat | notFound }}</div>
+            </ion-col>
+            <ion-col size="3" text-right>
+              <div>{{ bounty.amount | numberFormat | notFound }}</div>
+            </ion-col>
           </ion-row>
         </ion-item>
         <ion-item color="primary">
@@ -131,9 +151,15 @@
             <ion-col size="1" class="icon" class="pl-xs" no-padding>
               <img class="icon" src="./assets/imgs/hiscore/last-man-standing.gif">
             </ion-col>
-            <ion-col size="5">Last Man Standing</ion-col>
-            <ion-col size="3" text-right>{{ hiscore.lms.rank | numberFormat | notFound }}</ion-col>
-            <ion-col size="3" text-right>{{ hiscore.lms.score | numberFormat | notFound }}</ion-col>
+            <ion-col size="5">
+              <div>Last Man Standing</div>
+            </ion-col>
+            <ion-col size="3" text-right>
+              <div>{{ hiscore.lms.rank | numberFormat | notFound }}</div>
+            </ion-col>
+            <ion-col size="3" text-right>
+              <div>{{ hiscore.lms.score | numberFormat | notFound }}</div>
+            </ion-col>
           </ion-row>
         </ion-item>
       </ion-list>

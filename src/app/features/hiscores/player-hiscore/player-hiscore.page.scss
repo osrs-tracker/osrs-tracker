@@ -21,6 +21,11 @@ ion-header {
 .pr-none {
   padding-right: 0;
 }
+ion-col>div {
+  // This weird fix is needed for the text to seem like it's vertically centered.
+  height: 13px;
+  margin-bottom: 5px;
+}
 ion-card {
   ion-list-header,
   ion-item {
