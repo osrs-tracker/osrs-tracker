@@ -50,7 +50,7 @@ export class XpProvider {
         name: latest.skills[i].name,
         rank: `${+latest.skills[i].rank - +oldest.skills[i].rank}`,
         level: `${+latest.skills[i].level - +oldest.skills[i].level}`,
-        exp: `${+latest.skills[i].exp - +oldest.skills[i].exp}`
+        exp: this.expDiff(latest.skills[i].exp, oldest.skills[i].exp)
       });
     }
     const diffClues: Minigame[] = [];
@@ -74,6 +74,15 @@ export class XpProvider {
       bountyhunter: diffBounties,
       cluescrolls: diffClues
     });
+  }
+
+  private expDiff(a: string | number, b: string | number): string {
+    // For some reason for free to play people membership skills can have 0 or -1 exp in the hiscore API.
+    // Default to zero to fix ghost exp in membership skills (+1 exp).
+    a = (a = Number(a)) < 0 ? 0 : a;
+    b = (b = Number(b)) < 0 ? 0 : b;
+
+    return `${a - b}`;
   }
 
 }
