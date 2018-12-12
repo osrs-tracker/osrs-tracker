@@ -1,12 +1,12 @@
-import { Resolve, ActivatedRouteSnapshot } from '@angular/router';
 import { Injectable } from '@angular/core';
-import { XpProvider, Xp } from 'services/xp/xp';
-import { HiscoresProvider } from 'services/hiscores/hiscores';
+import { ActivatedRouteSnapshot, Resolve } from '@angular/router';
 import { LoadingController } from '@ionic/angular';
-import { mergeMap, finalize, tap } from 'rxjs/operators';
-import { of, forkJoin } from 'rxjs';
-import { Hiscore } from 'services/hiscores/hiscore.model';
+import { forkJoin, of } from 'rxjs';
+import { finalize, mergeMap, tap } from 'rxjs/operators';
 import { AlertManager } from 'services/alert-manager/alert-manager';
+import { Hiscore } from 'services/hiscores/hiscore.model';
+import { HiscoresProvider } from 'services/hiscores/hiscores';
+import { Xp, XpProvider } from 'services/xp/xp';
 import { XpTrackerViewCache } from './xp-tracker-view-cache.service';
 
 @Injectable({

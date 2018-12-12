@@ -6,7 +6,7 @@ import { StorageProvider } from 'services/storage/storage';
 import { SettingsProvider } from 'services/settings/settings';
 import { Hiscore } from 'services/hiscores/hiscore.model';
 import { AppRoute } from 'app-routing.routes';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { XpTrackerRoute } from '../hiscores.routes';
 import { HiscoresRoute } from 'features/hiscores/hiscores.routes';
 import { XpTrackerViewCache } from './xp-tracker-view-cache.service';
@@ -32,21 +32,16 @@ export class XpTrackerViewPage implements OnDestroy {
 
   settingsSubscription = new Subscription();
 
-  selectedTabIndex = 0;
-  tabsOrder = {
-    [XpTrackerView.AdventureLog]: 0,
-    [XpTrackerView.DataTable]: 1,
-  };
-
   constructor(
     private activatedRoute: ActivatedRoute,
+    private router: Router,
     private navCtrl: NavController,
     private storageProvider: StorageProvider,
     private settingsProvider: SettingsProvider,
     private xpTrackerViewCache: XpTrackerViewCache
   ) {
-    this.xpTrackerViewCache.store(this.rootParams = this.activatedRoute.snapshot.data.period);
-    this.hiscore = this.activatedRoute.snapshot.data.period[1];
+    this.xpTrackerViewCache.store(this.rootParams = activatedRoute.snapshot.data.period);
+    this.hiscore = activatedRoute.snapshot.data.period[1];
 
     ({ username: this.username, type: this.type, deIroned: this.deIroned, dead: this.dead } = this.hiscore);
 
@@ -55,9 +50,7 @@ export class XpTrackerViewPage implements OnDestroy {
     );
     this.storageProvider.addToRecentXp(this.hiscore.username);
 
-    this.settingsSubscription.add(this.settingsProvider.settings.subscribe(settings =>
-      this.selectedTabIndex = this.tabsOrder[settings.preferredXpTrackerView]
-    ));
+    this.loadPreferredRoute();
   }
 
   getTabRoute(tab: string) {
@@ -79,6 +72,22 @@ export class XpTrackerViewPage implements OnDestroy {
   ngOnDestroy() {
     this.xpTrackerViewCache.clear();
     this.settingsSubscription.unsubscribe();
+  }
+
+  private loadPreferredRoute() {
+    this.settingsSubscription.add(this.settingsProvider.settings.subscribe(settings => {
+      if (this.activatedRoute.children.length === 0) {
+        if (settings.preferredXpTrackerView === XpTrackerView.AdventureLog) {
+          return this.router.navigate([this.router.url, {
+            outlets: { [XpTrackerRoute.AdventureLog]: XpTrackerRoute.AdventureLog }
+          }], { skipLocationChange: true });
+        } else if (settings.preferredXpTrackerView === XpTrackerView.DataTable) {
+          return this.router.navigate([this.router.url, {
+            outlets: { [XpTrackerRoute.DataTable]: XpTrackerRoute.DataTable }
+          }], { skipLocationChange: true });
+        }
+      }
+    }));
   }
 
 }
