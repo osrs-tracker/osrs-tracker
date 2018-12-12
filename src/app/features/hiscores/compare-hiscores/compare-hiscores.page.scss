@@ -21,6 +21,10 @@ img {
 .pr-none {
   padding-right: 0;
 }
+ion-col>div {
+  height: 13px;
+  margin-bottom: 5px;
+}
 ion-row {
   width: 100%;
 }

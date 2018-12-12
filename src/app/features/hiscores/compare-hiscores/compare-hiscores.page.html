@@ -63,10 +63,10 @@
             <ion-col no-padding>
               <ion-row>
                 <ion-col size="8" text-right class="pl-none">
-                  {{ skill[expToggle ? 'exp': 'rank'] | numberFormat | notFound }}
+                  <div>{{ skill[expToggle ? 'exp': 'rank'] | numberFormat | notFound }}</div>
                 </ion-col>
                 <ion-col size="4" text-right>
-                  {{ skill.level | numberFormat | notFound }}
+                  <div>{{ skill.level | numberFormat | notFound }}</div>
                 </ion-col>
               </ion-row>
             </ion-col>
@@ -76,10 +76,10 @@
             <ion-col no-padding>
               <ion-row>
                 <ion-col size="4" text-left>
-                  {{ compare.skills[index].level | numberFormat | notFound }}
+                  <div>{{ compare.skills[index].level | numberFormat | notFound }}</div>
                 </ion-col>
                 <ion-col size="8" text-right class="pl-none">
-                  {{ compare.skills[index][expToggle ? 'exp': 'rank'] | numberFormat | notFound }}
+                  <div>{{ compare.skills[index][expToggle ? 'exp': 'rank'] | numberFormat | notFound }}</div>
                 </ion-col>
               </ion-row>
             </ion-col>
@@ -123,10 +123,10 @@
           <ion-col no-padding>
             <ion-row>
               <ion-col size="8" text-right>
-                {{ clue.rank | numberFormat | notFound }}
+                <div>{{ clue.rank | numberFormat | notFound }}</div>
               </ion-col>
               <ion-col size="4" class="pl-none" text-right>
-                {{ clue.amount | notFound }}
+                <div>{{ clue.amount | notFound }}</div>
               </ion-col>
             </ion-row>
           </ion-col>
@@ -136,10 +136,10 @@
           <ion-col no-padding>
             <ion-row>
               <ion-col size="4" class="pr-none" text-left>
-                {{ compare.cluescrolls[index].amount | notFound }}
+                <div>{{ compare.cluescrolls[index].amount | notFound }}</div>
               </ion-col>
               <ion-col size="8" text-right>
-                {{ compare.cluescrolls[index].rank | numberFormat | notFound }}
+                <div>{{ compare.cluescrolls[index].rank | numberFormat | notFound }}</div>
               </ion-col>
             </ion-row>
           </ion-col>
@@ -177,15 +177,15 @@
             <img class="icon" [src]="'./assets/imgs/hiscore/bountyhunter-' + (index === 0 ? 'hunter' : 'rogue') +'.gif'">
           </ion-col>
           <ion-col size="2" text-left class="pr-none">
-            {{ index === 0 ? 'Hunter' : 'Rogue' }}
+            <div>{{ index === 0 ? 'Hunter' : 'Rogue' }}</div>
           </ion-col>
           <ion-col no-padding>
             <ion-row>
               <ion-col size="8" text-right>
-                {{ bh.rank | numberFormat | notFound }}
+                <div>{{ bh.rank | numberFormat | notFound }}</div>
               </ion-col>
               <ion-col size="4" text-right class="pl-none">
-                {{ bh.amount | notFound }}
+                <div>{{ bh.amount | notFound }}</div>
               </ion-col>
             </ion-row>
           </ion-col>
@@ -195,10 +195,10 @@
           <ion-col no-padding>
             <ion-row>
               <ion-col size="4" text-left class="pr-none">
-                {{ compare.bountyhunter[index].amount| notFound }}
+                <div>{{ compare.bountyhunter[index].amount| notFound }}</div>
               </ion-col>
               <ion-col size="8" text-right>
-                {{ compare.bountyhunter[index].rank | numberFormat | notFound }}
+                <div>{{ compare.bountyhunter[index].rank | numberFormat | notFound }}</div>
               </ion-col>
             </ion-row>
           </ion-col>
@@ -210,15 +210,15 @@
             <img class="icon" [src]="'./assets/imgs/hiscore/last-man-standing.gif'">
           </ion-col>
           <ion-col size="2" text-left class="pr-none">
-            LMS
+            <div>LMS</div>
           </ion-col>
           <ion-col no-padding>
             <ion-row>
               <ion-col size="8" text-right>
-                {{ player.lms.rank | numberFormat | notFound }}
+                <div>{{ player.lms.rank | numberFormat | notFound }}</div>
               </ion-col>
               <ion-col size="4" text-right class="pl-none">
-                {{ player.lms.score | notFound }}
+                <div>{{ player.lms.score | notFound }}</div>
               </ion-col>
             </ion-row>
           </ion-col>
@@ -228,10 +228,10 @@
           <ion-col no-padding>
             <ion-row>
               <ion-col size="4" text-left class="pr-none">
-                {{ compare.lms.score | notFound }}
+                <div>{{ compare.lms.score | notFound }}</div>
               </ion-col>
               <ion-col size="8" text-right>
-                {{ compare.lms.rank | numberFormat | notFound }}
+                <div>{{ compare.lms.rank | numberFormat | notFound }}</div>
               </ion-col>
             </ion-row>
           </ion-col>
