@@ -40,7 +40,7 @@ export class ItemDetailPage {
   }
 
   openWiki() {
-    const url = `http://oldschoolrunescape.wikia.com/wiki/${this.item.name}`;
+    const url = `https://oldschool.runescape.wiki/w/${this.item.name}`;
     this.browserTab.isAvailable()
       .then(isAvailabe => isAvailabe ?
         this.browserTab.openUrl(url) :
