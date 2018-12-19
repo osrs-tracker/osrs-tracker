@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
-import { Menu, NavController, Platform, SplitPane } from '@ionic/angular';
+import { IonMenu, IonSplitPane, NavController, Platform } from '@ionic/angular';
 import { tap } from 'rxjs/operators';
 import { AppRoute } from './app-routing.routes';
 import { AlertManager } from './services/alert-manager/alert-manager';
@@ -23,8 +23,8 @@ class Page {
   templateUrl: 'app.component.html'
 })
 export class AppComponent implements AfterViewInit {
-  @ViewChild(Menu) menu: Menu;
-  @ViewChild(SplitPane) splitPane: SplitPane;
+  @ViewChild(IonMenu) menu: IonMenu;
+  @ViewChild(IonSplitPane) splitPane: IonSplitPane;
 
   pages: Page[] = [
     new Page(0, 'home', 'Home', null, AppRoute.Home),
@@ -67,7 +67,7 @@ export class AppComponent implements AfterViewInit {
 
   linkClicked(page: Page) {
     if (page.route) {
-      this.navCtrl.navigateRoot(page.route, false);
+      this.navCtrl.navigateRoot(page.route, { animated: false });
     } else if (page.action) {
       page.action();
     }
@@ -98,9 +98,9 @@ export class AppComponent implements AfterViewInit {
       } else if (segments.includes(AppRoute.XpTracker) && segments.length > 1) {
         this.navCtrl.navigateBack(AppRoute.XpTracker);
       } else if (segments.length > 1) {
-        this.navCtrl.goBack(true);
+        this.navCtrl.goBack({ animated: true });
       } else if (!this.router.isActive(AppRoute.Home, false)) {
-        this.navCtrl.navigateRoot(AppRoute.Home, true);
+        this.navCtrl.navigateRoot(AppRoute.Home, { animated: true, animationDirection: 'back' });
       } else {
         navigator['app'].exitApp();
       }

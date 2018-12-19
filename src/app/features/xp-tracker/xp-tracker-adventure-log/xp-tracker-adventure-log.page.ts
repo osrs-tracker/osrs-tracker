@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { Refresher, InfiniteScroll } from '@ionic/angular';
+import { IonRefresher, IonInfiniteScroll } from '@ionic/angular';
 import { Xp, XpProvider } from 'services/xp/xp';
 import { Hiscore } from 'services/hiscores/hiscore.model';
 import { DatePipe } from '@angular/common';
@@ -18,8 +18,8 @@ export class XpTrackerAdventureLogPage {
   private readonly INFINITE_LOAD_COUNT_PERIOD = 14;
   private readonly INFINITE_LOAD_COUNT_INFINITE = 7;
 
-  @ViewChild(Refresher) refresher: Refresher;
-  @ViewChild(InfiniteScroll) infiniteScroll: InfiniteScroll;
+  @ViewChild(IonRefresher) refresher: IonRefresher;
+  @ViewChild(IonInfiniteScroll) infiniteScroll: IonInfiniteScroll;
 
   private originalHiscore: Hiscore;
   private originalXp: Xp[];

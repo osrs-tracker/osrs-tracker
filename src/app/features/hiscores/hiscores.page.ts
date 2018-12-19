@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { Refresher } from '@ionic/angular';
+import { IonRefresher } from '@ionic/angular';
 import { SearchHiscoreComponent } from './components/search-hiscore/search-hiscore.component';
 import { finalize } from 'rxjs/operators';
 
@@ -9,7 +9,7 @@ import { finalize } from 'rxjs/operators';
 })
 export class HiscoresPage {
 
-  @ViewChild(Refresher) refresher: Refresher;
+  @ViewChild(IonRefresher) refresher: IonRefresher;
   @ViewChild(SearchHiscoreComponent) searchHiscore: SearchHiscoreComponent;
 
   ionViewWillEnter() {

@@ -1,6 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { LoadingController, Refresher } from '@ionic/angular';
+import { LoadingController, IonRefresher } from '@ionic/angular';
 import { AppRoute } from 'app-routing.routes';
 import { finalize } from 'rxjs/operators';
 import { AlertManager } from 'services/alert-manager/alert-manager';
@@ -17,7 +17,7 @@ export class PlayerHiscorePage {
 
   readonly AppRoute = AppRoute;
 
-  @ViewChild(Refresher) refresher: Refresher;
+  @ViewChild(IonRefresher) refresher: IonRefresher;
 
   type = 'normal';
   deIroned = false;

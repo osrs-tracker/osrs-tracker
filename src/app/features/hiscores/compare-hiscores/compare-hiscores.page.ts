@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { Refresher } from '@ionic/angular';
+import { IonRefresher } from '@ionic/angular';
 import { Hiscore, Skill, Minigame } from 'services/hiscores/hiscore.model';
 import { HiscoresProvider } from 'services/hiscores/hiscores';
 import { finalize } from 'rxjs/operators';
@@ -15,7 +15,7 @@ export class HiscoresComparePage {
 
   readonly AppRoute = AppRoute;
 
-  @ViewChild(Refresher) refresher: Refresher;
+  @ViewChild(IonRefresher) refresher: IonRefresher;
 
   player: Hiscore;
   compare: Hiscore;

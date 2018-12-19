@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
 import { NavController } from '@ionic/angular';
 import { AppRoute } from 'app-routing.routes';
 import { environment } from 'environments/environment';
@@ -59,7 +59,7 @@ export class ItemResultComponent implements OnInit {
   }
 
   goToDetails(): void {
-    this.navCtrl.navigateForward([AppRoute.GrandExchange, GrandExchangeRoute.ItemDetails, this.item.id], true);
+    this.navCtrl.navigateForward([AppRoute.GrandExchange, GrandExchangeRoute.ItemDetails, this.item.id]);
   }
 
 }

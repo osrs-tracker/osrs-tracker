@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
-import { InfiniteScroll, Refresher, ToastController } from '@ionic/angular';
+import { IonInfiniteScroll, IonRefresher, ToastController } from '@ionic/angular';
 import { forkJoin, Observable, timer } from 'rxjs';
 import { finalize, tap } from 'rxjs/operators';
 import { NewsItemApp, NewsProvider } from 'services/news/news';
@@ -16,8 +16,8 @@ import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
   encapsulation: ViewEncapsulation.None // needed for innerHTML styling
 })
 export class AppNewsPage implements OnInit {
-  @ViewChild(Refresher) refresher: Refresher;
-  @ViewChild(InfiniteScroll) infiniteScroll: InfiniteScroll;
+  @ViewChild(IonRefresher) refresher: IonRefresher;
+  @ViewChild(IonInfiniteScroll) infiniteScroll: IonInfiniteScroll;
 
   uuid: string;
   items: NewsItemApp[];
