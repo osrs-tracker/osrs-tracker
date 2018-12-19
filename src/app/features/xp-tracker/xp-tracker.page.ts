@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { Refresher } from '@ionic/angular';
+import { IonRefresher } from '@ionic/angular';
 import { finalize } from 'rxjs/operators';
 import { AlertManager } from 'services/alert-manager/alert-manager';
 import { SearchXpComponent } from './components/search-xp/search-xp.component';
@@ -10,7 +10,7 @@ import { SearchXpComponent } from './components/search-xp/search-xp.component';
 })
 export class XpTrackerPage {
 
-  @ViewChild(Refresher) refresher: Refresher;
+  @ViewChild(IonRefresher) refresher: IonRefresher;
   @ViewChild(SearchXpComponent) searchXp: SearchXpComponent;
 
   constructor(

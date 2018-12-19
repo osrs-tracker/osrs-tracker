@@ -1,6 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 import { SearchItemComponent } from './components/search-item/search-item.component';
-import { Refresher } from '@ionic/angular';
+import { IonRefresher } from '@ionic/angular';
 import { finalize } from 'rxjs/operators';
 
 @Component({
@@ -9,7 +9,7 @@ import { finalize } from 'rxjs/operators';
 })
 export class GrandExchangePage {
 
-  @ViewChild(Refresher) refresher: Refresher;
+  @ViewChild(IonRefresher) refresher: IonRefresher;
   @ViewChild(SearchItemComponent) searchItem: SearchItemComponent;
 
   ionViewWillEnter() {

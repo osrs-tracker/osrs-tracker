@@ -31,7 +31,7 @@ export class QuickNavComponent {
     ) { }
 
     navigateTo(page: string) {
-      this.navCtrl.navigateForward(page, true);
+      this.navCtrl.navigateForward(page);
     }
 
     trackByButtonId(index: number, button: QuickNavButton) {

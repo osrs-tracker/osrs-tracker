@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { Refresher } from '@ionic/angular';
+import { IonRefresher } from '@ionic/angular';
 import { forkJoin, timer } from 'rxjs';
 import { finalize } from 'rxjs/operators';
 import { OSRSNewsComponent } from './components/osrs-news/osrs-news.component';
@@ -8,16 +8,10 @@ import { OSRSNewsComponent } from './components/osrs-news/osrs-news.component';
   selector: 'page-home',
   templateUrl: 'home.page.html',
 })
-export class HomePage implements OnInit {
+export class HomePage {
 
-  @ViewChild(Refresher) refresher: Refresher;
+  @ViewChild(IonRefresher) refresher: IonRefresher;
   @ViewChild(OSRSNewsComponent) news: OSRSNewsComponent;
-
-  constructor() { }
-
-  ngOnInit() {
-    this.news.getNews();
-  }
 
   doRefresh() {
     forkJoin(

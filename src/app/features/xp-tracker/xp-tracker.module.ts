@@ -22,8 +22,8 @@ import { XpTrackerPage } from './xp-tracker.page';
         path: `${XpTrackerRoute.View}/:player`,
         component: XpTrackerViewPage,
         children: [
-          { path: XpTrackerRoute.AdventureLog, outlet: XpTrackerRoute.AdventureLog, component: XpTrackerAdventureLogPage },
-          { path: XpTrackerRoute.DataTable, outlet: XpTrackerRoute.DataTable, component: XpTrackerDataTablePage },
+          { path: XpTrackerRoute.AdventureLog, component: XpTrackerAdventureLogPage },
+          { path: XpTrackerRoute.DataTable, component: XpTrackerDataTablePage },
         ],
         resolve: {
           period: XpTrackerViewResolver

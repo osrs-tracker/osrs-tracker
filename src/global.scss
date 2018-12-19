@@ -11,11 +11,14 @@
 ion-refresher {
     height: 70px;
     padding-top: 10px;
-    z-index: -1;
 }
 
 ion-list {
   padding: 0 !important;
+}
+
+.alert-checkbox-group, .alert-radio-group{
+  max-height: 350px;
 }
 
 ion-card {

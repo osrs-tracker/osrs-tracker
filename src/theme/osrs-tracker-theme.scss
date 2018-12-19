@@ -3,10 +3,6 @@
   --ion-text-color: var(--ion-color-light);
   --ion-toolbar-background: var(--ion-color-dark-shade);
 
-  body {
-    background-color: var(--ion-background-color);
-  }
-
   ion-alert {
     .alert-title,
     .alert-sub-title,
@@ -21,7 +17,7 @@
     --ion-color-primary: var(--ion-color-secondary) !important;
   }
   ion-loading ion-spinner {
-    color: var(--ion-color-secondary);
+    --spinner-color: var(--ion-color-secondary);
   }
   ion-card {
     --background: var(--ion-color-primary);
@@ -41,7 +37,7 @@
   }
   ion-menu {
     .menu-icon[slot=start] {
-      color: rgba(var(--ion-text-color-rgb,0),.54); // bugged value in ionic beta-17: rgba(var(--ion-text-color-rgb,0,0,0),.54);
+      color: rgba(var(--ion-text-color-rgb,0),.54); // bugged value in ionic 4.0.0-rc.0: rgba(var(--ion-text-color-rgb,0,0,0),.54);
       margin-right: 16px;
     }
     ion-item {

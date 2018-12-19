@@ -78,13 +78,9 @@ export class XpTrackerViewPage implements OnDestroy {
     this.settingsSubscription.add(this.settingsProvider.settings.subscribe(settings => {
       if (this.activatedRoute.children.length === 0) {
         if (settings.preferredXpTrackerView === XpTrackerView.AdventureLog) {
-          return this.router.navigate([ AppRoute.XpTracker, XpTrackerRoute.View, this.username,
-            { outlets: { [XpTrackerRoute.AdventureLog]: XpTrackerRoute.AdventureLog } }
-          ]);
+          return this.router.navigate([ AppRoute.XpTracker, XpTrackerRoute.View, this.username, XpTrackerRoute.AdventureLog]);
         } else if (settings.preferredXpTrackerView === XpTrackerView.DataTable) {
-          return this.router.navigate([ AppRoute.XpTracker, XpTrackerRoute.View, this.username,
-            { outlets: { [XpTrackerRoute.DataTable]: XpTrackerRoute.DataTable } }
-          ]);
+          return this.router.navigate([ AppRoute.XpTracker, XpTrackerRoute.View, this.username, XpTrackerRoute.DataTable]);
         }
       }
     }));

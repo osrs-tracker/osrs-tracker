@@ -1,6 +1,6 @@
 import { DatePipe } from '@angular/common';
 import { Component, ViewChild } from '@angular/core';
-import { InfiniteScroll, Refresher } from '@ionic/angular';
+import { IonInfiniteScroll, IonRefresher } from '@ionic/angular';
 import { Hiscore, Skill } from 'services/hiscores/hiscore.model';
 import { HiscoresProvider } from 'services/hiscores/hiscores';
 import { Xp, XpProvider } from 'services/xp/xp';
@@ -19,8 +19,8 @@ export class XpTrackerDataTablePage {
   private readonly INFINITE_LOAD_COUNT_PERIOD = 14;
   private readonly INFINITE_LOAD_COUNT_INFINITE = 7;
 
-  @ViewChild(Refresher) refresher: Refresher;
-  @ViewChild(InfiniteScroll) infiniteScroll: InfiniteScroll;
+  @ViewChild(IonRefresher) refresher: IonRefresher;
+  @ViewChild(IonInfiniteScroll) infiniteScroll: IonInfiniteScroll;
 
   private originalHiscore: Hiscore;
   private originalXp: Xp[];

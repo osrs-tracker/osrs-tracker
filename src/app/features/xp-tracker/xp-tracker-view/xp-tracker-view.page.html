@@ -29,14 +29,7 @@
 
 <ion-content>
   <ion-tabs>
-    <ion-tab [tab]="XpTrackerRoute.AdventureLog">
-        <ion-router-outlet name="adventure-log"></ion-router-outlet>
-    </ion-tab>
-    <ion-tab [tab]="XpTrackerRoute.DataTable">
-        <ion-router-outlet name="data-table"></ion-router-outlet>
-    </ion-tab>
-
-    <ion-tab-bar color="dark" slot="bottom">
+    <ion-tab-bar slot="bottom">
 
       <ion-tab-button [tab]="XpTrackerRoute.AdventureLog" [href]="getTabRoute(XpTrackerRoute.AdventureLog)">
         <ion-label>Adventure Log</ion-label>

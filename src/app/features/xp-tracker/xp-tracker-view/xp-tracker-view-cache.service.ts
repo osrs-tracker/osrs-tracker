@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { ItemSearchModel } from 'services/item/item.model';
 import { Hiscore } from 'services/hiscores/hiscore.model';
 import { Xp } from 'services/xp/xp';
 

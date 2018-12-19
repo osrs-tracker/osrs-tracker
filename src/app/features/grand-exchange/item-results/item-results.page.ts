@@ -38,7 +38,7 @@ export class ItemResultsPage implements OnInit, OnDestroy {
   }
 
   itemDetails(item: ItemSearchModel) {
-    this.navCtrl.navigateForward([AppRoute.GrandExchange, GrandExchangeRoute.ItemDetails, item.id], true);
+    this.navCtrl.navigateForward([AppRoute.GrandExchange, GrandExchangeRoute.ItemDetails, item.id]);
   }
 
   trackByItemId(index: number, item: ItemSearchModel) {

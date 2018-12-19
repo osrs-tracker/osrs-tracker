@@ -44,7 +44,7 @@ export class SearchItemComponent {
   async searchItem(query: string) {
     query = query.trim();
     if (query.length > 2) {
-      this.navCtrl.navigateForward([AppRoute.GrandExchange, GrandExchangeRoute.ItemResults, query], true)
+      this.navCtrl.navigateForward([AppRoute.GrandExchange, GrandExchangeRoute.ItemResults, query])
         .catch(() => this.alertManager.create({
           header: 'No results found',
           buttons: ['OK']
