@@ -1,3 +1,11 @@
 ion-list-header {
   min-height: 30px;
 }
+ion-item {
+  ion-input {
+    --padding-start: 16px;
+  }
+}
+ion-item + ion-button {
+  margin-top: 4px;
+}

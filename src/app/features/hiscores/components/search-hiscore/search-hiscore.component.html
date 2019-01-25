@@ -16,13 +16,13 @@
   <ion-card-content>
     <ion-item color="secondary" no-padding>
       <ion-input type="text" [(ngModel)]="playerName" name="playerName" placeholder="Enter player name"
-        (keyup.enter)="compare ? comparePlayers(): searchPlayer()" padding-start clearInput></ion-input>
+        (keyup.enter)="compare ? comparePlayers(): searchPlayer()" clearInput></ion-input>
     </ion-item>
     <ion-item color="secondary" no-padding *ngIf="compare">
       <ion-input type="text" [(ngModel)]="compareName" name="compareName" placeholder="Enter compare name"
-        (keyup.enter)="compare ? comparePlayers(): searchPlayer()" padding-start clearInput></ion-input>
+        (keyup.enter)="compare ? comparePlayers(): searchPlayer()" clearInput></ion-input>
     </ion-item>
-    <ion-button color="secondary" expand="full" (click)="compare ? comparePlayers(): searchPlayer()">
+    <ion-button no-margin color="secondary" expand="full" (click)="compare ? comparePlayers(): searchPlayer()">
       <ion-icon slot="start" [name]="compare ? 'swap' : 'search'"></ion-icon>
       {{ compare ? 'Compare' : 'Search'}}
     </ion-button>
