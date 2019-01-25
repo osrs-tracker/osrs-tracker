@@ -4,10 +4,9 @@
   </ion-card-header>
   <ion-card-content>
     <ion-item no-padding color="secondary">
-      <ion-input placeholder="Enter item name" (keyup.enter)="searchItem(search.value)" clearInput padding-start
-        #search></ion-input>
+      <ion-input placeholder="Enter item name" (keyup.enter)="searchItem(search.value)" clearInput #search></ion-input>
     </ion-item>
-    <ion-button (click)="searchItem(search.value)" type="submit" expand="full" color="secondary">
+    <ion-button no-margin (click)="searchItem(search.value)" type="submit" expand="full" color="secondary">
       <ion-icon slot="start" name="search"></ion-icon>
       Search
     </ion-button>

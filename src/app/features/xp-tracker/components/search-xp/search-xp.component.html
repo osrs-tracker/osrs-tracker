@@ -5,10 +5,9 @@
 
   <ion-card-content>
     <ion-item no-padding color="secondary">
-      <ion-input type="text" placeholder="Enter player name" padding-left #search clearInput (keyup.enter)="searchXp(search.value)"
-        padding-start></ion-input>
+      <ion-input type="text" placeholder="Enter player name" #search clearInput (keyup.enter)="searchXp(search.value)"></ion-input>
     </ion-item>
-    <ion-button color="secondary" expand="full" (click)="searchXp(search.value)">
+    <ion-button no-margin color="secondary" expand="full" (click)="searchXp(search.value)">
       <ion-icon slot="start" name="search"></ion-icon>
       Search
     </ion-button>

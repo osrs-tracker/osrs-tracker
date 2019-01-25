@@ -37,7 +37,7 @@
   }
   ion-menu {
     .menu-icon[slot=start] {
-      color: rgba(var(--ion-text-color-rgb,0),.54); // bugged value in ionic 4.0.0-rc.0: rgba(var(--ion-text-color-rgb,0,0,0),.54);
+      color: rgba(var(--ion-text-color-rgb,0),.54); // bugged value in ionic: rgba(var(--ion-text-color-rgb,0,0,0),.54); TODO: make issue @ionic
       margin-right: 16px;
     }
     ion-item {
