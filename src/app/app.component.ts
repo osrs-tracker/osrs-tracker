@@ -98,7 +98,7 @@ export class AppComponent implements AfterViewInit {
       } else if (segments.includes(AppRoute.XpTracker) && segments.length > 1) {
         this.navCtrl.navigateBack(AppRoute.XpTracker);
       } else if (segments.length > 1) {
-        this.navCtrl.goBack({ animated: true });
+        this.navCtrl.back({ animated: true });
       } else if (!this.router.isActive(AppRoute.Home, false)) {
         this.navCtrl.navigateRoot(AppRoute.Home, { animated: true, animationDirection: 'back' });
       } else {
