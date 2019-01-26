@@ -4,7 +4,8 @@ import { AppRoute } from 'app-routing.routes';
 import { XpTrackerRoute } from 'features/xp-tracker/hiscores.routes';
 import { forkJoin, timer } from 'rxjs';
 import { AlertManager } from 'services/alert-manager/alert-manager';
-import { StorageProvider, STORAGE_KEY } from 'services/storage/storage';
+import { StorageKey } from 'services/storage/storage-key';
+import { StorageService } from 'services/storage/storage.service';
 import { XpFavoriteComponent } from '../xp-favorite/xp-favorite.component';
 
 @Component({
@@ -24,34 +25,34 @@ export class SearchXpComponent {
   constructor(
     private alertManger: AlertManager,
     private navCtrl: NavController,
-    private storageProvider: StorageProvider,
+    private storageService: StorageService,
   ) {
-    this.storageProvider.getXp(
-      favorites => this.favoriteXp = favorites,
-      recents => this.recentXp = recents
-    );
+    this.updateFavorites();
+    this.updateRecent();
   }
 
-  public updateFavorites() {
-    this.storageProvider.getFavoriteXp(favorites => this.favoriteXp = favorites);
+  updateFavorites() {
+    this.storageService.getValue<string[]>(StorageKey.FavoriteXp)
+      .then(favorites => this.favoriteXp = favorites);
   }
 
-  public updateRecent() {
-    this.storageProvider.getRecentXp(recents => this.recentXp = recents);
+  updateRecent() {
+    this.storageService.getValue<string[]>(StorageKey.RecentXp)
+      .then(favorites => this.recentXp = favorites);
   }
 
-  public refresh() {
+  refresh() {
     return forkJoin([timer(500), ...(this.xpFavoriteComponents || []).map(fav => fav.getData())]);
   }
 
   removeFavorite(username: string) {
-    this.storageProvider.removeFromArray(STORAGE_KEY.FAVORITE_XP, username)
+    this.storageService.removeFromArray(StorageKey.FavoriteXp, username)
       .then(() => this.updateFavorites());
   }
 
   removeRecent(username: string) {
-    this.storageProvider.removeFromArray(STORAGE_KEY.RECENT_XP, username)
-      .then(() => this.updateRecent());
+    this.storageService.removeFromArray(StorageKey.RecentXp, username)
+      .then(() => this.updateFavorites());
   }
 
   async searchXp(playerName: string) {

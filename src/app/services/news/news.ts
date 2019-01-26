@@ -4,8 +4,9 @@ import { NativeHttp } from 'core/native-http/nativeHttp';
 import { environment } from 'environments/environment';
 import { Observable } from 'rxjs';
 import { map, mergeMap } from 'rxjs/operators';
+import { StorageKey } from 'services/storage/storage-key';
+import { StorageService } from 'services/storage/storage.service';
 import xml2js from 'xml2js';
-import { StorageProvider } from '../storage/storage';
 
 export class NewsItemApp {
   constructor(
@@ -42,7 +43,7 @@ export class NewsProvider {
   constructor(
     private http: HttpClient,
     private nativeHttp: NativeHttp,
-    private storageProvider: StorageProvider
+    private storageService: StorageService
   ) { }
 
   getOSRSNews(): Observable<NewsItemOSRS[]> {
@@ -91,17 +92,17 @@ export class NewsProvider {
     }).pipe(mergeMap(() => this.getAppNewsItem(newsId, uuid)));
   }
 
-  isNewAppArticleAvailable(): Promise<boolean> {
-    return new Promise((resolve, reject) => {
-      this.storageProvider.getAppNews(items => {
-        if (!items) {
-          resolve(true);
-        } else {
-          this.getAppNews(null).subscribe(newItems => {
-            resolve(newItems[0].id > items[0].id);
-          });
-        }
-      });
+  async isNewAppArticleAvailable(): Promise<boolean> {
+    const appNews = await this.storageService.getValue<NewsItemApp[]>(StorageKey.CacheAppNews);
+
+    return new Promise(resolve => {
+      if (!appNews) {
+        resolve(true);
+      } else {
+        this.getAppNews(null).subscribe(newItems => {
+          resolve(newItems[0].id > appNews[0].id);
+        }, () => resolve(false));
+      }
     });
   }
 
