@@ -26,30 +26,21 @@ export class StorageService {
    * @returns A promise that resolves to the array with cached values.
    */
   async limitedArrayPush<T>(key: StorageKey, nextValue: T, options: LimitedCacheOptions<T>): Promise<T[]> {
-    let values = await this.getValue<T[]>(key).then(value => value || []);
+    const values = await this.getValue<T[]>(key).then(value => value || []);
     const isBlacklistedValue = (options.blacklist || []).includes(nextValue);
 
     if (!isBlacklistedValue && (options.allowDuplicates || !values.includes(nextValue))) {
-      if (values.length > (options.maxLength - 1)) {
-        values.pop();
-      }
-      values = [nextValue, ...values];
-      return this.setValue<T[]>(key, values);
+      return this.setValue(key, this.prependValue(values, nextValue, options.maxLength));
     } else if (!options.allowDuplicates && values.includes(nextValue)) {
-      // if value exists, put it on top
-      values = values.filter(value => value !== nextValue);
-      values = [nextValue, ...values];
-      return this.setValue<T[]>(key, values);
+      return this.setValue(key, this.moveValueToFirst(values, nextValue));
     }
     return values;
   }
 
   async removeFromArray<T>(key: StorageKey, deleteValue: T): Promise<T[]> {
-    let values = await this.getValue<T[]>(key).then(value => value || []);
+    const values = await this.getValue<T[]>(key).then(value => value || []);
 
-    values = values.filter(value => value !== deleteValue);
-
-    return this.setValue<T[]>(key, values);
+    return this.setValue(key, values.filter(value => value !== deleteValue));
   }
 
   /**
@@ -65,10 +56,22 @@ export class StorageService {
       cache.push(toggleValue);
     }
 
-    await this.setValue<T[]>(key, cache);
+    await this.setValue(key, cache);
 
     return !wasToggled;
   }
 
+
+  private moveValueToFirst<T>(values: T[], firstValue: T): T[] {
+    values = values.filter(value => value !== firstValue);
+    return this.prependValue(values, firstValue);
+  }
+
+  private prependValue<T>(values: T[], nextValue: T, maxLength?: number): T[] {
+    if (maxLength && values.length > (maxLength - 1)) {
+      values = values.slice(0, -1);
+    }
+    return [nextValue, ...values];
+  }
 
 }
