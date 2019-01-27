@@ -1,10 +1,11 @@
-import { Component, Input, ViewChildren } from '@angular/core';
+import { Component, ViewChildren } from '@angular/core';
 import { LoadingController, NavController } from '@ionic/angular';
 import { AppRoute } from 'app-routing.routes';
 import { GrandExchangeRoute } from 'features/grand-exchange/grand-exchange.routes';
 import { forkJoin, Observable, timer } from 'rxjs';
 import { AlertManager } from 'services/alert-manager/alert-manager';
-import { StorageProvider } from 'services/storage/storage';
+import { StorageKey } from 'services/storage/storage-key';
+import { StorageService } from 'services/storage/storage.service';
 import { ItemResultComponent } from '../item-result/item-result.component';
 
 @Component({
@@ -18,26 +19,26 @@ export class SearchItemComponent {
   recentItems: string[] = [];
 
   constructor(
-    public navCtrl: NavController,
-    public alertManager: AlertManager,
-    public loadCtrl: LoadingController,
-    private storageProvider: StorageProvider
+    private navCtrl: NavController,
+    private alertManager: AlertManager,
+    private loadCtrl: LoadingController,
+    private storageService: StorageService
   ) {
-    this.storageProvider.getItems(
-      favorites => this.favoriteItems = favorites,
-      recents => this.recentItems = recents
-    );
+    this.updateFavorites();
+    this.updateRecent();
   }
 
-  public updateFavorites() {
-    this.storageProvider.getFavoriteItems(favorites => this.favoriteItems = favorites);
+  updateFavorites() {
+    this.storageService.getValue<string[]>(StorageKey.FavoriteItems)
+      .then(favorites => this.favoriteItems = favorites);
   }
 
-  public updateRecent() {
-    this.storageProvider.getRecentItems(recents => this.recentItems = recents);
+  updateRecent() {
+    this.storageService.getValue<string[]>(StorageKey.RecentItems)
+      .then(recents => this.recentItems = recents);
   }
 
-  public refresh(): Observable<any> {
+  refresh(): Observable<any> {
     return forkJoin([timer(500), ...(this.itemFavoriteComponents || []).map(fav => fav.getData())]);
   }
 

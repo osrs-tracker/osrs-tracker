@@ -4,8 +4,9 @@ import { AppRoute } from 'app-routing.routes';
 import { HiscoresRoute } from 'features/hiscores/hiscores.routes';
 import { forkJoin, timer } from 'rxjs';
 import { AlertManager } from 'services/alert-manager/alert-manager';
-import { StorageProvider, STORAGE_KEY } from 'services/storage/storage';
 import { HiscoreFavoriteComponent } from '../hiscore-favorite/hiscore-favorite.component';
+import { StorageService } from 'services/storage/storage.service';
+import { StorageKey } from 'services/storage/storage-key';
 
 @Component({
   selector: 'search-hiscore',
@@ -28,33 +29,33 @@ export class SearchHiscoreComponent {
   constructor(
     private navCtrl: NavController,
     private alertManager: AlertManager,
-    private storageProvider: StorageProvider
+    private storageService: StorageService
   ) {
-    this.storageProvider.getHiscores(
-      favorites => this.favoriteHiscores = favorites,
-      recents => this.recentHiscores = recents
-    );
+    this.updateFavorites();
+    this.updateRecent();
   }
 
-  public updateFavorites() {
-    this.storageProvider.getFavoriteHiscores(favorites => this.favoriteHiscores = favorites);
-  }
-
-  public updateRecent() {
-    this.storageProvider.getRecentHiscores(recents => this.recentHiscores = recents);
-  }
-
-  public refresh() {
+  refresh() {
     return forkJoin([timer(500), ...(this.hiscoreFavoriteComponents || []).map(fav => fav.getData())]);
   }
 
+  updateFavorites() {
+    this.storageService.getValue<string[]>(StorageKey.FavoriteHiscores)
+      .then(favorites => this.favoriteHiscores = favorites);
+  }
+
+  updateRecent() {
+    this.storageService.getValue<string[]>(StorageKey.RecentHiscores)
+      .then(recents => this.recentHiscores = recents);
+  }
+
   removeFavorite(username: string) {
-    this.storageProvider.removeFromArray(STORAGE_KEY.FAVORITE_HISCORES, username)
+    this.storageService.removeFromArray(StorageKey.FavoriteHiscores, username)
       .then(() => this.updateFavorites());
   }
 
   removeRecent(username: string) {
-    this.storageProvider.removeFromArray(STORAGE_KEY.RECENT_HISCORES, username)
+    this.storageService.removeFromArray(StorageKey.RecentHiscores, username)
       .then(() => this.updateRecent());
   }
 

@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { StorageProvider } from '../storage/storage';
+import { StorageKey } from 'services/storage/storage-key';
+import { StorageService } from 'services/storage/storage.service';
 import { XpTrackerView } from './xp-tracker-view';
 
 export interface Settings {
@@ -15,18 +16,17 @@ export class SettingsProvider {
   settings: BehaviorSubject<Settings> = new BehaviorSubject<Settings>(this.initSettings());
 
   constructor(
-    private storageProvider: StorageProvider,
+    private storageProvider: StorageService,
   ) { }
 
   init(): Promise<void> {
-    return this.storageProvider.getSettings().then(settings => {
-      this.settings.next(settings || this.initSettings());
-    });
+    return this.storageProvider.getValue<Settings>(StorageKey.Settings, this.initSettings())
+      .then(settings => this.settings.next(settings));
   }
 
   setSettings(settings: Settings) {
     this.settings.next(settings);
-    this.storageProvider.setSettings(this.settings.value);
+    this.storageProvider.setValue(StorageKey.Settings, this.settings.value);
   }
 
   get preferredXpTrackerView() {
@@ -38,10 +38,11 @@ export class SettingsProvider {
   }
 
   private updateSettings<T>(setting: string, value: T) {
-    this.settings.next(Object.assign(this.settings, <Settings>{
+    this.settings.next({
+      ...this.settings.value,
       [setting]: value
-    }));
-    this.storageProvider.setSettings(this.settings.value);
+    });
+    this.storageProvider.setValue(StorageKey.Settings, this.settings.value);
   }
 
   private initSettings(): Settings {

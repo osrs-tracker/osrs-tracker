@@ -6,7 +6,8 @@ import { Observable } from 'rxjs';
 import { finalize, tap } from 'rxjs/operators';
 import { ItemProvider } from 'services/item/item';
 import { getTrendClass, ItemSearchModel } from 'services/item/item.model';
-import { StorageProvider } from 'services/storage/storage';
+import { StorageKey } from 'services/storage/storage-key';
+import { StorageService } from 'services/storage/storage.service';
 import { GrandExchangeRoute } from '../../grand-exchange.routes';
 
 @Component({
@@ -25,17 +26,14 @@ export class ItemResultComponent implements OnInit {
   constructor(
     private changeDetectorRef: ChangeDetectorRef,
     private itemService: ItemProvider,
-    private storageProvider: StorageProvider,
+    private storageService: StorageService,
     private navCtrl: NavController
   ) { }
 
   async ngOnInit() {
     if (this.itemId && !this.item) {
-      this.item = ItemSearchModel.empty();
-      await this.storageProvider.getItemFromCache(this.itemId).then(item => {
-        if (!item) { return; }
-        this.item = item;
-      });
+      this.item = await this.storageService.getValue<ItemSearchModel>(StorageKey.CacheItems, <ItemSearchModel>{})
+        .then(items => items[this.itemId] || ItemSearchModel.empty());
       this.getData().subscribe();
     } else {
       this.loading = false;

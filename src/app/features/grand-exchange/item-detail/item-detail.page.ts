@@ -5,7 +5,8 @@ import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 import { AppRoute } from 'app-routing.routes';
 import { environment } from 'environments/environment';
 import { getTrendClass, ItemSearchModel } from 'services/item/item.model';
-import { StorageProvider } from 'services/storage/storage';
+import { StorageKey } from 'services/storage/storage-key';
+import { StorageService } from 'services/storage/storage.service';
 
 @Component({
   selector: 'page-item-detail',
@@ -22,21 +23,24 @@ export class ItemDetailPage {
     private activatedRoute: ActivatedRoute,
     private browserTab: BrowserTab,
     private inAppBrowser: InAppBrowser,
-    private storageProvider: StorageProvider
+    private storageService: StorageService
   ) {
     this.item = this.activatedRoute.snapshot.data.itemDetail;
     this.item.icon = this.item.icon || `${environment.API_GEPT}/icon/${this.item.id}`;
     this.item.trendClass = this.item.trendClass || getTrendClass(this.item.today);
-    this.storageProvider.addItemToCache(this.item.id, this.item);
 
-    this.storageProvider.getFavoriteItems(
-      favorites => this.isFavorite = (favorites || []).includes(`${this.item.id}`)
-    );
-    this.storageProvider.addToRecentItems(`${this.item.id}`);
+    this.addItemToItemCache();
+
+    this.storageService.limitedArrayPush(StorageKey.RecentItems, this.item.id, { maxLength: 5 });
+
+    this.storageService.getValue<string[]>(StorageKey.FavoriteItems, [])
+      .then(favorites => this.isFavorite = favorites.includes(this.item.id.toString()));
+
   }
 
   toggleFavorite() {
-    this.storageProvider.toggleFavoriteItem(`${this.item.id}`, isFavorited => (this.isFavorite = isFavorited));
+    this.storageService.uniqueCacheToggle(StorageKey.FavoriteItems, this.item.id.toString())
+      .then(isFavorited => this.isFavorite = isFavorited);
   }
 
   openWiki() {
@@ -46,6 +50,15 @@ export class ItemDetailPage {
         this.browserTab.openUrl(url) :
         this.inAppBrowser.create(url, '_system')
       );
+  }
+
+  private async addItemToItemCache(): Promise<void> {
+    const cachedItems = await this.storageService.getValue<{ [id: number]: ItemSearchModel }>(StorageKey.CacheItems, {});
+
+    this.storageService.setValue(StorageKey.CacheItems, {
+      ...cachedItems,
+      [this.item.id]: this.item
+    });
   }
 
 }

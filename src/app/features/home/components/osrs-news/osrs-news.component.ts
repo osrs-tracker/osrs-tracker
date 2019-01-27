@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 import { BrowserTab } from '@ionic-native/browser-tab/ngx';
-import { NewsItemOSRS, NewsProvider } from 'services/news/news';
-import { StorageProvider } from 'services/storage/storage';
+import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
+import { NewsItemOSRS, NewsProvider } from 'services/news/news';
+import { StorageKey } from 'services/storage/storage-key';
+import { StorageService } from 'services/storage/storage.service';
 
 @Component({
   selector: 'osrs-news',
@@ -19,21 +20,22 @@ export class OSRSNewsComponent implements OnInit {
     private browserTab: BrowserTab,
     private inAppBrowser: InAppBrowser,
     private newsProvider: NewsProvider,
-    private storageProvider: StorageProvider
+    private storageService: StorageService
   ) { }
 
   ngOnInit() {
-    this.storageProvider.getOSRSNews(items => {
-      this.items = items || [];
-      this.getNews().subscribe();
-    });
+    this.storageService.getValue<NewsItemOSRS[]>(StorageKey.CacheOsrsNews, [])
+      .then(items => {
+        this.items = items;
+        this.getNews().subscribe();
+      });
   }
 
   getNews(): Observable<NewsItemOSRS[]> {
     return this.newsProvider.getOSRSNews()
       .pipe(tap(items => {
         this.items = items;
-        this.storageProvider.setOSRSNews(items);
+        this.storageService.setValue(StorageKey.CacheOsrsNews, items);
       }));
   }
 

@@ -1,13 +1,14 @@
 import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import { BrowserTab } from '@ionic-native/browser-tab/ngx';
+import { Device } from '@ionic-native/device/ngx';
+import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 import { IonInfiniteScroll, IonRefresher, ToastController } from '@ionic/angular';
+import { environment } from 'environments/environment';
 import { forkJoin, Observable, timer } from 'rxjs';
 import { finalize, tap } from 'rxjs/operators';
 import { NewsItemApp, NewsProvider } from 'services/news/news';
-import { StorageProvider } from 'services/storage/storage';
-import { Device } from '@ionic-native/device/ngx';
-import { environment } from 'environments/environment';
-import { BrowserTab } from '@ionic-native/browser-tab/ngx';
-import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
+import { StorageKey } from 'services/storage/storage-key';
+import { StorageService } from 'services/storage/storage.service';
 
 @Component({
   selector: 'page-app-news',
@@ -29,16 +30,18 @@ export class AppNewsPage implements OnInit {
     private device: Device,
     private inAppBrowser: InAppBrowser,
     private newsProvider: NewsProvider,
-    private storageProvider: StorageProvider,
+    private storageService: StorageService,
     private toastController: ToastController,
   ) { }
 
   ngOnInit() {
     this.uuid = environment.production ? this.device.uuid : 'test';
-    this.storageProvider.getAppNews(items => {
-      this.items = items || [];
-      this.getNews().subscribe();
-    });
+
+    this.storageService.getValue<NewsItemApp[]>(StorageKey.CacheAppNews, [])
+      .then(items => {
+        this.items = items;
+        this.getNews().subscribe();
+      });
   }
 
   getNews(): Observable<NewsItemApp[]> {
@@ -48,13 +51,13 @@ export class AppNewsPage implements OnInit {
       tap(items => {
         this.items = items;
         this.originalItems = items.map(item => Object.assign({}, item));
-        this.storageProvider.setAppNews(items);
+        this.storageService.setValue(StorageKey.CacheAppNews, items);
         this.replaceNewsLinks();
       })
     );
   }
 
-  upvote(id) {
+  upvote(id: number) {
     const item = this.items.find(newsItem => newsItem.id === id);
     this.offlineUpvoteLogic(item);
     this.newsProvider.upvoteAppNews(id, this.uuid).subscribe(
@@ -65,7 +68,7 @@ export class AppNewsPage implements OnInit {
       });
   }
 
-  downvote(id) {
+  downvote(id: number) {
     const item = this.items.find(newsItem => newsItem.id === id);
     this.offlineDownvoteLogic(item);
     this.newsProvider.downvoteAppNews(id, this.uuid).subscribe(

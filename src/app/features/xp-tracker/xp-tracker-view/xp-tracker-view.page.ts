@@ -1,14 +1,15 @@
 import { Component, OnDestroy } from '@angular/core';
-import { Subscription } from 'rxjs';
-import { XpTrackerView } from 'services/settings/xp-tracker-view';
-import { NavController } from '@ionic/angular';
-import { StorageProvider } from 'services/storage/storage';
-import { SettingsProvider } from 'services/settings/settings';
-import { Hiscore } from 'services/hiscores/hiscore.model';
-import { AppRoute } from 'app-routing.routes';
 import { ActivatedRoute, Router } from '@angular/router';
-import { XpTrackerRoute } from '../hiscores.routes';
+import { NavController } from '@ionic/angular';
+import { AppRoute } from 'app-routing.routes';
 import { HiscoresRoute } from 'features/hiscores/hiscores.routes';
+import { Subscription } from 'rxjs';
+import { Hiscore } from 'services/hiscores/hiscore.model';
+import { SettingsProvider } from 'services/settings/settings';
+import { XpTrackerView } from 'services/settings/xp-tracker-view';
+import { StorageKey } from 'services/storage/storage-key';
+import { StorageService } from 'services/storage/storage.service';
+import { XpTrackerRoute } from '../hiscores.routes';
 import { XpTrackerViewCache } from './xp-tracker-view-cache.service';
 
 @Component({
@@ -36,7 +37,7 @@ export class XpTrackerViewPage implements OnDestroy {
     private activatedRoute: ActivatedRoute,
     private router: Router,
     private navCtrl: NavController,
-    private storageProvider: StorageProvider,
+    private storageService: StorageService,
     private settingsProvider: SettingsProvider,
     private xpTrackerViewCache: XpTrackerViewCache
   ) {
@@ -45,10 +46,10 @@ export class XpTrackerViewPage implements OnDestroy {
 
     ({ username: this.username, type: this.type, deIroned: this.deIroned, dead: this.dead } = this.hiscore);
 
-    this.storageProvider.getFavoriteXp(
-      favorites => this.isFavorite = (favorites || []).includes(this.hiscore.username)
-    );
-    this.storageProvider.addToRecentXp(this.hiscore.username);
+    this.storageService.limitedArrayPush(StorageKey.RecentXp, this.hiscore.username, { maxLength: 5 });
+
+    this.storageService.getValue<string[]>(StorageKey.FavoriteXp, [])
+      .then(favorites => this.isFavorite = favorites.includes(this.hiscore.username.toString()));
 
     this.loadPreferredRoute();
   }
@@ -62,7 +63,8 @@ export class XpTrackerViewPage implements OnDestroy {
   }
 
   favorite() {
-    this.storageProvider.addToFavoriteXp(this.username, isFavorite => this.isFavorite = isFavorite);
+    this.storageService.uniqueCacheToggle(StorageKey.FavoriteXp, this.username)
+      .then(isFavorited => this.isFavorite = isFavorited);
   }
 
   getTypeImageUrl() {
