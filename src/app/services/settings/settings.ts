@@ -20,8 +20,8 @@ export class SettingsProvider {
   ) { }
 
   init(): Promise<void> {
-    return this.storageProvider.getValue<Settings>(StorageKey.Settings)
-      .then(settings => this.settings.next(settings || this.initSettings()));
+    return this.storageProvider.getValue<Settings>(StorageKey.Settings, this.initSettings())
+      .then(settings => this.settings.next(settings));
   }
 
   setSettings(settings: Settings) {
@@ -38,9 +38,10 @@ export class SettingsProvider {
   }
 
   private updateSettings<T>(setting: string, value: T) {
-    this.settings.next(Object.assign(this.settings, <Settings>{
+    this.settings.next({
+      ...this.settings.value,
       [setting]: value
-    }));
+    });
     this.storageProvider.setValue(StorageKey.Settings, this.settings.value);
   }
 

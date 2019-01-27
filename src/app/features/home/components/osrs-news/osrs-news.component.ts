@@ -24,9 +24,11 @@ export class OSRSNewsComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.storageService.getValue<NewsItemOSRS[]>(StorageKey.CacheOsrsNews)
-      .then(items => this.items = items || [])
-      .then(() => this.getNews().subscribe());
+    this.storageService.getValue<NewsItemOSRS[]>(StorageKey.CacheOsrsNews, [])
+      .then(items => {
+        this.items = items;
+        this.getNews().subscribe();
+      });
   }
 
   getNews(): Observable<NewsItemOSRS[]> {

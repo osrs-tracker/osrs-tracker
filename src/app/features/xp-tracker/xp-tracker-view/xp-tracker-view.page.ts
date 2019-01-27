@@ -48,8 +48,7 @@ export class XpTrackerViewPage implements OnDestroy {
 
     this.storageService.limitedArrayPush(StorageKey.RecentXp, this.hiscore.username, { maxLength: 5 });
 
-    this.storageService.getValue<string[]>(StorageKey.FavoriteXp)
-      .then(favorites => favorites || [])
+    this.storageService.getValue<string[]>(StorageKey.FavoriteXp, [])
       .then(favorites => this.isFavorite = favorites.includes(this.hiscore.username.toString()));
 
     this.loadPreferredRoute();

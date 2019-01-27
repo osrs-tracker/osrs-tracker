@@ -32,8 +32,7 @@ export class ItemResultComponent implements OnInit {
 
   async ngOnInit() {
     if (this.itemId && !this.item) {
-      this.item = await this.storageService.getValue<ItemSearchModel>(StorageKey.CacheItems)
-        .then(items => items || {})
+      this.item = await this.storageService.getValue<ItemSearchModel>(StorageKey.CacheItems, <ItemSearchModel>{})
         .then(items => items[this.itemId] || ItemSearchModel.empty());
       this.getData().subscribe();
     } else {

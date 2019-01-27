@@ -37,9 +37,11 @@ export class AppNewsPage implements OnInit {
   ngOnInit() {
     this.uuid = environment.production ? this.device.uuid : 'test';
 
-    this.storageService.getValue<NewsItemApp[]>(StorageKey.CacheAppNews)
-      .then(items => this.items = items || [])
-      .then(() => this.getNews().subscribe());
+    this.storageService.getValue<NewsItemApp[]>(StorageKey.CacheAppNews, [])
+      .then(items => {
+        this.items = items;
+        this.getNews().subscribe();
+      });
   }
 
   getNews(): Observable<NewsItemApp[]> {

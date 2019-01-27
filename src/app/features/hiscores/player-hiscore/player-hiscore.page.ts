@@ -41,8 +41,7 @@ export class PlayerHiscorePage {
     this.hiscoreSuffix = this.oldHiscoreSuffix = this.getHiscoreSuffix();
     ({ type: this.type, deIroned: this.deIroned, dead: this.dead } = this.hiscore);
 
-    this.storageService.getValue<string[]>(StorageKey.FavoriteHiscores)
-      .then(favorites => favorites || [])
+    this.storageService.getValue<string[]>(StorageKey.FavoriteHiscores, [])
       .then(favorites => this.isFavorite = favorites.includes(this.hiscore.username));
 
     this.storageService.limitedArrayPush(StorageKey.RecentHiscores, this.hiscore.username, { maxLength: 5 });

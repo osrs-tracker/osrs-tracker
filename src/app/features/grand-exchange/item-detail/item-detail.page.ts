@@ -33,8 +33,7 @@ export class ItemDetailPage {
 
     this.storageService.limitedArrayPush(StorageKey.RecentItems, this.item.id, { maxLength: 5 });
 
-    this.storageService.getValue<string[]>(StorageKey.FavoriteItems)
-      .then(favorites => favorites || [])
+    this.storageService.getValue<string[]>(StorageKey.FavoriteItems, [])
       .then(favorites => this.isFavorite = favorites.includes(this.item.id.toString()));
 
   }
@@ -53,12 +52,13 @@ export class ItemDetailPage {
       );
   }
 
-  private addItemToItemCache(): void {
-    this.storageService.getValue<{ [id: number]: ItemSearchModel }>(StorageKey.CacheItems)
-      .then(cachedItems => this.storageService.setValue(StorageKey.CacheItems, {
-        ...cachedItems,
-        [this.item.id]: this.item
-      }));
+  private async addItemToItemCache(): Promise<void> {
+    const cachedItems = await this.storageService.getValue<{ [id: number]: ItemSearchModel }>(StorageKey.CacheItems, {});
+
+    this.storageService.setValue(StorageKey.CacheItems, {
+      ...cachedItems,
+      [this.item.id]: this.item
+    });
   }
 
 }

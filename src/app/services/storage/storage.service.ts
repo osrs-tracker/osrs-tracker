@@ -17,9 +17,15 @@ export class StorageService {
       .then(storage => storage.setItem<T>(key, value));
   }
 
-  getValue<T>(key: StorageKey): Promise<T> {
+  getValue<T>(key: StorageKey, defaultValue?: T): Promise<T | null> {
     return this.storage.ready()
-      .then(storage => storage.getItem<T>(key));
+      .then(storage => storage.getItem<T>(key))
+      .then(value => {
+        if (defaultValue !== undefined) {
+          return value || defaultValue;
+        }
+        return value;
+      });
   }
 
   /**
