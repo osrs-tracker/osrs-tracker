@@ -17,12 +17,19 @@
       <ion-spinner color="dark"></ion-spinner>
     </ng-template>
     <ng-template #doneLoading>
-      <ion-col size="auto">
-        <span class="gains">+ {{ gains | numberFormat }} XP</span>
-      </ion-col>
-      <ion-col size="auto">
-        <img src="./assets/imgs/skills/1.gif">
-      </ion-col>
+      <ng-template [ngIf]="!!gains" [ngIfElse]="gainsError">
+        <ion-col size="auto">
+          <span class="gains">+ {{ gains | numberFormat }} XP</span>
+        </ion-col>
+        <ion-col size="auto">
+          <img src="./assets/imgs/skills/1.gif">
+        </ion-col>
+      </ng-template>
+      <ng-template #gainsError>
+        <ion-col size="auto">
+          ERROR
+        </ion-col>
+      </ng-template>
     </ng-template>
   </ion-row>
 </ion-item>
