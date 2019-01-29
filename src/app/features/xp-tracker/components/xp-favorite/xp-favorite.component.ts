@@ -2,8 +2,8 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { NavController } from '@ionic/angular';
 import { AppRoute } from 'app-routing.routes';
 import { XpTrackerRoute } from 'features/xp-tracker/hiscores.routes';
-import { EMPTY, forkJoin } from 'rxjs';
-import { catchError, finalize, tap } from 'rxjs/operators';
+import { forkJoin, throwError } from 'rxjs';
+import { catchError, finalize, retry, tap } from 'rxjs/operators';
 import { Hiscore } from 'services/hiscores/hiscore.model';
 import { HiscoresProvider } from 'services/hiscores/hiscores';
 import { XpProvider } from 'services/xp/xp';
@@ -48,8 +48,9 @@ export class XpFavoriteComponent implements OnInit {
           catchError(err => {
               if (err.status === 404) {
                   this.notFound.emit();
-              } return EMPTY;
+              } return throwError(err);
           }),
+          retry(2),
           tap(([xp, hiscore]) => {
               this.hiscore = hiscore;
               this.gains = this.xpProvider.calcXpGains(xp, hiscore)[0].xp.skills[0].exp;
