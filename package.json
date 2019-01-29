@@ -53,9 +53,7 @@
     "cordova-sqlite-storage": "2.6.0",
     "core-js": "2.6.3",
     "rxjs": "6.3.3",
-    "stream": "0.0.2",
-    "timers": "0.1.1",
-    "xml2js": "0.4.19",
+    "xml-js": "1.6.9",
     "zone.js": "0.8.29"
   },
   "devDependencies": {

@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
 import { map, mergeMap } from 'rxjs/operators';
 import { StorageKey } from 'services/storage/storage-key';
 import { StorageService } from 'services/storage/storage.service';
-import xml2js from 'xml2js';
+import { xml2js, ElementCompact, } from 'xml-js';
 
 export class NewsItemApp {
   constructor(
@@ -49,22 +49,19 @@ export class NewsProvider {
   getOSRSNews(): Observable<NewsItemOSRS[]> {
     // OLD because no HTTPS available for the rss feed.
     return this.nativeHttp.getText(`${environment.API_RUNESCAPE_OLD}/m=news/latest_news.rss?oldschool=true`)
-      .pipe(map(text => {
-        let json = null;
-        xml2js.parseString(text, (err, result) => {
-          json = result.rss.channel[0].item;
-        });
-        return json.map(item => new NewsItemOSRS(
-          item.title[0],
-          item.pubDate[0],
-          item.link[0],
-          item.description[0].trim(),
+      .pipe(map(xmlRss => {
+        const xml: ElementCompact = xml2js(xmlRss, { compact: true, });
+        return xml.rss.channel.item.map(item => new NewsItemOSRS(
+          item.title._text,
+          item.pubDate._text,
+          item.link._text,
+          item.description._text,
           {
-            link: item.enclosure[0].$.url,
-            type: item.enclosure[0].$.type
+            link: item.enclosure._attributes.url,
+            type: item.enclosure._attributes.type
           },
-          item.category
-        )).slice(0, 10);
+          [item.category._text]
+        ));
       }));
   }
 
