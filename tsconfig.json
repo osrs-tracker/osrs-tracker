@@ -14,7 +14,8 @@
       "dom"
     ],
     "paths": {
-      "*": ["app/*", "*"]
+      "*": ["app/*", "*"],
+      "stream": ["../node_modules/readable-stream/readable.js"]
     }
   }
 }
