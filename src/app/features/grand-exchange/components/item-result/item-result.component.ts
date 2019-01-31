@@ -1,5 +1,5 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
-import { NavController } from '@ionic/angular';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit, ViewChild, Output, EventEmitter } from '@angular/core';
+import { NavController, IonItemSliding } from '@ionic/angular';
 import { AppRoute } from 'app-routing.routes';
 import { environment } from 'environments/environment';
 import { Observable } from 'rxjs';
@@ -20,6 +20,9 @@ export class ItemResultComponent implements OnInit {
 
   @Input() itemId: string = null;
   @Input() item: ItemSearchModel = null;
+  @Input() slide = false;
+
+  @Output() update: EventEmitter<void> = new EventEmitter<void>();
 
   loading = true;
 
@@ -58,6 +61,12 @@ export class ItemResultComponent implements OnInit {
 
   goToDetails(): void {
     this.navCtrl.navigateForward([AppRoute.GrandExchange, GrandExchangeRoute.ItemDetails, this.item.id]);
+  }
+
+  async deleteItem(): Promise<void> {
+    await this.storageService.removeFromArray(StorageKey.FavoriteItems, this.item.id.toString());
+    await this.storageService.removeFromArray(StorageKey.RecentItems, this.item.id.toString());
+    this.update.emit();
   }
 
 }

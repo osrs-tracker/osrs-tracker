@@ -6,6 +6,8 @@ import { EMPTY, Observable } from 'rxjs';
 import { catchError, finalize, tap } from 'rxjs/operators';
 import { Hiscore } from 'services/hiscores/hiscore.model';
 import { HiscoresProvider } from 'services/hiscores/hiscores';
+import { StorageService } from 'services/storage/storage.service';
+import { StorageKey } from 'services/storage/storage-key';
 
 @Component({
   selector: 'hiscore-favorite',
@@ -15,7 +17,9 @@ import { HiscoresProvider } from 'services/hiscores/hiscores';
 export class HiscoreFavoriteComponent implements OnInit {
 
   @Input() player: string;
+
   @Output() notFound = new EventEmitter();
+  @Output() update: EventEmitter<void> = new EventEmitter<void>();
 
   icon: string;
   hiscore: Hiscore;
@@ -25,6 +29,7 @@ export class HiscoreFavoriteComponent implements OnInit {
 
   constructor(
     private hiscoreProvider: HiscoresProvider,
+    private storageService: StorageService,
     private navCtrl: NavController
   ) { }
 
@@ -69,6 +74,12 @@ export class HiscoreFavoriteComponent implements OnInit {
     const range = .325 * (Math.floor(ranged / 2) + ranged);
     const mage = .325 * (Math.floor(magic / 2) + magic);
     return Math.floor(base + Math.max(melee, range, mage));
+  }
+
+  async deleteItem(): Promise<void> {
+    await this.storageService.removeFromArray(StorageKey.FavoriteHiscores, this.player);
+    await this.storageService.removeFromArray(StorageKey.RecentHiscores, this.player);
+    this.update.emit();
   }
 
 }

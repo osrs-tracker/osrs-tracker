@@ -1,5 +1,5 @@
 import { Component, Input, ViewChildren } from '@angular/core';
-import { NavController } from '@ionic/angular';
+import { NavController, IonList } from '@ionic/angular';
 import { AppRoute } from 'app-routing.routes';
 import { XpTrackerRoute } from 'features/xp-tracker/hiscores.routes';
 import { forkJoin, timer } from 'rxjs';
@@ -31,14 +31,16 @@ export class SearchXpComponent {
     this.updateRecent();
   }
 
-  updateFavorites() {
+  updateFavorites(list?: IonList) {
     this.storageService.getValue<string[]>(StorageKey.FavoriteXp)
-      .then(favorites => this.favoriteXp = favorites);
+      .then(favorites => this.favoriteXp = favorites)
+      .then(() => list && list.closeSlidingItems());
   }
 
-  updateRecent() {
+  updateRecent(list?: IonList) {
     this.storageService.getValue<string[]>(StorageKey.RecentXp)
-      .then(favorites => this.recentXp = favorites);
+      .then(favorites => this.recentXp = favorites)
+      .then(() => list && list.closeSlidingItems());
   }
 
   refresh() {

@@ -1,5 +1,5 @@
 import { Component, ViewChildren } from '@angular/core';
-import { LoadingController, NavController } from '@ionic/angular';
+import { IonList, NavController } from '@ionic/angular';
 import { AppRoute } from 'app-routing.routes';
 import { GrandExchangeRoute } from 'features/grand-exchange/grand-exchange.routes';
 import { forkJoin, Observable, timer } from 'rxjs';
@@ -21,21 +21,22 @@ export class SearchItemComponent {
   constructor(
     private navCtrl: NavController,
     private alertManager: AlertManager,
-    private loadCtrl: LoadingController,
     private storageService: StorageService
   ) {
     this.updateFavorites();
     this.updateRecent();
   }
 
-  updateFavorites() {
-    this.storageService.getValue<string[]>(StorageKey.FavoriteItems)
-      .then(favorites => this.favoriteItems = favorites);
+  async updateFavorites(list?: IonList) {
+    await this.storageService.getValue<string[]>(StorageKey.FavoriteItems)
+      .then(favorites => this.favoriteItems = favorites)
+      .then(() => list && list.closeSlidingItems());
   }
 
-  updateRecent() {
-    this.storageService.getValue<string[]>(StorageKey.RecentItems)
-      .then(recents => this.recentItems = recents);
+  async updateRecent(list?: IonList) {
+    await this.storageService.getValue<string[]>(StorageKey.RecentItems)
+      .then(recents => this.recentItems = recents)
+      .then(() => list && list.closeSlidingItems());
   }
 
   refresh(): Observable<any> {
