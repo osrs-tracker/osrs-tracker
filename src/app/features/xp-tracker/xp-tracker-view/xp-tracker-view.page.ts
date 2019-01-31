@@ -43,10 +43,9 @@ export class XpTrackerViewPage implements OnDestroy {
   ) {
     this.xpTrackerViewCache.store(this.rootParams = activatedRoute.snapshot.data.period);
     this.hiscore = activatedRoute.snapshot.data.period[1];
-
     ({ username: this.username, type: this.type, deIroned: this.deIroned, dead: this.dead } = this.hiscore);
 
-    this.storageService.limitedArrayPush(StorageKey.RecentXp, this.hiscore.username, { maxLength: 5 });
+    this.addXpToRecents();
 
     this.storageService.getValue<string[]>(StorageKey.FavoriteXp, [])
       .then(favorites => this.isFavorite = favorites.includes(this.hiscore.username.toString()));
@@ -64,7 +63,8 @@ export class XpTrackerViewPage implements OnDestroy {
 
   favorite() {
     this.storageService.uniqueCacheToggle(StorageKey.FavoriteXp, this.username)
-      .then(isFavorited => this.isFavorite = isFavorited);
+      .then(isFavorited => this.isFavorite = isFavorited)
+      .then(() => this.addXpToRecents());
   }
 
   getTypeImageUrl() {
@@ -86,6 +86,15 @@ export class XpTrackerViewPage implements OnDestroy {
         }
       }
     }));
+  }
+
+  private async addXpToRecents(): Promise<void> {
+    const favoritedXp = await this.storageService.getValue(StorageKey.FavoriteXp, []);
+
+    await this.storageService.limitedArrayPush(StorageKey.RecentXp, this.hiscore.username, {
+      maxLength: 5,
+      blacklist: favoritedXp
+     });
   }
 
 }

@@ -35,7 +35,9 @@ export class StorageService {
     const values = await this.getValue<T[]>(key).then(value => value || []);
     const isBlacklistedValue = (options.blacklist || []).includes(nextValue);
 
-    if (!isBlacklistedValue && (options.allowDuplicates || !values.includes(nextValue))) {
+    if (isBlacklistedValue) {
+      return this.setValue(key, values.filter(value => value !== nextValue));
+    } else if (!isBlacklistedValue && (options.allowDuplicates || !values.includes(nextValue))) {
       return this.setValue(key, this.prependValue(values, nextValue, options.maxLength));
     } else if (!options.allowDuplicates && values.includes(nextValue)) {
       return this.setValue(key, this.moveValueToFirst(values, nextValue));
@@ -57,9 +59,9 @@ export class StorageService {
     const wasToggled = cache.includes(toggleValue);
 
     if (wasToggled) {
-      cache = cache.filter(value => value === toggleValue);
+      cache = cache.filter(value => value !== toggleValue);
     } else {
-      cache.push(toggleValue);
+      cache = [toggleValue, ...cache];
     }
 
     await this.setValue(key, cache);

@@ -41,15 +41,16 @@ export class PlayerHiscorePage {
     this.hiscoreSuffix = this.oldHiscoreSuffix = this.getHiscoreSuffix();
     ({ type: this.type, deIroned: this.deIroned, dead: this.dead } = this.hiscore);
 
+    this.addPlayerToRecents();
+
     this.storageService.getValue<string[]>(StorageKey.FavoriteHiscores, [])
       .then(favorites => this.isFavorite = favorites.includes(this.hiscore.username));
-
-    this.storageService.limitedArrayPush(StorageKey.RecentHiscores, this.hiscore.username, { maxLength: 5 });
   }
 
   favorite() {
     this.storageService.uniqueCacheToggle(StorageKey.FavoriteHiscores, this.hiscore.username)
-      .then(isFavorited => this.isFavorite = isFavorited);
+      .then(isFavorited => this.isFavorite = isFavorited)
+      .then(() => this.addPlayerToRecents());
   }
 
   getTypeImageUrl() {
@@ -73,7 +74,7 @@ export class PlayerHiscorePage {
     ).subscribe(hiscores => {
       this.hiscore = hiscores;
       this.oldHiscoreSuffix = this.hiscoreSuffix;
-    }, (err) => {
+    }, () => {
       this.hiscoreSuffix = this.oldHiscoreSuffix;
       this.alertManager.create({
         header: 'Player not found',
@@ -95,6 +96,15 @@ export class PlayerHiscorePage {
       return 'normal';
     }
     return this.hiscore.dead ? 'ironman' : this.hiscore.type;
+  }
+
+  private async addPlayerToRecents(): Promise<void> {
+    const favoritedPlayers = await this.storageService.getValue(StorageKey.FavoriteHiscores, []);
+
+    await this.storageService.limitedArrayPush(StorageKey.RecentHiscores, this.hiscore.username, {
+      maxLength: 5,
+      blacklist: favoritedPlayers
+     });
   }
 
 }
