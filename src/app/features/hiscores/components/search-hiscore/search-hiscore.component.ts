@@ -1,5 +1,5 @@
 import { Component, Input, ViewChildren } from '@angular/core';
-import { NavController } from '@ionic/angular';
+import { NavController, IonList } from '@ionic/angular';
 import { AppRoute } from 'app-routing.routes';
 import { HiscoresRoute } from 'features/hiscores/hiscores.routes';
 import { forkJoin, timer } from 'rxjs';
@@ -39,14 +39,16 @@ export class SearchHiscoreComponent {
     return forkJoin([timer(500), ...(this.hiscoreFavoriteComponents || []).map(fav => fav.getData())]);
   }
 
-  updateFavorites() {
+  updateFavorites(list?: IonList) {
     this.storageService.getValue<string[]>(StorageKey.FavoriteHiscores)
-      .then(favorites => this.favoriteHiscores = favorites);
+      .then(favorites => this.favoriteHiscores = favorites)
+      .then(() => list && list.closeSlidingItems());
   }
 
-  updateRecent() {
+  updateRecent(list?: IonList) {
     this.storageService.getValue<string[]>(StorageKey.RecentHiscores)
-      .then(recents => this.recentHiscores = recents);
+      .then(recents => this.recentHiscores = recents)
+      .then(() => list && list.closeSlidingItems());
   }
 
   removeFavorite(username: string) {

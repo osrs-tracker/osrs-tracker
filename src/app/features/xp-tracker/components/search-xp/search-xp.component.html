@@ -15,19 +15,19 @@
 </ion-card>
 
 <ion-card *ngIf="favorites && favoriteXp?.length > 0">
-  <ion-list lines="full">
+  <ion-list lines="full" #favoriteList>
     <ion-list-header no-margin color="secondary">
       <ion-label>Favorites</ion-label>
     </ion-list-header>
-    <xp-favorite *ngFor="let player of favoriteXp; trackBy:trackByUsername" [player]="player" (notFound)="removeFavorite(player)"></xp-favorite>
+    <xp-favorite *ngFor="let player of favoriteXp; trackBy:trackByUsername" (update)="updateFavorites(favoriteList)" [player]="player" (notFound)="removeFavorite(player)"></xp-favorite>
   </ion-list>
 </ion-card>
 
 <ion-card *ngIf="recents && recentXp?.length > 0">
-  <ion-list lines="full">
+  <ion-list lines="full" #recentList>
     <ion-list-header no-margin color="secondary">
       <ion-label>Recent</ion-label>
     </ion-list-header>
-    <xp-favorite *ngFor="let player of recentXp; trackBy:trackByUsername" [player]="player" (notFound)="removeRecent(player)"></xp-favorite>
+    <xp-favorite *ngFor="let player of recentXp; trackBy:trackByUsername" (update)="updateRecent(recentList)" [player]="player" (notFound)="removeRecent(player)"></xp-favorite>
   </ion-list>
 </ion-card>
