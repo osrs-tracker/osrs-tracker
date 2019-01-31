@@ -30,8 +30,7 @@ export class ItemDetailPage {
     this.item.trendClass = this.item.trendClass || getTrendClass(this.item.today);
 
     this.addItemToItemCache();
-
-    this.storageService.limitedArrayPush(StorageKey.RecentItems, this.item.id, { maxLength: 5 });
+    this.addItemToRecents();
 
     this.storageService.getValue<string[]>(StorageKey.FavoriteItems, [])
       .then(favorites => this.isFavorite = favorites.includes(this.item.id.toString()));
@@ -40,7 +39,8 @@ export class ItemDetailPage {
 
   toggleFavorite() {
     this.storageService.uniqueCacheToggle(StorageKey.FavoriteItems, this.item.id.toString())
-      .then(isFavorited => this.isFavorite = isFavorited);
+      .then(isFavorited => this.isFavorite = isFavorited)
+      .then(() => this.addItemToRecents());
   }
 
   openWiki() {
@@ -52,10 +52,19 @@ export class ItemDetailPage {
       );
   }
 
+  private async addItemToRecents(): Promise<void> {
+    const favoritedItems = await this.storageService.getValue(StorageKey.FavoriteItems, []);
+
+    await this.storageService.limitedArrayPush(StorageKey.RecentItems, this.item.id.toString(), {
+      maxLength: 5,
+      blacklist: favoritedItems
+    });
+  }
+
   private async addItemToItemCache(): Promise<void> {
     const cachedItems = await this.storageService.getValue<{ [id: number]: ItemSearchModel }>(StorageKey.CacheItems, {});
 
-    this.storageService.setValue(StorageKey.CacheItems, {
+    await this.storageService.setValue(StorageKey.CacheItems, {
       ...cachedItems,
       [this.item.id]: this.item
     });
