@@ -1,13 +1,22 @@
 <ion-content>
   <ion-refresher slot="fixed" pullMin="70" pullMax="300" (ionRefresh)="doRefresh()">
-    <ion-refresher-content pullingText="Pull to refresh" refreshingText="Refreshing..." refreshingSpinner="crescent"></ion-refresher-content>
+    <ion-refresher-content
+      pullingText="Pull to refresh"
+      refreshingText="Refreshing..."
+      refreshingSpinner="crescent"
+    ></ion-refresher-content>
   </ion-refresher>
 
-  <ion-card *ngFor="let log of logs; trackBy:trackByXpDate; let index = index">
+  <ion-card *ngFor="let log of logs; trackBy: trackByXpDate; let index = index">
     <ion-list-header no-margin color="secondary">
-      {{ getFormattedDate(log.date, index) }}
+      {{ getFormattedDate(log.date) }}
     </ion-list-header>
-    <ion-item item-result lines="none" color="primary" *ngIf="log.xp.skills[0].exp < 1 && log.xp.cluescrolls.length < 1 && log.xp.bountyhunter.length < 1">
+    <ion-item
+      item-result
+      lines="none"
+      color="primary"
+      *ngIf="log.xp.skills[0].exp < 1 && log.xp.cluescrolls.length < 1 && log.xp.bountyhunter.length < 1"
+    >
       Nothing interesting happens.
     </ion-item>
     <ion-item item-result lines="none" color="primary" *ngIf="log.xp.skills[0].exp > 0">
@@ -15,20 +24,38 @@
       Gained
       <span class="pl-xs">{{ log.xp.skills[0].exp | numberFormat }} {{ log.xp.skills[0].name }} XP.</span>
     </ion-item>
-    <ion-item item-result lines="none" color="primary" *ngFor="let skill of (log.xp.skills|slice:1); trackBy:trackByName">
+    <ion-item
+      item-result
+      lines="none"
+      color="primary"
+      *ngFor="let skill of (log.xp.skills | slice: 1); trackBy: trackByName"
+    >
       <skill-icon [skill]="skill.name" height="18px" class="pr-xs"></skill-icon>
       Gained
       <span class="pl-xs">{{ skill.level }} {{ skill.name }} {{ 'level' + (skill.level > 1 ? 's' : '') }}.</span>
     </ion-item>
-    <ion-item item-result lines="none" color="primary" *ngFor="let cluescroll of (log.xp.cluescrolls); trackBy:trackByName">
-      <img src="./assets/imgs/hiscore/cluescroll.gif" class="pr-xs icon">
+    <ion-item
+      item-result
+      lines="none"
+      color="primary"
+      *ngFor="let cluescroll of log.xp.cluescrolls; trackBy: trackByName"
+    >
+      <img src="./assets/imgs/hiscore/cluescroll.gif" class="pr-xs icon" />
       Completed
       <span class="pl-xs">
         {{ cluescroll.amount }} {{ cluescroll.name }} {{ 'Clue' + (cluescroll.amount > 1 ? 's' : '') }}.
       </span>
     </ion-item>
-    <ion-item item-result lines="none" color="primary" *ngFor="let bountyhunter of (log.xp.bountyhunter); trackBy:trackByName; let index = index">
-      <img [src]="'./assets/imgs/hiscore/bountyhunter-' + (index === 0 ? 'rogue.gif' : 'hunter.gif')" class="icon pr-xs">
+    <ion-item
+      item-result
+      lines="none"
+      color="primary"
+      *ngFor="let bountyhunter of log.xp.bountyhunter; trackBy: trackByName; let index = index"
+    >
+      <img
+        [src]="'./assets/imgs/hiscore/bountyhunter-' + (index === 0 ? 'rogue.gif' : 'hunter.gif')"
+        class="icon pr-xs"
+      />
       Claimed
       <span class="pl-xs">
         {{ bountyhunter.amount }} {{ index === 0 ? 'Rogue' : 'Hunter' }}
@@ -38,6 +65,9 @@
   </ion-card>
 
   <ion-infinite-scroll (ionInfinite)="doInfinite()">
-    <ion-infinite-scroll-content loadingText="Loading older logs..." loadingSpinner="crescent"></ion-infinite-scroll-content>
+    <ion-infinite-scroll-content
+      loadingText="Loading older logs..."
+      loadingSpinner="crescent"
+    ></ion-infinite-scroll-content>
   </ion-infinite-scroll>
 </ion-content>
