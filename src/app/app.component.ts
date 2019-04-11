@@ -15,12 +15,12 @@ class Page {
     public badge: string,
     public route?: string,
     public action?: () => void
-  ) { }
+  ) {}
 }
 
 @Component({
   selector: 'app-root',
-  templateUrl: 'app.component.html'
+  templateUrl: 'app.component.html',
 })
 export class AppComponent implements AfterViewInit {
   @ViewChild(IonMenu) menu: IonMenu;
@@ -33,7 +33,9 @@ export class AppComponent implements AfterViewInit {
     new Page(3, 'trophy', 'Hiscores', null, AppRoute.Hiscores),
     new Page(4, 'ios-podium', 'XP Tracker', null, AppRoute.XpTracker),
     new Page(5, 'discord', 'Discord', null, null, () => window.open('https://discord.gg/k7E6WZj', '_system')),
-    new Page(5, 'star', 'Rate App', null, null, () => window.open('market://details?id=com.toxsickproductions.geptv2', '_system')),
+    new Page(5, 'star', 'Rate App', null, null, () =>
+      window.open('market://details?id=com.toxsickproductions.geptv2', '_system')
+    ),
     new Page(6, 'settings', 'Settings', null, AppRoute.Settings),
   ];
 
@@ -52,7 +54,6 @@ export class AppComponent implements AfterViewInit {
 
   initializeApp() {
     this.checkForNewAppNews();
-
     this.platform.ready().then(() => {
       this.splashScreen.hide();
       this.backButtonLogic();
@@ -60,9 +61,7 @@ export class AppComponent implements AfterViewInit {
   }
 
   ngAfterViewInit() {
-    this.menu.ionWillOpen
-      .pipe(tap(() => this.checkForNewAppNews()))
-      .subscribe();
+    this.menu.ionWillOpen.pipe(tap(() => this.checkForNewAppNews())).subscribe();
   }
 
   linkClicked(page: Page) {
@@ -82,9 +81,11 @@ export class AppComponent implements AfterViewInit {
   }
 
   private checkForNewAppNews() {
-    this.newsProvider.isNewAppArticleAvailable()
-      .then(newAppNewsAvailable =>
-        this.pages.filter(page => page.title === 'App News')[0].badge = newAppNewsAvailable ? 'NEW' : null
+    this.newsProvider
+      .isNewAppArticleAvailable()
+      .then(
+        newAppNewsAvailable =>
+          (this.pages.filter(page => page.title === 'App News')[0].badge = newAppNewsAvailable ? 'NEW' : null)
       );
   }
 
@@ -93,7 +94,7 @@ export class AppComponent implements AfterViewInit {
       const segments = this.router.url.substr(1).split('/');
       if (this.alertManager.isDialogOpen()) {
         this.alertManager.close();
-      } else if (!this.splitPaneVisible && await this.menu.isOpen()) {
+      } else if (!this.splitPaneVisible && (await this.menu.isOpen())) {
         this.menu.close();
       } else if (segments.includes(AppRoute.XpTracker) && segments.length > 1) {
         this.navCtrl.navigateBack(AppRoute.XpTracker);
@@ -106,5 +107,4 @@ export class AppComponent implements AfterViewInit {
       }
     });
   }
-
 }
