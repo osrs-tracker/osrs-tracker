@@ -53,13 +53,15 @@ export class XpProvider {
       });
     }
     const diffClues: Minigame[] = [];
-    for (let i = 0; i < latest.cluescrolls.length; i++) {
+    for (const clue of latest.cluescrolls) {
+      const oldClue = oldest.cluescrolls.filter(old => clue.name === old.name)[0] || { rank: 0, amount: 0 };
       diffClues.push({
-        name: latest.cluescrolls[i].name,
-        rank: `${+latest.cluescrolls[i].rank - +oldest.cluescrolls[i].rank}`,
-        amount: `${Math.max(0, +latest.cluescrolls[i].amount) - Math.max(0, +oldest.cluescrolls[i].amount)}`,
+        name: clue.name,
+        rank: `${+clue.rank - +oldClue.rank}`,
+        amount: `${Math.max(0, +clue.amount) - Math.max(0, +oldClue.amount)}`,
       });
     }
+
     const diffBounties: Minigame[] = [];
     for (let i = 0; i < latest.bountyhunter.length; i++) {
       diffBounties.push({
