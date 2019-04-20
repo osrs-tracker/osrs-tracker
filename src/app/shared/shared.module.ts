@@ -4,22 +4,13 @@ import { IonicModule } from '@ionic/angular';
 import { SkillIconComponent } from './components/skill-icon/skill-icon.component';
 import { PipesModule } from './pipes/pipes.module';
 
-const MODULES = [
-  CommonModule,
-  IonicModule,
-  PipesModule
-];
+const MODULES = [CommonModule, IonicModule, PipesModule];
 
-const COMPONENTS = [
-  SkillIconComponent
-];
+const COMPONENTS = [SkillIconComponent];
 
 @NgModule({
   imports: MODULES,
   declarations: COMPONENTS,
-  exports: [
-    ...MODULES,
-    ...COMPONENTS
-  ]
+  exports: [...MODULES, ...COMPONENTS],
 })
-export class SharedModule { }
+export class SharedModule {}

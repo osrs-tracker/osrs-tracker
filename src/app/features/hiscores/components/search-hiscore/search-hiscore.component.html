@@ -15,34 +15,56 @@
 
   <ion-card-content>
     <ion-item color="secondary" no-padding>
-      <ion-input type="text" [(ngModel)]="playerName" name="playerName" placeholder="Enter player name"
-        (keyup.enter)="compare ? comparePlayers(): searchPlayer()" clearInput></ion-input>
+      <ion-input
+        type="text"
+        [(ngModel)]="playerName"
+        name="playerName"
+        placeholder="Enter player name"
+        (keyup.enter)="compare ? comparePlayers() : searchPlayer()"
+        clearInput
+      ></ion-input>
     </ion-item>
     <ion-item color="secondary" no-padding *ngIf="compare">
-      <ion-input type="text" [(ngModel)]="compareName" name="compareName" placeholder="Enter compare name"
-        (keyup.enter)="compare ? comparePlayers(): searchPlayer()" clearInput></ion-input>
+      <ion-input
+        type="text"
+        [(ngModel)]="compareName"
+        name="compareName"
+        placeholder="Enter compare name"
+        (keyup.enter)="compare ? comparePlayers() : searchPlayer()"
+        clearInput
+      ></ion-input>
     </ion-item>
-    <ion-button no-margin color="secondary" expand="full" (click)="compare ? comparePlayers(): searchPlayer()">
+    <ion-button no-margin color="secondary" expand="full" (click)="compare ? comparePlayers() : searchPlayer()">
       <ion-icon slot="start" [name]="compare ? 'swap' : 'search'"></ion-icon>
-      {{ compare ? 'Compare' : 'Search'}}
+      {{ compare ? 'Compare' : 'Search' }}
     </ion-button>
   </ion-card-content>
 </ion-card>
 
 <ion-card *ngIf="favorites && favoriteHiscores?.length > 0">
-  <ion-list lines="full" #favoriteList>
+  <ion-list lines="full">
     <ion-list-header no-margin color="secondary">
       <ion-label>Favorites</ion-label>
     </ion-list-header>
-    <hiscore-favorite *ngFor="let player of favoriteHiscores; trackBy:trackByPlayer" (update)="updateFavorites(favoriteList)" [player]="player" (notFound)="removeFavorite(player)"></hiscore-favorite>
+    <hiscore-favorite
+      *ngFor="let player of favoriteHiscores; trackBy: trackByPlayer"
+      [player]="player"
+      (delete)="updateFavorites()"
+      (notFound)="removeFavorite(player)"
+    ></hiscore-favorite>
   </ion-list>
 </ion-card>
 
 <ion-card *ngIf="recents && recentHiscores?.length > 0">
-  <ion-list lines="full" #recentList>
+  <ion-list lines="full">
     <ion-list-header no-margin color="secondary">
       <ion-label>Recent</ion-label>
     </ion-list-header>
-    <hiscore-favorite *ngFor="let player of recentHiscores; trackBy:trackByPlayer" (update)="updateRecent(recentList)" [player]="player" (notFound)="removeRecent(player)"></hiscore-favorite>
+    <hiscore-favorite
+      *ngFor="let player of recentHiscores; trackBy: trackByPlayer"
+      [player]="player"
+      (delete)="updateRecent()"
+      (notFound)="removeRecent(player)"
+    ></hiscore-favorite>
   </ion-list>
 </ion-card>

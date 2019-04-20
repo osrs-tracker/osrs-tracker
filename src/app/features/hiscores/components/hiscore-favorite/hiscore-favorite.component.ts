@@ -6,8 +6,8 @@ import { EMPTY, Observable } from 'rxjs';
 import { catchError, finalize, tap } from 'rxjs/operators';
 import { Hiscore } from 'services/hiscores/hiscore.model';
 import { HiscoresProvider } from 'services/hiscores/hiscores';
-import { StorageService } from 'services/storage/storage.service';
 import { StorageKey } from 'services/storage/storage-key';
+import { StorageService } from 'services/storage/storage.service';
 
 @Component({
   selector: 'hiscore-favorite',
@@ -15,11 +15,10 @@ import { StorageKey } from 'services/storage/storage-key';
   styleUrls: ['hiscore-favorite.component.scss'],
 })
 export class HiscoreFavoriteComponent implements OnInit {
-
   @Input() player: string;
 
   @Output() notFound = new EventEmitter();
-  @Output() update: EventEmitter<void> = new EventEmitter<void>();
+  @Output() delete: EventEmitter<void> = new EventEmitter<void>();
 
   icon: string;
   hiscore: Hiscore;
@@ -31,7 +30,7 @@ export class HiscoreFavoriteComponent implements OnInit {
     private hiscoreProvider: HiscoresProvider,
     private storageService: StorageService,
     private navCtrl: NavController
-  ) { }
+  ) {}
 
   goToHiscore() {
     this.navCtrl.navigateForward([AppRoute.Hiscores, HiscoresRoute.PlayerHiscore, this.player]);
@@ -44,42 +43,37 @@ export class HiscoreFavoriteComponent implements OnInit {
   getData(): Observable<Hiscore> {
     this.loading = true;
     this.combatLevel = undefined;
-    return this.hiscoreProvider.getHiscoreAndType(this.player)
-      .pipe(
-        finalize(() => this.loading = false),
-        catchError(err => {
-          if (err.status === 404) {
-            this.notFound.emit();
-          } return EMPTY;
-        }),
-        tap(hiscore => {
-          this.hiscore = hiscore;
-          this.combatLevel = this.calculateCombatLevel(
-            +hiscore.skills[1].level,
-            +hiscore.skills[3].level,
-            +hiscore.skills[2].level,
-            +hiscore.skills[4].level,
-            +hiscore.skills[6].level,
-            +hiscore.skills[5].level,
-            +hiscore.skills[7].level,
-          );
-          this.icon = `./assets/imgs/player_types/${this.hiscore.deIroned ? 'de_' : ''}${this.hiscore.type}.png`;
-        })
-      );
+    return this.hiscoreProvider.getHiscoreAndType(this.player).pipe(
+      finalize(() => (this.loading = false)),
+      catchError(err => {
+        if (err.status === 404) {
+          this.notFound.emit();
+        }
+        return EMPTY;
+      }),
+      tap(hiscore => {
+        this.hiscore = hiscore;
+        this.combatLevel = this.calculateCombatLevel(hiscore);
+        this.icon = `./assets/imgs/player_types/${this.hiscore.deIroned ? 'de_' : ''}${this.hiscore.type}.png`;
+      })
+    );
   }
 
-  private calculateCombatLevel(attack, strength, defence, hitpoints, prayer, ranged, magic) {
-    const base = .25 * (defence + hitpoints + Math.floor(prayer / 2));
-    const melee = .325 * (attack + strength);
-    const range = .325 * (Math.floor(ranged / 2) + ranged);
-    const mage = .325 * (Math.floor(magic / 2) + magic);
+  private calculateCombatLevel(hiscore: Hiscore) {
+    const [total, attack, strength, defence, hitpoints, prayer, ranged, magic] = hiscore.skills.map(skill =>
+      Number(skill.level)
+    );
+
+    const base = 0.25 * (defence + hitpoints + Math.floor(prayer / 2));
+    const melee = 0.325 * (attack + strength);
+    const range = 0.325 * (Math.floor(ranged / 2) + ranged);
+    const mage = 0.325 * (Math.floor(magic / 2) + magic);
     return Math.floor(base + Math.max(melee, range, mage));
   }
 
   async deleteItem(): Promise<void> {
     await this.storageService.removeFromArray(StorageKey.FavoriteHiscores, this.player);
     await this.storageService.removeFromArray(StorageKey.RecentHiscores, this.player);
-    this.update.emit();
+    this.delete.emit();
   }
-
 }

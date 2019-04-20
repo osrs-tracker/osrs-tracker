@@ -1,5 +1,5 @@
 import { Component, Input, ViewChildren } from '@angular/core';
-import { NavController, IonList } from '@ionic/angular';
+import { NavController } from '@ionic/angular';
 import { AppRoute } from 'app-routing.routes';
 import { XpTrackerRoute } from 'features/xp-tracker/hiscores.routes';
 import { forkJoin, timer } from 'rxjs';
@@ -11,10 +11,9 @@ import { XpFavoriteComponent } from '../xp-favorite/xp-favorite.component';
 @Component({
   selector: 'search-xp',
   templateUrl: 'search-xp.component.html',
-  styleUrls: ['./search-xp.component.scss']
+  styleUrls: ['./search-xp.component.scss'],
 })
 export class SearchXpComponent {
-
   @Input() favorites = true;
   @Input() recents = true;
 
@@ -25,51 +24,51 @@ export class SearchXpComponent {
   constructor(
     private alertManger: AlertManager,
     private navCtrl: NavController,
-    private storageService: StorageService,
+    private storageService: StorageService
   ) {
     this.updateFavorites();
     this.updateRecent();
   }
 
-  updateFavorites(list?: IonList) {
-    this.storageService.getValue<string[]>(StorageKey.FavoriteXp)
-      .then(favorites => this.favoriteXp = favorites)
-      .then(() => list && list.closeSlidingItems());
+  async updateFavorites() {
+    this.favoriteXp = await this.storageService.getValue<string[]>(StorageKey.FavoriteXp);
   }
 
-  updateRecent(list?: IonList) {
-    this.storageService.getValue<string[]>(StorageKey.RecentXp)
-      .then(favorites => this.recentXp = favorites)
-      .then(() => list && list.closeSlidingItems());
+  async updateRecent() {
+    this.recentXp = await this.storageService.getValue<string[]>(StorageKey.RecentXp);
   }
 
   refresh() {
     return forkJoin([timer(500), ...(this.xpFavoriteComponents || []).map(fav => fav.getData())]);
   }
 
-  removeFavorite(username: string) {
-    this.storageService.removeFromArray(StorageKey.FavoriteXp, username)
-      .then(() => this.updateFavorites());
+  async removeFavorite(username: string) {
+    await this.storageService.removeFromArray(StorageKey.FavoriteXp, username);
+    await this.updateFavorites();
   }
 
-  removeRecent(username: string) {
-    this.storageService.removeFromArray(StorageKey.RecentXp, username)
-      .then(() => this.updateFavorites());
+  async removeRecent(username: string) {
+    await this.storageService.removeFromArray(StorageKey.RecentXp, username);
+    await this.updateFavorites();
   }
 
   async searchXp(playerName: string) {
     playerName = playerName.trim();
-    if (playerName.length > 0) {
-      this.navCtrl.navigateForward([AppRoute.XpTracker, XpTrackerRoute.View, playerName])
-        .catch(() => this.alertManger.create({
-          header: 'Player not found',
-          buttons: ['OK']
-        }));
-    } else {
-      this.alertManger.create({
+
+    if (!playerName) {
+      return await this.alertManger.create({
         header: 'Warning',
         subHeader: 'Empty search field.',
-        buttons: ['OK']
+        buttons: ['OK'],
+      });
+    }
+
+    try {
+      await this.navCtrl.navigateForward([AppRoute.XpTracker, XpTrackerRoute.View, playerName]);
+    } catch (e) {
+      this.alertManger.create({
+        header: 'Player not found',
+        buttons: ['OK'],
       });
     }
   }
@@ -77,5 +76,4 @@ export class SearchXpComponent {
   trackByUsername(index: number, username: string) {
     return username;
   }
-
 }

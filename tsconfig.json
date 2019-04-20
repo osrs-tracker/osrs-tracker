@@ -8,11 +8,8 @@
     "moduleResolution": "node",
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "target": "es5",
-    "lib": [
-      "es2017",
-      "dom"
-    ],
+    "target": "es2015",
+    "lib": ["es2017", "dom"],
     "paths": {
       "*": ["app/*", "*"],
       "stream": ["../node_modules/readable-stream/readable.js"]

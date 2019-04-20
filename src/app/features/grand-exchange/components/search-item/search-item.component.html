@@ -14,19 +14,29 @@
 </ion-card>
 
 <ion-card *ngIf="favoriteItems?.length > 0">
-  <ion-list lines="full" #favoriteList>
+  <ion-list lines="full">
     <ion-list-header no-margin color="secondary">
       <ion-label>Favorites</ion-label>
     </ion-list-header>
-    <item-result [slide]="true" *ngFor="let item of favoriteItems; trackBy:trackByItemId" (update)="updateFavorites(favoriteList)" [itemId]="item"></item-result>
+    <item-result
+      *ngFor="let item of favoriteItems; trackBy: trackByItemId"
+      [slide]="true"
+      [itemId]="item"
+      (delete)="updateFavorites()"
+    ></item-result>
   </ion-list>
 </ion-card>
 
 <ion-card *ngIf="recentItems?.length > 0">
-  <ion-list lines="full" #recentList>
+  <ion-list lines="full">
     <ion-list-header no-margin color="secondary">
       <ion-label>Recent</ion-label>
     </ion-list-header>
-    <item-result [slide]="true" *ngFor="let item of recentItems; trackBy:trackByItemId" (update)="updateRecent(recentList)" [itemId]="item"></item-result>
+    <item-result
+      *ngFor="let item of recentItems; trackBy: trackByItemId"
+      [slide]="true"
+      [itemId]="item"
+      (delete)="updateRecent()"
+    ></item-result>
   </ion-list>
 </ion-card>

@@ -9,12 +9,10 @@ import { AppNewsPage } from './app-news.page';
     RouterModule.forChild([
       {
         path: '',
-        component: AppNewsPage
-      }
-    ])
+        component: AppNewsPage,
+      },
+    ]),
   ],
-  declarations: [
-    AppNewsPage,
-  ]
+  declarations: [AppNewsPage],
 })
-export class AppNewsPageModule { }
+export class AppNewsPageModule {}

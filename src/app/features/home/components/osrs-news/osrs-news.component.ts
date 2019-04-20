@@ -10,10 +10,9 @@ import { StorageService } from 'services/storage/storage.service';
 @Component({
   selector: 'osrs-news',
   templateUrl: './osrs-news.component.html',
-  styleUrls: ['./osrs-news.component.scss']
+  styleUrls: ['./osrs-news.component.scss'],
 })
 export class OSRSNewsComponent implements OnInit {
-
   items: NewsItemOSRS[];
 
   constructor(
@@ -21,37 +20,31 @@ export class OSRSNewsComponent implements OnInit {
     private inAppBrowser: InAppBrowser,
     private newsProvider: NewsProvider,
     private storageService: StorageService
-  ) { }
+  ) {}
 
-  ngOnInit() {
-    this.storageService.getValue<NewsItemOSRS[]>(StorageKey.CacheOsrsNews, [])
-      .then(items => {
-        this.items = items;
-        this.getNews().subscribe();
-      });
+  async ngOnInit() {
+    this.items = await this.storageService.getValue<NewsItemOSRS[]>(StorageKey.CacheOsrsNews, []);
+    this.getNews().subscribe();
   }
 
   getNews(): Observable<NewsItemOSRS[]> {
-    return this.newsProvider.getOSRSNews()
-      .pipe(tap(items => {
+    return this.newsProvider.getOSRSNews().pipe(
+      tap(items => {
         this.items = items;
         this.storageService.setValue(StorageKey.CacheOsrsNews, items);
-      }));
+      })
+    );
   }
 
-  openInBrowser(url: string) {
-    this.browserTab.isAvailable()
-      .then(isAvailabe => {
-        if (isAvailabe) {
-          this.browserTab.openUrl(url);
-        } else {
-          this.inAppBrowser.create(url, '_system');
-        }
-      });
+  async openInBrowser(url: string) {
+    if (await this.browserTab.isAvailable()) {
+      this.browserTab.openUrl(url);
+    } else {
+      this.inAppBrowser.create(url, '_system');
+    }
   }
 
   trackByNewsItemDate(index: number, newsItem: NewsItemOSRS) {
     return newsItem.pubDate;
   }
-
 }

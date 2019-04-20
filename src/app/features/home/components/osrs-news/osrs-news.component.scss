@@ -1,11 +1,8 @@
-.mb-sm{
+.mb-sm {
   margin-bottom: 8px;
 }
 ion-card-content:last-of-type {
   padding-bottom: 8px;
-}
-ion-button {
-  margin-bottom: 4px;
 }
 img {
   border-radius: 4px;
@@ -14,8 +11,5 @@ img {
   width: auto;
 }
 ion-button {
-  --margin-top: 0px;
-  --margin-right: 0px;
-  --margin-bottom: 0px;
-  --margin-left: 0px;
+  margin: 0;
 }

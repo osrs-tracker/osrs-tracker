@@ -36,8 +36,11 @@
     --highlight-height: 0;
   }
   ion-menu {
-    .menu-icon[slot=start] {
-      color: rgba(var(--ion-text-color-rgb,0),.54); // bugged value in ionic: rgba(var(--ion-text-color-rgb,0,0,0),.54); TODO: make issue @ionic
+    .menu-icon[slot='start'] {
+      color: rgba(
+        var(--ion-text-color-rgb, 0),
+        0.54
+      ); // bugged value in ionic: rgba(var(--ion-text-color-rgb,0,0,0),.54); TODO: make issue @ionic
       margin-right: 16px;
     }
     ion-item {
@@ -51,10 +54,9 @@
   ion-toggle {
     --background: var(--ion-color-light-shade);
     --handle-background: var(--ion-color-light);
-    --ion-color-base-rgb: 80,80,80 !important;
+    --ion-color-base-rgb: 80, 80, 80 !important;
     padding-top: 5px;
     padding-right: 0;
     padding-bottom: 5px;
   }
-
 }

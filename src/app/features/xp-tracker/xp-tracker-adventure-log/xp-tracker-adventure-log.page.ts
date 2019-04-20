@@ -115,9 +115,9 @@ export class XpTrackerAdventureLogPage {
 
   private parseLogs() {
     this.logs = this.period.map(period => {
-      period.xp.skills = [period.xp.skills.shift(), ...period.xp.skills.filter(skill => +skill.level > 0)];
-      period.xp.cluescrolls = period.xp.cluescrolls.slice(1).filter(cluescroll => +cluescroll.amount > 0);
-      period.xp.bountyhunter = period.xp.bountyhunter.filter(bountyhunter => +bountyhunter.amount > 0);
+      period.xp.skills = [period.xp.skills.shift(), ...period.xp.skills.filter(skill => Number(skill.level) > 0)];
+      period.xp.cluescrolls = period.xp.cluescrolls.slice(1).filter(cluescroll => Number(cluescroll.amount) > 0);
+      period.xp.bountyhunter = period.xp.bountyhunter.filter(bountyhunter => Number(bountyhunter.amount) > 0);
       return period;
     });
   }

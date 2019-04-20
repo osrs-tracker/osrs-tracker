@@ -7,7 +7,13 @@
     <div *ngIf="!loading">
       <ion-row no-padding>
         <ion-col>
-          <ion-button (click)="updateData(180)" expand="full" color="secondary" size="small" [fill]="period !== 180 ? 'outline' : 'solid'">
+          <ion-button
+            (click)="updateData(180)"
+            expand="full"
+            color="secondary"
+            size="small"
+            [fill]="period !== 180 ? 'outline' : 'solid'"
+          >
             180 days
           </ion-button>
           <p class="trend" [ngClass]="item.day180.trend" text-center>
@@ -15,7 +21,13 @@
           </p>
         </ion-col>
         <ion-col>
-          <ion-button (click)="updateData(90)" expand="full" color="secondary" size="small" [fill]="period !== 90 ? 'outline' : 'solid'">
+          <ion-button
+            (click)="updateData(90)"
+            expand="full"
+            color="secondary"
+            size="small"
+            [fill]="period !== 90 ? 'outline' : 'solid'"
+          >
             90 days
           </ion-button>
           <p class="trend" [ngClass]="item.day90.trend" text-center>
@@ -23,7 +35,13 @@
           </p>
         </ion-col>
         <ion-col>
-          <ion-button (click)="updateData(30)" expand="full" color="secondary" size="small" [fill]="period !== 30 ? 'outline' : 'solid'">
+          <ion-button
+            (click)="updateData(30)"
+            expand="full"
+            color="secondary"
+            size="small"
+            [fill]="period !== 30 ? 'outline' : 'solid'"
+          >
             30 days
           </ion-button>
           <p class="trend" [ngClass]="item.day30.trend" text-center>

@@ -9,13 +9,11 @@ img.icon {
   }
 }
 
-ion-header {
-  ion-button[shape=round] {
-    --padding-top: 0;
-    --padding-end: 4px;
-    --padding-bottom: 0;
-    --padding-start: 4px;
-  }
+ion-header ion-button[shape='round'] {
+  --padding-top: 0;
+  --padding-end: 4px;
+  --padding-bottom: 0;
+  --padding-start: 4px;
 }
 .pr-none {
   padding-right: 0;

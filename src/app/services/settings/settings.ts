@@ -2,26 +2,22 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { StorageKey } from 'services/storage/storage-key';
 import { StorageService } from 'services/storage/storage.service';
-import { XpTrackerView } from './xp-tracker-view';
+import { PreferredXpTrackerView } from './preferred-xp-tracker-view';
 
 export interface Settings {
-  preferredXpTrackerView?: XpTrackerView;
+  preferredXpTrackerView?: PreferredXpTrackerView;
 }
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class SettingsProvider {
-
   settings: BehaviorSubject<Settings> = new BehaviorSubject<Settings>(this.initSettings());
 
-  constructor(
-    private storageProvider: StorageService,
-  ) { }
+  constructor(private storageProvider: StorageService) {}
 
-  init(): Promise<void> {
-    return this.storageProvider.getValue<Settings>(StorageKey.Settings, this.initSettings())
-      .then(settings => this.settings.next(settings));
+  async init(): Promise<void> {
+    this.settings.next(await this.storageProvider.getValue<Settings>(StorageKey.Settings, this.initSettings()));
   }
 
   setSettings(settings: Settings) {
@@ -33,22 +29,21 @@ export class SettingsProvider {
     return this.settings.value.preferredXpTrackerView;
   }
 
-  set preferredXpTrackerView(preferredXpTrackerView: XpTrackerView) {
-    this.updateSettings<XpTrackerView>('preferredXpTrackerView', preferredXpTrackerView);
+  set preferredXpTrackerView(preferredXpTrackerView: PreferredXpTrackerView) {
+    this.updateSettings<PreferredXpTrackerView>('preferredXpTrackerView', preferredXpTrackerView);
   }
 
   private updateSettings<T>(setting: string, value: T) {
     this.settings.next({
       ...this.settings.value,
-      [setting]: value
+      [setting]: value,
     });
     this.storageProvider.setValue(StorageKey.Settings, this.settings.value);
   }
 
   private initSettings(): Settings {
     return {
-      preferredXpTrackerView: XpTrackerView.AdventureLog
+      preferredXpTrackerView: PreferredXpTrackerView.AdventureLog,
     };
   }
-
 }

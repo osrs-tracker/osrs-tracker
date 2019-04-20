@@ -1,6 +1,3 @@
-#wiki  {
-  margin-top: 4px
-}
 #id {
   position: absolute;
   bottom: 5px;
@@ -16,26 +13,27 @@
 h2 {
   margin-bottom: 4px;
 }
-h2, .number {
-  font-weight: 500
+h2,
+.number {
+  font-weight: 500;
 }
 .number {
   line-height: 29px;
   font-size: 1.1em;
 }
 .coins img {
-    width: 30px;
-    height: 29px;
-    display: inline-block;
-    vertical-align: bottom;
-    padding-right: 3px;
-    image-rendering: pixelated;
+  width: 30px;
+  height: 29px;
+  display: inline-block;
+  vertical-align: bottom;
+  padding-right: 3px;
+  image-rendering: pixelated;
 }
 ion-card {
   --ion-margin: 0;
 }
 .h-50 {
-  height: 50%
+  height: 50%;
 }
 .bt {
   border-top: 1px solid var(--ion-color-primary-shade);

@@ -52,12 +52,11 @@ export class AppComponent implements AfterViewInit {
     this.initializeApp();
   }
 
-  initializeApp() {
+  async initializeApp() {
     this.checkForNewAppNews();
-    this.platform.ready().then(() => {
-      this.splashScreen.hide();
-      this.backButtonLogic();
-    });
+    await this.platform.ready();
+    this.splashScreen.hide();
+    this.backButtonLogic();
   }
 
   ngAfterViewInit() {
@@ -80,13 +79,10 @@ export class AppComponent implements AfterViewInit {
     this.splitPaneVisible = event.detail.visible;
   }
 
-  private checkForNewAppNews() {
-    this.newsProvider
-      .isNewAppArticleAvailable()
-      .then(
-        newAppNewsAvailable =>
-          (this.pages.filter(page => page.title === 'App News')[0].badge = newAppNewsAvailable ? 'NEW' : null)
-      );
+  private async checkForNewAppNews() {
+    if (this.newsProvider.isNewAppArticleAvailable()) {
+      this.pages.filter(page => page.title === 'App News')[0].badge = 'NEW';
+    }
   }
 
   private backButtonLogic() {

@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { SharedModule } from 'shared/shared.module';
 import { SettingsPage } from './settings.page';
-import { FormsModule } from '@angular/forms';
 
 @NgModule({
   imports: [
@@ -11,12 +11,10 @@ import { FormsModule } from '@angular/forms';
     RouterModule.forChild([
       {
         path: '',
-        component: SettingsPage
-      }
-    ])
+        component: SettingsPage,
+      },
+    ]),
   ],
-  declarations: [
-    SettingsPage,
-  ],
+  declarations: [SettingsPage],
 })
-export class SettingsPageModule { }
+export class SettingsPageModule {}

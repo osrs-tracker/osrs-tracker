@@ -1,34 +1,31 @@
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { NativeHttp } from 'app/core/native-http/nativeHttp';
+import { plainToClass } from 'class-transformer';
 import { environment } from 'environments/environment';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ItemDetailModel, ItemSearchModel } from './item.model';
-import { NativeHttp } from 'app/core/native-http/nativeHttp';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ItemProvider {
-
-  constructor(
-    private http: HttpClient,
-    private nativeHttp: NativeHttp
-  ) { }
+  constructor(private http: HttpClient, private nativeHttp: NativeHttp) {}
 
   searchItems(query: string): Observable<HttpResponse<ItemSearchModel[]>> {
-    return this.http.get<ItemSearchModel[]>(
-      `${environment.API_GEPT}/item`,
-      {
+    return this.http
+      .get<ItemSearchModel[]>(`${environment.API_GEPT}/item`, {
         params: { query },
-        observe: 'response'
-      }
-    );
+        observe: 'response',
+      })
+      .pipe(map(res => Object.assign(res, { body: plainToClass(ItemSearchModel, res.body) })));
   }
 
   getItem(id: number): Observable<ItemSearchModel | null> {
-    return this.http.get<ItemSearchModel[]>(`${environment.API_GEPT}/item/${id}`)
-      .pipe(map(items => items ? items[0] : null));
+    return this.http
+      .get<ItemSearchModel[]>(`${environment.API_GEPT}/item/${id}`)
+      .pipe(map(items => (items ? plainToClass(ItemSearchModel, items[0]) : null)));
   }
 
   itemIcon(id: number): string {
@@ -41,8 +38,9 @@ export class ItemProvider {
 
   itemDetails(id: number): Observable<ItemDetailModel> {
     return this.nativeHttp
-      .get<{ item: ItemDetailModel }>(`${environment.API_RUNESCAPE}/m=itemdb_oldschool/api/catalogue/detail.json?item=${id}`)
+      .get<{ item: ItemDetailModel }>(
+        `${environment.API_RUNESCAPE}/m=itemdb_oldschool/api/catalogue/detail.json?item=${id}`
+      )
       .pipe(map(response => response.item));
   }
-
 }

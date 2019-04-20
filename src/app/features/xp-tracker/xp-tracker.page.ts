@@ -6,16 +6,13 @@ import { SearchXpComponent } from './components/search-xp/search-xp.component';
 
 @Component({
   selector: 'page-xp-tracker',
-  templateUrl: 'xp-tracker.page.html'
+  templateUrl: 'xp-tracker.page.html',
 })
 export class XpTrackerPage {
-
   @ViewChild(IonRefresher) refresher: IonRefresher;
   @ViewChild(SearchXpComponent) searchXp: SearchXpComponent;
 
-  constructor(
-    private alertManager: AlertManager
-  ) { }
+  constructor(private alertManager: AlertManager) {}
 
   ionViewWillEnter() {
     this.searchXp.updateFavorites();
@@ -23,9 +20,10 @@ export class XpTrackerPage {
   }
 
   doRefresh() {
-    this.searchXp.refresh().pipe(
-      finalize(() => this.refresher.complete())
-    ).subscribe();
+    this.searchXp
+      .refresh()
+      .pipe(finalize(() => this.refresher.complete()))
+      .subscribe();
   }
 
   openHelp() {
@@ -37,8 +35,7 @@ export class XpTrackerPage {
                 We will check the hiscores every night at 00:00 UTC.<br><br>
                 We start tracking players after they have been looked up for the first time.
                 `,
-      buttons: ['OK']
+      buttons: ['OK'],
     });
   }
-
 }

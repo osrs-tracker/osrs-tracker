@@ -14,7 +14,7 @@ import { StorageService } from 'services/storage/storage.service';
   selector: 'page-app-news',
   templateUrl: 'app-news.page.html',
   styleUrls: ['./app-news.page.scss'],
-  encapsulation: ViewEncapsulation.None // needed for innerHTML styling
+  encapsulation: ViewEncapsulation.None, // needed for innerHTML styling
 })
 export class AppNewsPage implements OnInit {
   @ViewChild(IonRefresher) refresher: IonRefresher;
@@ -31,26 +31,22 @@ export class AppNewsPage implements OnInit {
     private inAppBrowser: InAppBrowser,
     private newsProvider: NewsProvider,
     private storageService: StorageService,
-    private toastController: ToastController,
-  ) { }
+    private toastController: ToastController
+  ) {}
 
-  ngOnInit() {
+  async ngOnInit() {
     this.uuid = environment.production ? this.device.uuid : 'test';
-
-    this.storageService.getValue<NewsItemApp[]>(StorageKey.CacheAppNews, [])
-      .then(items => {
-        this.items = items;
-        this.getNews().subscribe();
-      });
+    this.items = await this.storageService.getValue<NewsItemApp[]>(StorageKey.CacheAppNews, []);
+    this.getNews().subscribe();
   }
 
   getNews(): Observable<NewsItemApp[]> {
     this.loading = true;
     return this.newsProvider.getAppNews(this.uuid).pipe(
-      finalize(() => this.loading = false),
+      finalize(() => (this.loading = false)),
       tap(items => {
         this.items = items;
-        this.originalItems = items.map(item => Object.assign({}, item));
+        this.originalItems = items.map(item => ({ ...item }));
         this.storageService.setValue(StorageKey.CacheAppNews, items);
         this.replaceNewsLinks();
       })
@@ -62,10 +58,11 @@ export class AppNewsPage implements OnInit {
     this.offlineUpvoteLogic(item);
     this.newsProvider.upvoteAppNews(id, this.uuid).subscribe(
       newsItem => Object.assign(item, newsItem),
-      err => {
+      () => {
         Object.assign(item, this.originalItems.find(newsItem => newsItem.id === id));
         this.voteErrorToast();
-      });
+      }
+    );
   }
 
   downvote(id: number) {
@@ -73,39 +70,43 @@ export class AppNewsPage implements OnInit {
     this.offlineDownvoteLogic(item);
     this.newsProvider.downvoteAppNews(id, this.uuid).subscribe(
       newsItem => Object.assign(item, newsItem),
-      err => {
+      () => {
         Object.assign(item, this.originalItems.find(newsItem => newsItem.id === id));
         this.voteErrorToast();
-      });
+      }
+    );
   }
 
   doRefresh() {
-    forkJoin(
-      timer(500),
-      this.getNews()
-    ).pipe(
-      finalize(() => this.refresher.complete())
-    ).subscribe();
+    forkJoin(timer(500), this.getNews())
+      .pipe(finalize(() => this.refresher.complete()))
+      .subscribe();
   }
 
   doInfinite() {
     if (this.loading === false) {
       this.loading = true;
-      this.newsProvider.getAppNews(this.uuid, this.items.length)
-        .pipe(finalize(() => {
-          this.loading = false;
-          this.infiniteScroll.complete();
-        }))
-        .subscribe(items => {
-          if (items.length === 0) {
-            return this.infiniteScroll.disabled = true;
-          }
-          this.items = [...this.items, ...items];
-          this.originalItems = [...this.originalItems, ...items.map(item => Object.assign({}, item))];
-          if (items.length < 5) {
-            this.infiniteScroll.disabled = true;
-          }
-        }, () => this.infiniteScroll.disabled = true);
+      this.newsProvider
+        .getAppNews(this.uuid, this.items.length)
+        .pipe(
+          finalize(() => {
+            this.loading = false;
+            this.infiniteScroll.complete();
+          })
+        )
+        .subscribe(
+          items => {
+            if (items.length === 0) {
+              return (this.infiniteScroll.disabled = true);
+            }
+            this.items = [...this.items, ...items];
+            this.originalItems = [...this.originalItems, ...items.map(item => ({ ...item }))];
+            if (items.length < 5) {
+              this.infiniteScroll.disabled = true;
+            }
+          },
+          () => (this.infiniteScroll.disabled = true)
+        );
     }
   }
 
@@ -117,14 +118,13 @@ export class AppNewsPage implements OnInit {
     document.querySelectorAll('a[href]').forEach((el: HTMLAnchorElement) => {
       el.onclick = (event: Event) => {
         event.preventDefault();
-        this.browserTab.isAvailable()
-          .then(isAvailabe => {
-            if (isAvailabe) {
-              this.browserTab.openUrl(el.href);
-            } else {
-              this.inAppBrowser.create(el.href, '_system');
-            }
-          });
+        this.browserTab.isAvailable().then(isAvailabe => {
+          if (isAvailabe) {
+            this.browserTab.openUrl(el.href);
+          } else {
+            this.inAppBrowser.create(el.href, '_system');
+          }
+        });
       };
     });
   }
@@ -132,9 +132,9 @@ export class AppNewsPage implements OnInit {
   private async voteErrorToast() {
     const toast = await this.toastController.create({
       message: 'Failed to process vote. Check your internet connection.',
-      duration: 3000
+      duration: 3000,
     });
-    toast.present();
+    await toast.present();
   }
 
   private offlineUpvoteLogic(item: NewsItemApp) {
@@ -142,7 +142,10 @@ export class AppNewsPage implements OnInit {
       item.upvotes--;
     } else if (!item.vote) {
       item.upvotes++;
-    } else if (item.vote === -1) { item.upvotes++; item.downvotes--; }
+    } else if (item.vote === -1) {
+      item.upvotes++;
+      item.downvotes--;
+    }
     item.vote = item.vote === 1 ? 0 : 1;
   }
 
