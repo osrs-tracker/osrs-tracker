@@ -1,25 +1,20 @@
 import { Component, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
+import { PreferredXpTrackerView } from 'services/settings/preferred-xp-tracker-view';
 import { Settings, SettingsProvider } from 'services/settings/settings';
-import { XpTrackerView } from 'services/settings/xp-tracker-view';
 
 @Component({
   selector: 'page-settings',
-  templateUrl: './settings.page.html'
+  templateUrl: './settings.page.html',
 })
 export class SettingsPage implements OnDestroy {
-
-  readonly XpTrackerView = XpTrackerView;
+  readonly XpTrackerView = PreferredXpTrackerView;
 
   settingsSubscription = new Subscription();
   settings: Settings;
 
-  constructor(
-    private settingsProvider: SettingsProvider
-  ) {
-    this.settingsSubscription.add(
-      this.settingsProvider.settings.subscribe(settings => this.settings = settings)
-    );
+  constructor(private settingsProvider: SettingsProvider) {
+    this.settingsSubscription.add(this.settingsProvider.settings.subscribe(settings => (this.settings = settings)));
   }
 
   updateSettings() {
@@ -29,5 +24,4 @@ export class SettingsPage implements OnDestroy {
   ngOnDestroy() {
     this.settingsSubscription.unsubscribe();
   }
-
 }

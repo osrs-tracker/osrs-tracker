@@ -3,22 +3,19 @@ import { AlertController } from '@ionic/angular';
 import { AlertOptions } from '@ionic/core';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AlertManager {
-
   alertStack: HTMLIonAlertElement[] = [];
 
-  constructor(
-    private alertCtrl: AlertController
-  ) { }
+  constructor(private alertCtrl: AlertController) {}
 
   async create(options?: AlertOptions) {
     const alert = await this.alertCtrl.create({
       ...options,
     });
     this.alertStack.push(alert);
-    alert.onDidDismiss().then(() => this.alertStack = this.alertStack.filter((a) => a.id !== alert.id));
+    alert.onDidDismiss().then(() => (this.alertStack = this.alertStack.filter(a => a.id !== alert.id)));
     await alert.present();
   }
 
@@ -26,8 +23,8 @@ export class AlertManager {
     return this.alertStack.length > 0;
   }
 
-  close() {
-    this.alertStack.pop().dismiss();
+  async close() {
+    await this.alertStack.pop().dismiss();
   }
 
   closeAll() {
@@ -35,5 +32,4 @@ export class AlertManager {
       close();
     }
   }
-
 }

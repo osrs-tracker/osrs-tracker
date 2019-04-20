@@ -1,21 +1,20 @@
 import { Component, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { LoadingController, IonRefresher } from '@ionic/angular';
+import { IonRefresher, LoadingController } from '@ionic/angular';
 import { AppRoute } from 'app-routing.routes';
 import { finalize } from 'rxjs/operators';
 import { AlertManager } from 'services/alert-manager/alert-manager';
 import { Hiscore, Minigame, Skill } from 'services/hiscores/hiscore.model';
 import { HiscoresProvider } from 'services/hiscores/hiscores';
-import { StorageService } from 'services/storage/storage.service';
 import { StorageKey } from 'services/storage/storage-key';
+import { StorageService } from 'services/storage/storage.service';
 
 @Component({
   selector: 'page-player-hiscore',
   templateUrl: 'player-hiscore.page.html',
-  styleUrls: ['./player-hiscore.page.scss']
+  styleUrls: ['./player-hiscore.page.scss'],
 })
 export class PlayerHiscorePage {
-
   readonly AppRoute = AppRoute;
 
   @ViewChild(IonRefresher) refresher: IonRefresher;
@@ -43,14 +42,14 @@ export class PlayerHiscorePage {
 
     this.addPlayerToRecents();
 
-    this.storageService.getValue<string[]>(StorageKey.FavoriteHiscores, [])
-      .then(favorites => this.isFavorite = favorites.includes(this.hiscore.username));
+    this.storageService
+      .getValue<string[]>(StorageKey.FavoriteHiscores, [])
+      .then(favorites => (this.isFavorite = favorites.includes(this.hiscore.username)));
   }
 
-  favorite() {
-    this.storageService.uniqueCacheToggle(StorageKey.FavoriteHiscores, this.hiscore.username)
-      .then(isFavorited => this.isFavorite = isFavorited)
-      .then(() => this.addPlayerToRecents());
+  async favorite() {
+    this.isFavorite = await this.storageService.uniqueCacheToggle(StorageKey.FavoriteHiscores, this.hiscore.username);
+    this.addPlayerToRecents();
   }
 
   getTypeImageUrl() {
@@ -58,29 +57,36 @@ export class PlayerHiscorePage {
   }
 
   refreshHiscore() {
-    this.hiscoreService.getHiscore(this.hiscore.username, this.oldHiscoreSuffix).pipe(
-      finalize(() => this.refresher.complete())
-    ).subscribe(hiscores => this.hiscore = hiscores);
+    this.hiscoreService
+      .getHiscore(this.hiscore.username, this.oldHiscoreSuffix)
+      .pipe(finalize(() => this.refresher.complete()))
+      .subscribe(hiscore => (this.hiscore = hiscore));
   }
 
   async changeHiscore() {
     if (this.oldHiscoreSuffix === this.hiscoreSuffix) {
       return;
     }
+
     const loader = await this.loadCtrl.create({ message: 'Please wait...' });
-    loader.present();
-    this.hiscoreService.getHiscore(this.hiscore.username, this.hiscoreSuffix).pipe(
-      finalize(() => loader.dismiss())
-    ).subscribe(hiscores => {
-      this.hiscore = hiscores;
-      this.oldHiscoreSuffix = this.hiscoreSuffix;
-    }, () => {
-      this.hiscoreSuffix = this.oldHiscoreSuffix;
-      this.alertManager.create({
-        header: 'Player not found',
-        buttons: ['OK'],
+    await loader.present();
+
+    this.hiscoreService
+      .getHiscore(this.hiscore.username, this.hiscoreSuffix)
+      .pipe(finalize(() => loader.dismiss()))
+      .subscribe({
+        next: hiscores => {
+          this.hiscore = hiscores;
+          this.oldHiscoreSuffix = this.hiscoreSuffix;
+        },
+        error: () => {
+          this.hiscoreSuffix = this.oldHiscoreSuffix;
+          this.alertManager.create({
+            header: 'Player not found',
+            buttons: ['OK'],
+          });
+        },
       });
-    });
   }
 
   trackBySkillName(index: number, skill: Skill) {
@@ -103,8 +109,7 @@ export class PlayerHiscorePage {
 
     await this.storageService.limitedArrayPush(StorageKey.RecentHiscores, this.hiscore.username, {
       maxLength: 5,
-      blacklist: favoritedPlayers
-     });
+      blacklist: favoritedPlayers,
+    });
   }
-
 }

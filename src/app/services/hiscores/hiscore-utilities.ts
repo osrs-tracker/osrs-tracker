@@ -35,6 +35,10 @@ const BOUNTYHUNTER_NAMES = ['Hunter', 'Rogue'];
   providedIn: 'root',
 })
 export class HiscoreUtilitiesProvider {
+  /**
+   * Octobre 2018: Fixed the order of the minigames and cluescrolls (were in a weird order before).
+   * April 2019: Reordered minigames and added beginner cluescrolls.
+   */
   parseHiscoreString(hiscore: string, date: Date): Hiscore {
     if (date.getTime() < Date.UTC(2018, 9, 31)) {
       return this.preOctobre2018MinigameChange(hiscore);

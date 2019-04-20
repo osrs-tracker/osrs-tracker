@@ -1,12 +1,12 @@
 ion-list-header {
-  min-height:  30px;
+  min-height: 30px;
 }
 ion-col {
   padding-top: 8px;
   padding-left: 8px;
-  border-bottom: 1px solid rgba(var(--ion-color-secondary-rgb), .2);
+  border-bottom: 1px solid rgba(var(--ion-color-secondary-rgb), 0.2);
   &:nth-child(odd) {
-    border-right: 1px solid rgba(var(--ion-color-secondary-rgb), .2);
+    border-right: 1px solid rgba(var(--ion-color-secondary-rgb), 0.2);
   }
 }
 .skill-label {
@@ -25,63 +25,3 @@ ion-col {
   font-size: 18px;
   padding-left: 25px;
 }
-
-// page-xp-data-table-player {
-//     img.icon,
-//     .icon img {
-//         width: auto;
-//         image-rendering: pixelated;
-//         max-height: 24px;
-//     } // xp list
-//     ion-list-header {
-//         border-top: none !important;
-//         .label {
-//             margin: 0 !important;
-//         }
-//         height: 30px;
-//         min-height: 20px !important;
-//     }
-//     .skills {
-//         padding-top: 8px;
-//         padding-bottom: 8px;
-//         .no-gains {
-//             font-size: 12px;
-//             font-weight: 600;
-//             text-transform: uppercase;
-//         }
-//         .skill {
-//             padding-bottom: 0;
-//             margin-bottom: 5px;
-//             width: 100%;
-//             .label {
-//                 font-size: 14px;
-//                 font-weight: 500;
-//                 text-transform: uppercase;
-//                 margin-bottom: 6px;
-//                 skill-icon {
-//                     margin-right: 2px;
-//                     vertical-align: sub;
-//                 }
-//                 .level-increase {
-//                     color: #070;
-//                     font-weight: 600;
-//                 }
-//             }
-//             .gains {
-//                 font-weight: 300;
-//                 font-size: 18px;
-//                 padding-left: 22px;
-//                 padding-bottom: 5px;
-//             }
-//             &:not(:last-child) .gains {
-//                 border-bottom: 1px solid rgba(0,0,0,.1);
-//             }
-//             &:nth-last-child(2):nth-child(odd) .gains {
-//                 border-bottom: none;
-//             }
-//             &:nth-child(odd) {
-//                 border-right: 1px solid rgba(0,0,0,.1);
-//             }
-//         }
-//     }
-// }

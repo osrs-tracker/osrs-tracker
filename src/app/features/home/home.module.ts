@@ -11,14 +11,10 @@ import { HomePage } from './home.page';
     RouterModule.forChild([
       {
         path: '',
-        component: HomePage
-      }
-    ])
+        component: HomePage,
+      },
+    ]),
   ],
-  declarations: [
-    HomePage,
-    OSRSNewsComponent,
-    QuickNavComponent,
-  ]
+  declarations: [HomePage, OSRSNewsComponent, QuickNavComponent],
 })
-export class HomePageModule { }
+export class HomePageModule {}

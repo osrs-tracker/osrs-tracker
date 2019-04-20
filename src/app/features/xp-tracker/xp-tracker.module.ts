@@ -26,10 +26,10 @@ import { XpTrackerPage } from './xp-tracker.page';
           { path: XpTrackerRoute.DataTable, component: XpTrackerDataTablePage },
         ],
         resolve: {
-          period: XpTrackerViewResolver
-        }
+          period: XpTrackerViewResolver,
+        },
       },
-    ])
+    ]),
   ],
   declarations: [
     XpTrackerPage,
@@ -37,10 +37,8 @@ import { XpTrackerPage } from './xp-tracker.page';
     XpTrackerAdventureLogPage,
     XpTrackerDataTablePage,
     SearchXpComponent,
-    XpFavoriteComponent
+    XpFavoriteComponent,
   ],
-  providers: [
-    DatePipe
-  ]
+  providers: [DatePipe],
 })
-export class XpTrackerPageModule { }
+export class XpTrackerPageModule {}

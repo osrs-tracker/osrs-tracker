@@ -16,7 +16,7 @@ page-app-news {
     --padding-start: 2px !important;
     --padding-end: 2px !important;
     &.upvotes {
-        --ripple-color: #00bb00;
+      --ripple-color: #00bb00;
       &.voted {
         --ion-color-base: #00aa00 !important;
       }
@@ -25,7 +25,7 @@ page-app-news {
       }
     }
     &.downvotes {
-      --ripple-color:#bb4444;
+      --ripple-color: #bb4444;
       &.voted {
         --ion-color-base: #aa0000 !important;
       }

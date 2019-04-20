@@ -4,28 +4,25 @@ import { StorageKey } from './storage-key';
 import { LimitedCacheOptions } from './storage-options';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class StorageService {
+  constructor(private storage: Storage) {}
 
-  constructor(
-    private storage: Storage
-  ) { }
-
-  setValue<T>(key: StorageKey, value: T): Promise<T> {
-    return this.storage.ready()
-      .then(storage => storage.setItem<T>(key, value));
+  async setValue<T>(key: StorageKey, value: T): Promise<T> {
+    const storage = await this.storage.ready();
+    return await storage.setItem<T>(key, value);
   }
 
-  getValue<T>(key: StorageKey, defaultValue?: T): Promise<T | null> {
-    return this.storage.ready()
-      .then(storage => storage.getItem<T>(key))
-      .then(value => {
-        if (defaultValue !== undefined) {
-          return value || defaultValue;
-        }
-        return value;
-      });
+  async getValue<T>(key: StorageKey): Promise<T | null>;
+  async getValue<T>(key: StorageKey, defaultValue: T): Promise<T>;
+  async getValue<T>(key: StorageKey, defaultValue?: T): Promise<T | null> {
+    const storage = await this.storage.ready();
+    const value = await storage.getItem<T>(key);
+    if (defaultValue !== undefined) {
+      return value || defaultValue;
+    }
+    return value;
   }
 
   /**
@@ -69,17 +66,15 @@ export class StorageService {
     return !wasToggled;
   }
 
-
   private moveValueToFirst<T>(values: T[], firstValue: T): T[] {
     values = values.filter(value => value !== firstValue);
     return this.prependValue(values, firstValue);
   }
 
   private prependValue<T>(values: T[], nextValue: T, maxLength?: number): T[] {
-    if (maxLength && values.length > (maxLength - 1)) {
+    if (maxLength && values.length > maxLength - 1) {
       values = values.slice(0, -1);
     }
     return [nextValue, ...values];
   }
-
 }

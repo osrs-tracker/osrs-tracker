@@ -3,14 +3,14 @@ import { ActivatedRoute } from '@angular/router';
 import { NavController } from '@ionic/angular';
 import { AppRoute } from 'app-routing.routes';
 import { environment } from 'environments/environment';
-import { getTrendClass, ItemSearchModel } from 'services/item/item.model';
+import { ItemSearchModel } from 'services/item/item.model';
 import { GrandExchangeRoute } from '../grand-exchange.routes';
 import { ItemResultsCache } from './item-results-cache.service';
 
 @Component({
   selector: 'page-item-results',
   templateUrl: './item-results.page.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ItemResultsPage implements OnInit, OnDestroy {
   readonly AppRoute = AppRoute;
@@ -23,17 +23,11 @@ export class ItemResultsPage implements OnInit, OnDestroy {
     private activatedRoute: ActivatedRoute,
     private itemResultsCache: ItemResultsCache,
     private navCtrl: NavController
-  ) { }
+  ) {}
 
   ngOnInit() {
     this.title = `Search: ${this.activatedRoute.snapshot.params.query}` || 'Search';
-    this.items = (this.activatedRoute.snapshot.data.itemResults || [])
-      .filter((item: ItemSearchModel) => item.current)
-      .map((item: ItemSearchModel) => {
-        item.trendClass = getTrendClass(item.today);
-        item.icon = `${environment.API_GEPT}/icon/${item.id}`;
-        return item;
-      });
+    this.items = (this.activatedRoute.snapshot.data.itemResults || []).filter((item: ItemSearchModel) => item.current);
     this.itemResultsCache.store(this.items);
   }
 
@@ -48,5 +42,4 @@ export class ItemResultsPage implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.itemResultsCache.clear();
   }
-
 }

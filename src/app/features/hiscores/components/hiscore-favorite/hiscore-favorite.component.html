@@ -1,5 +1,4 @@
 <ion-item-sliding>
-
   <ion-item item-result [button]="true" [detail]="true" color="primary" (click)="goToHiscore()">
     <ion-label class="description">
       <h2 text-capitalize>{{ player }}</h2>
@@ -11,18 +10,18 @@
       <ng-template #doneLoading>
         <ion-col size="auto">
           <ion-row align-items-center>
-            <img *ngIf="hiscore?.dead" src="./assets/imgs/player_types/dead.png">
-            <img *ngIf="hiscore?.type !== 'normal'" [src]="icon">
+            <img *ngIf="hiscore?.dead" src="./assets/imgs/player_types/dead.png" />
+            <img *ngIf="hiscore?.type !== 'normal'" [src]="icon" />
           </ion-row>
         </ion-col>
         <ion-col size="auto">
           <ion-row align-items-center justify-content-end>
             <span class="level">{{ combatLevel }}</span>
-            <img src="./assets/imgs/combat.gif">
+            <img src="./assets/imgs/combat.gif" />
           </ion-row>
           <ion-row align-items-center>
             <span class="level">{{ hiscore.skills[0].level }}</span>
-            <img src="./assets/imgs/skills/1.gif">
+            <img src="./assets/imgs/skills/1.gif" />
           </ion-row>
         </ion-col>
       </ng-template>
@@ -34,5 +33,4 @@
       <ion-icon name="trash" size="large" padding-start padding-end></ion-icon>
     </ion-item-option>
   </ion-item-options>
-
 </ion-item-sliding>

@@ -4,11 +4,8 @@ import { Observable } from 'rxjs';
 import { NativeHttp } from './nativeHttp';
 
 @Injectable()
-export class AngularHttpImplementation extends NativeHttp {
-
-  constructor(
-    private http: HttpClient
-  ) {
+export class BrowserHttpImplementation extends NativeHttp {
+  constructor(private http: HttpClient) {
     super();
   }
 
@@ -18,9 +15,7 @@ export class AngularHttpImplementation extends NativeHttp {
 
   getText(url: string): Observable<string> {
     return this.http.get(url, {
-      responseType: 'text'
+      responseType: 'text',
     });
   }
-
 }
-

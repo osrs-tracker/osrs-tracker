@@ -5,8 +5,8 @@ import { AppRoute } from 'app-routing.routes';
 import { HiscoresRoute } from 'features/hiscores/hiscores.routes';
 import { Subscription } from 'rxjs';
 import { Hiscore } from 'services/hiscores/hiscore.model';
+import { PreferredXpTrackerView } from 'services/settings/preferred-xp-tracker-view';
 import { SettingsProvider } from 'services/settings/settings';
-import { XpTrackerView } from 'services/settings/xp-tracker-view';
 import { StorageKey } from 'services/storage/storage-key';
 import { StorageService } from 'services/storage/storage.service';
 import { XpTrackerRoute } from '../hiscores.routes';
@@ -15,15 +15,14 @@ import { XpTrackerViewCache } from './xp-tracker-view-cache.service';
 @Component({
   selector: 'page-xp-tracker-view',
   templateUrl: './xp-tracker-view.page.html',
-  styleUrls: ['./xp-tracker-view.page.scss']
+  styleUrls: ['./xp-tracker-view.page.scss'],
 })
 export class XpTrackerViewPage implements OnDestroy {
-
   readonly AppRoute = AppRoute;
   readonly XpTrackerRoute = XpTrackerRoute;
 
   hiscore: Hiscore;
-  rootParams: { hiscore, xp };
+  rootParams: { hiscore; xp };
 
   isFavorite: boolean = null;
   username: string;
@@ -41,14 +40,15 @@ export class XpTrackerViewPage implements OnDestroy {
     private settingsProvider: SettingsProvider,
     private xpTrackerViewCache: XpTrackerViewCache
   ) {
-    this.xpTrackerViewCache.store(this.rootParams = activatedRoute.snapshot.data.period);
+    this.xpTrackerViewCache.store((this.rootParams = activatedRoute.snapshot.data.period));
     this.hiscore = activatedRoute.snapshot.data.period[1];
     ({ username: this.username, type: this.type, deIroned: this.deIroned, dead: this.dead } = this.hiscore);
 
     this.addXpToRecents();
 
-    this.storageService.getValue<string[]>(StorageKey.FavoriteXp, [])
-      .then(favorites => this.isFavorite = favorites.includes(this.hiscore.username.toString()));
+    this.storageService
+      .getValue<string[]>(StorageKey.FavoriteXp, [])
+      .then(favorites => (this.isFavorite = favorites.includes(this.hiscore.username.toString())));
 
     this.loadPreferredRoute();
   }
@@ -57,14 +57,13 @@ export class XpTrackerViewPage implements OnDestroy {
     return `/${AppRoute.XpTracker}/${XpTrackerRoute.View}/${this.hiscore.username}/(${tab}:${tab})`;
   }
 
-  goToHiscore() {
-    this.navCtrl.navigateForward([AppRoute.Hiscores, HiscoresRoute.PlayerHiscore, this.hiscore.username]);
+  async goToHiscore() {
+    await this.navCtrl.navigateForward([AppRoute.Hiscores, HiscoresRoute.PlayerHiscore, this.hiscore.username]);
   }
 
-  favorite() {
-    this.storageService.uniqueCacheToggle(StorageKey.FavoriteXp, this.username)
-      .then(isFavorited => this.isFavorite = isFavorited)
-      .then(() => this.addXpToRecents());
+  async favorite() {
+    this.isFavorite = await this.storageService.uniqueCacheToggle(StorageKey.FavoriteXp, this.username);
+    await this.addXpToRecents();
   }
 
   getTypeImageUrl() {
@@ -77,15 +76,24 @@ export class XpTrackerViewPage implements OnDestroy {
   }
 
   private loadPreferredRoute() {
-    this.settingsSubscription.add(this.settingsProvider.settings.subscribe(settings => {
-      if (this.activatedRoute.children.length === 0) {
-        if (settings.preferredXpTrackerView === XpTrackerView.AdventureLog) {
-          return this.router.navigate([ AppRoute.XpTracker, XpTrackerRoute.View, this.username, XpTrackerRoute.AdventureLog]);
-        } else if (settings.preferredXpTrackerView === XpTrackerView.DataTable) {
-          return this.router.navigate([ AppRoute.XpTracker, XpTrackerRoute.View, this.username, XpTrackerRoute.DataTable]);
-        }
+    const settingsSubscribtion = this.settingsProvider.settings.subscribe(settings => {
+      if (this.activatedRoute.children.length !== 0) {
+        return;
       }
-    }));
+      if (settings.preferredXpTrackerView === PreferredXpTrackerView.AdventureLog) {
+        return this.router.navigate([
+          AppRoute.XpTracker,
+          XpTrackerRoute.View,
+          this.username,
+          XpTrackerRoute.AdventureLog,
+        ]);
+      }
+      if (settings.preferredXpTrackerView === PreferredXpTrackerView.DataTable) {
+        return this.router.navigate([AppRoute.XpTracker, XpTrackerRoute.View, this.username, XpTrackerRoute.DataTable]);
+      }
+    });
+
+    this.settingsSubscription.add(settingsSubscribtion);
   }
 
   private async addXpToRecents(): Promise<void> {
@@ -93,8 +101,7 @@ export class XpTrackerViewPage implements OnDestroy {
 
     await this.storageService.limitedArrayPush(StorageKey.RecentXp, this.hiscore.username, {
       maxLength: 5,
-      blacklist: favoritedXp
-     });
+      blacklist: favoritedXp,
+    });
   }
-
 }

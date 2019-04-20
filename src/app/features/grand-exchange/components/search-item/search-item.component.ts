@@ -1,5 +1,5 @@
 import { Component, ViewChildren } from '@angular/core';
-import { IonList, NavController } from '@ionic/angular';
+import { NavController } from '@ionic/angular';
 import { AppRoute } from 'app-routing.routes';
 import { GrandExchangeRoute } from 'features/grand-exchange/grand-exchange.routes';
 import { forkJoin, Observable, timer } from 'rxjs';
@@ -11,7 +11,7 @@ import { ItemResultComponent } from '../item-result/item-result.component';
 @Component({
   selector: 'search-item',
   templateUrl: 'search-item.component.html',
-  styleUrls: ['./search-item.component.scss']
+  styleUrls: ['./search-item.component.scss'],
 })
 export class SearchItemComponent {
   @ViewChildren(ItemResultComponent) itemFavoriteComponents: ItemResultComponent[];
@@ -27,16 +27,12 @@ export class SearchItemComponent {
     this.updateRecent();
   }
 
-  async updateFavorites(list?: IonList) {
-    await this.storageService.getValue<string[]>(StorageKey.FavoriteItems)
-      .then(favorites => this.favoriteItems = favorites)
-      .then(() => list && list.closeSlidingItems());
+  async updateFavorites() {
+    this.favoriteItems = await this.storageService.getValue<string[]>(StorageKey.FavoriteItems);
   }
 
-  async updateRecent(list?: IonList) {
-    await this.storageService.getValue<string[]>(StorageKey.RecentItems)
-      .then(recents => this.recentItems = recents)
-      .then(() => list && list.closeSlidingItems());
+  async updateRecent() {
+    this.recentItems = await this.storageService.getValue<string[]>(StorageKey.RecentItems);
   }
 
   refresh(): Observable<any> {
@@ -45,24 +41,26 @@ export class SearchItemComponent {
 
   async searchItem(query: string) {
     query = query.trim();
-    if (query.length > 2) {
-      this.navCtrl.navigateForward([AppRoute.GrandExchange, GrandExchangeRoute.ItemResults, query])
-        .catch(() => this.alertManager.create({
-          header: 'No results found',
-          buttons: ['OK']
-        }));
-    } else {
-      this.alertManager.create({
+
+    if (query.length < 3) {
+      return this.alertManager.create({
         header: 'Empty search field',
         message: 'Enter at least 3 characters.',
-        buttons: ['OK']
+        buttons: ['OK'],
       });
     }
 
+    try {
+      await this.navCtrl.navigateForward([AppRoute.GrandExchange, GrandExchangeRoute.ItemResults, query]);
+    } catch (e) {
+      this.alertManager.create({
+        header: 'No results found',
+        buttons: ['OK'],
+      });
+    }
   }
 
   trackByItemId(index: number, itemId: number) {
     return itemId;
   }
-
 }

@@ -3,15 +3,14 @@ import { ActivatedRoute } from '@angular/router';
 import { BrowserTab } from '@ionic-native/browser-tab/ngx';
 import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 import { AppRoute } from 'app-routing.routes';
-import { environment } from 'environments/environment';
-import { getTrendClass, ItemSearchModel } from 'services/item/item.model';
+import { ItemSearchModel } from 'services/item/item.model';
 import { StorageKey } from 'services/storage/storage-key';
 import { StorageService } from 'services/storage/storage.service';
 
 @Component({
   selector: 'page-item-detail',
   templateUrl: './item-detail.page.html',
-  styleUrls: ['./item-detail.page.scss']
+  styleUrls: ['./item-detail.page.scss'],
 })
 export class ItemDetailPage {
   readonly AppRoute = AppRoute;
@@ -26,30 +25,27 @@ export class ItemDetailPage {
     private storageService: StorageService
   ) {
     this.item = this.activatedRoute.snapshot.data.itemDetail;
-    this.item.icon = this.item.icon || `${environment.API_GEPT}/icon/${this.item.id}`;
-    this.item.trendClass = this.item.trendClass || getTrendClass(this.item.today);
 
     this.addItemToItemCache();
     this.addItemToRecents();
 
-    this.storageService.getValue<string[]>(StorageKey.FavoriteItems, [])
-      .then(favorites => this.isFavorite = favorites.includes(this.item.id.toString()));
-
+    this.storageService
+      .getValue<string[]>(StorageKey.FavoriteItems, [])
+      .then(favorites => (this.isFavorite = favorites.includes(this.item.id.toString())));
   }
 
-  toggleFavorite() {
-    this.storageService.uniqueCacheToggle(StorageKey.FavoriteItems, this.item.id.toString())
-      .then(isFavorited => this.isFavorite = isFavorited)
-      .then(() => this.addItemToRecents());
+  async toggleFavorite() {
+    this.isFavorite = await this.storageService.uniqueCacheToggle(StorageKey.FavoriteItems, this.item.id.toString());
+    this.addItemToRecents();
   }
 
-  openWiki() {
+  async openWiki() {
     const url = `https://oldschool.runescape.wiki/w/${this.item.name}`;
-    this.browserTab.isAvailable()
-      .then(isAvailabe => isAvailabe ?
-        this.browserTab.openUrl(url) :
-        this.inAppBrowser.create(url, '_system')
-      );
+    if (await this.browserTab.isAvailable()) {
+      this.browserTab.openUrl(url);
+    } else {
+      this.inAppBrowser.create(url, '_system');
+    }
   }
 
   private async addItemToRecents(): Promise<void> {
@@ -57,17 +53,19 @@ export class ItemDetailPage {
 
     await this.storageService.limitedArrayPush(StorageKey.RecentItems, this.item.id.toString(), {
       maxLength: 5,
-      blacklist: favoritedItems
+      blacklist: favoritedItems,
     });
   }
 
   private async addItemToItemCache(): Promise<void> {
-    const cachedItems = await this.storageService.getValue<{ [id: number]: ItemSearchModel }>(StorageKey.CacheItems, {});
+    const cachedItems = await this.storageService.getValue<{ [id: number]: ItemSearchModel }>(
+      StorageKey.CacheItems,
+      {}
+    );
 
     await this.storageService.setValue(StorageKey.CacheItems, {
       ...cachedItems,
-      [this.item.id]: this.item
+      [this.item.id]: this.item,
     });
   }
-
 }
