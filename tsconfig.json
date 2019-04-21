@@ -2,17 +2,22 @@
   "compileOnSave": false,
   "compilerOptions": {
     "baseUrl": "./src/",
-    "outDir": "./dist/out-tsc",
-    "sourceMap": true,
     "declaration": false,
-    "moduleResolution": "node",
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "target": "es2015",
     "lib": ["es2017", "dom"],
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "noImplicitAny": true,
+    "outDir": "./dist/out-tsc",
     "paths": {
       "*": ["app/*", "*"],
       "stream": ["../node_modules/readable-stream/readable.js"]
-    }
+    },
+    "sourceMap": true,
+    "suppressImplicitAnyIndexErrors": true,
+    "strictFunctionTypes": true,
+    "strictNullChecks": true,
+    "target": "es2015"
   }
 }

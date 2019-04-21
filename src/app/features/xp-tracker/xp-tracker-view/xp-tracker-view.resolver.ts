@@ -46,7 +46,7 @@ export class XpTrackerViewResolver implements Resolve<[Xp[], Hiscore]> {
       .toPromise();
   }
 
-  private showJustTrackingDialog() {
+  private showJustTrackingDialog(): void {
     this.alertManager.create({
       header: 'No XP gains found.',
       subHeader: 'We just started tracking you!',

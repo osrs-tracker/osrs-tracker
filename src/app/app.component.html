@@ -10,9 +10,9 @@
       <ion-content>
         <ion-list>
           <ion-menu-toggle auto-hide="false">
-            <ion-item button *ngFor="let page of pages; trackBy:trackByPageId" (click)="linkClicked(page)">
+            <ion-item button *ngFor="let page of pages; trackBy: trackByPageId" (click)="linkClicked(page)">
               <ng-template [ngIf]="page.icon === 'discord'" [ngIfElse]="ionicon">
-                <img slot="start" class="menu-icon" height="24" src="assets/icon/discord.svg">
+                <img slot="start" class="menu-icon" height="24" src="assets/icon/discord.svg" />
               </ng-template>
               <ng-template #ionicon>
                 <ion-icon slot="start" class="menu-icon" [name]="page.icon"></ion-icon>

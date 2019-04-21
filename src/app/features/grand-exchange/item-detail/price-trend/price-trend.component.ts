@@ -1,6 +1,6 @@
 import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { Chart } from 'chart.js';
-import { forkJoin } from 'rxjs';
+import { forkJoin, Observable } from 'rxjs';
 import { finalize, map, tap } from 'rxjs/operators';
 import { ItemProvider } from 'services/item/item';
 import { ItemDetailModel } from 'services/item/item.model';
@@ -17,13 +17,13 @@ export class PriceTrendComponent implements OnInit {
   @Input() id: number;
   item: ItemDetailModel = ItemDetailModel.empty();
 
-  data: { t; y }[];
+  data: { t: string; y: number }[];
   period = 90;
   loading = false;
 
   constructor(private itemService: ItemProvider) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.loading = true;
     forkJoin(this.getItemDetails(), this.getData())
       .pipe(
@@ -36,25 +36,25 @@ export class PriceTrendComponent implements OnInit {
       .subscribe();
   }
 
-  getItemDetails() {
+  getItemDetails(): Observable<ItemDetailModel> {
     return this.itemService.itemDetails(this.id).pipe(tap(item => (this.item = item)));
   }
 
-  getData() {
+  getData(): Observable<any> {
     return this.itemService.itemGraph(this.id).pipe(
       map((response: { daily: any }) =>
         Object.keys(response.daily).map((time: string) => ({
-          t: new Date(+time).toISOString(),
-          y: +response.daily[time],
+          t: new Date(Number(time)).toISOString(),
+          y: Number(response.daily[time]),
         }))
       ),
       tap(response => (this.data = response))
     );
   }
 
-  updateData(period: number) {
+  updateData(period: number): void {
     this.period = period;
-    Object.assign(this.priceTrendChart.config.options.scales.xAxes[0].time, {
+    Object.assign(this.priceTrendChart.config!.options!.scales!.xAxes![0].time, {
       unit: period === 30 ? 'week' : 'month',
       stepSize: period === 180 ? 2 : 1,
     });
@@ -90,7 +90,7 @@ export class PriceTrendComponent implements OnInit {
           position: 'nearest',
           callbacks: {
             title: (tooltipItems, data) =>
-              new Date(tooltipItems[0].xLabel).toLocaleDateString('en-us', {
+              new Date(tooltipItems[0].xLabel!).toLocaleDateString('en-us', {
                 day: 'numeric',
                 month: 'short',
                 year: 'numeric',
@@ -127,7 +127,7 @@ export class PriceTrendComponent implements OnInit {
     });
   }
 
-  private formatNumber(num, digits) {
+  private formatNumber(num: number, digits: number): string {
     const si = [
       { value: 1, symbol: '' },
       { value: 1e3, symbol: 'k' },

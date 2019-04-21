@@ -30,7 +30,7 @@ export class ItemResultsResolver implements Resolve<ItemSearchModel[]> {
       .searchItems(route.params.query)
       .pipe(
         finalize(() => loader.dismiss()),
-        switchMap(response => (response.status === 204 ? throwError(204) : of(response.body)))
+        switchMap(response => (response.status === 204 ? throwError(204) : of(response.body || [])))
       )
       .toPromise();
   }

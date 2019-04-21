@@ -1,5 +1,5 @@
 {
-  "rulesDirectory": ["node_modules/codelyzer"],
+  "rulesDirectory": ["node_modules/codelyzer", "node_modules/tslint-eslint-rules/dist/rules"],
   "rules": {
     "arrow-return-shorthand": true,
     "callable-types": true,
@@ -34,7 +34,6 @@
     "no-eval": true,
     "no-inferrable-types": [true, "ignore-params"],
     "no-misused-new": true,
-    "no-non-null-assertion": true,
     "no-shadowed-variable": true,
     "no-string-literal": false,
     "no-string-throw": true,
@@ -74,6 +73,18 @@
     "no-output-rename": true,
     "use-lifecycle-interface": true,
     "use-pipe-transform-interface": true,
-    "directive-class-suffix": true
+    "directive-class-suffix": true,
+    "no-consecutive-blank-lines": true,
+    "no-duplicate-variable": [true, "check-parameters"],
+    "trailing-comma": [
+      true,
+      {
+        "objects": "always",
+        "arrays": "always",
+        "functions": "never",
+        "typeLiterals": "ignore"
+      }
+    ],
+    "typedef": [true, "call-signature", "parameter"]
   }
 }

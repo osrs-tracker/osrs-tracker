@@ -22,16 +22,12 @@ export class ItemSearchModel {
     public today: string
   ) {}
 
-  get trendClass() {
+  get trendClass(): string {
     return getTrendClass(this.today);
   }
 
-  get icon() {
+  get icon(): string {
     return `${environment.API_GEPT}/icon/${this.id}`;
-  }
-
-  static empty() {
-    return new ItemSearchModel(null, null, null, null, null);
   }
 }
 
@@ -48,7 +44,7 @@ export class ItemDetailModel {
     public day180: { trend: string; change: string }
   ) {}
 
-  static empty() {
+  static empty(): ItemDetailModel {
     return new ItemDetailModel(
       0,
       '',

@@ -1,10 +1,10 @@
 import { Component, ViewChild } from '@angular/core';
-import { IonRefresher } from '@ionic/angular';
-import { Hiscore, Skill, Minigame } from 'services/hiscores/hiscore.model';
-import { HiscoresProvider } from 'services/hiscores/hiscores';
-import { finalize } from 'rxjs/operators';
 import { ActivatedRoute } from '@angular/router';
+import { IonRefresher } from '@ionic/angular';
 import { AppRoute } from 'app-routing.routes';
+import { finalize } from 'rxjs/operators';
+import { Hiscore, Minigame, Skill } from 'services/hiscores/hiscore.model';
+import { HiscoresProvider } from 'services/hiscores/hiscores';
 
 @Component({
   selector: 'page-compare-hiscores',
@@ -12,48 +12,43 @@ import { AppRoute } from 'app-routing.routes';
   styleUrls: ['./compare-hiscores.page.scss'],
 })
 export class HiscoresComparePage {
-
   readonly AppRoute = AppRoute;
 
   @ViewChild(IonRefresher) refresher: IonRefresher;
 
-  player: Hiscore;
-  compare: Hiscore;
+  playerHiscore: Hiscore;
+  compareHiscore: Hiscore;
 
   expToggle = true;
 
-  constructor(
-    private hiscoreProvider: HiscoresProvider,
-    private activatedRoute: ActivatedRoute
-  ) {
-    ([this.player, this.compare] = this.activatedRoute.snapshot.data.compareHiscores);
+  constructor(private hiscoreProvider: HiscoresProvider, private activatedRoute: ActivatedRoute) {
+    [this.playerHiscore, this.compareHiscore] = this.activatedRoute.snapshot.data.compareHiscores;
   }
 
-  refreshHiscores() {
-    this.hiscoreProvider.getCompareHiscores(this.player.username, this.compare.username)
-      .pipe(
-        finalize(() => this.refresher.complete())
-      ).subscribe(([player, compare]) => {
-        this.player = player;
-        this.compare = compare;
+  refreshHiscores(): void {
+    this.hiscoreProvider
+      .getCompareHiscores(this.playerHiscore.player.username, this.compareHiscore.player.username)
+      .pipe(finalize(() => this.refresher.complete()))
+      .subscribe(([player, compare]) => {
+        this.playerHiscore = player;
+        this.compareHiscore = compare;
       });
   }
 
-  getSkillImg(index: number) {
+  getSkillImg(index: number): string {
     return `./assets/imgs/skills/${index + 1}.gif`;
   }
 
-  compareIcon(playerLvl, compareLvl) {
-    const icon = +playerLvl > +compareLvl ? 'gt' : +playerLvl < +compareLvl ? 'lt' : 'eq';
+  compareIcon(playerLvl: string, compareLvl: string): string {
+    const icon = Number(playerLvl) > Number(compareLvl) ? 'gt' : Number(playerLvl) < Number(compareLvl) ? 'lt' : 'eq';
     return `./assets/imgs/hiscore/${icon}.gif`;
   }
 
-  trackBySkillName(index: number, skill: Skill) {
+  trackBySkillName(index: number, skill: Skill): string {
     return skill.name;
   }
 
-  trackByMinigameName(index: number, minigame: Minigame) {
+  trackByMinigameName(index: number, minigame: Minigame): string {
     return minigame.name;
   }
-
 }

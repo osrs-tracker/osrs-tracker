@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Hiscore, Minigame, Skill } from './hiscore.model';
+import { Hiscore, Minigame, Player, Skill } from './hiscore.model';
 
 const SKILL_NAMES = [
   'Total',
@@ -70,7 +70,7 @@ export class HiscoreUtilitiesProvider {
       }
     );
 
-    return new Hiscore(null, null, null, null, skills, cluescrolls, bountyhunter, lms, hiscore);
+    return new Hiscore(new Player(''), 'normal', skills, cluescrolls, bountyhunter, lms, hiscore);
   }
 
   private postOctobre2018Change(hiscore: string): Hiscore {
@@ -92,7 +92,7 @@ export class HiscoreUtilitiesProvider {
       score: rows[32].split(',')[1],
     };
 
-    return new Hiscore(null, null, null, null, skills, cluescrolls, bountyhunter, lms, hiscore);
+    return new Hiscore(new Player(''), 'normal', skills, cluescrolls, bountyhunter, lms, hiscore);
   }
 
   private preOctobre2018MinigameChange(hiscore: string): Hiscore {
@@ -114,6 +114,6 @@ export class HiscoreUtilitiesProvider {
       score: rows[30].split(',')[1],
     };
 
-    return new Hiscore(null, null, null, null, skills, cluescrolls, bountyhunter, lms, hiscore);
+    return new Hiscore(new Player(''), 'normal', skills, cluescrolls, bountyhunter, lms, hiscore);
   }
 }

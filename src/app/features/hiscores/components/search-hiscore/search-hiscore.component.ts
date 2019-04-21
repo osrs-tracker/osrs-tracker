@@ -2,7 +2,7 @@ import { Component, Input, ViewChildren } from '@angular/core';
 import { NavController } from '@ionic/angular';
 import { AppRoute } from 'app-routing.routes';
 import { HiscoresRoute } from 'features/hiscores/hiscores.routes';
-import { forkJoin, timer } from 'rxjs';
+import { forkJoin, Observable, timer } from 'rxjs';
 import { AlertManager } from 'services/alert-manager/alert-manager';
 import { StorageKey } from 'services/storage/storage-key';
 import { StorageService } from 'services/storage/storage.service';
@@ -34,29 +34,29 @@ export class SearchHiscoreComponent {
     this.updateRecent();
   }
 
-  refresh() {
+  refresh(): Observable<any> {
     return forkJoin([timer(500), ...(this.hiscoreFavoriteComponents || []).map(fav => fav.getData())]);
   }
 
-  async updateFavorites() {
-    this.favoriteHiscores = await this.storageService.getValue<string[]>(StorageKey.FavoriteHiscores);
+  async updateFavorites(): Promise<void> {
+    this.favoriteHiscores = await this.storageService.getValue<string[]>(StorageKey.FavoriteHiscores, []);
   }
 
-  async updateRecent() {
-    this.recentHiscores = await this.storageService.getValue<string[]>(StorageKey.RecentHiscores);
+  async updateRecent(): Promise<void> {
+    this.recentHiscores = await this.storageService.getValue<string[]>(StorageKey.RecentHiscores, []);
   }
 
-  async removeFavorite(username: string) {
+  async removeFavorite(username: string): Promise<void> {
     await this.storageService.removeFromArray(StorageKey.FavoriteHiscores, username);
     await this.updateFavorites();
   }
 
-  async removeRecent(username: string) {
+  async removeRecent(username: string): Promise<void> {
     await this.storageService.removeFromArray(StorageKey.RecentHiscores, username);
     await this.updateRecent();
   }
 
-  async comparePlayers() {
+  async comparePlayers(): Promise<void> {
     const playerName = this.playerName.trim();
     const compareName = this.compareName.trim();
 
@@ -78,7 +78,7 @@ export class SearchHiscoreComponent {
     }
   }
 
-  async searchPlayer() {
+  async searchPlayer(): Promise<void> {
     const playerName = this.playerName.trim();
 
     if (!playerName) {
@@ -98,7 +98,7 @@ export class SearchHiscoreComponent {
     }
   }
 
-  trackByPlayer(index: number, player: string) {
+  trackByPlayer(index: number, player: string): string {
     return player;
   }
 }

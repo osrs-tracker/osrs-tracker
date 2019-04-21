@@ -25,17 +25,17 @@ export class ItemResultsPage implements OnInit, OnDestroy {
     private navCtrl: NavController
   ) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.title = `Search: ${this.activatedRoute.snapshot.params.query}` || 'Search';
     this.items = (this.activatedRoute.snapshot.data.itemResults || []).filter((item: ItemSearchModel) => item.current);
     this.itemResultsCache.store(this.items);
   }
 
-  itemDetails(item: ItemSearchModel) {
-    this.navCtrl.navigateForward([AppRoute.GrandExchange, GrandExchangeRoute.ItemDetails, item.id]);
+  itemDetails(item: ItemSearchModel): Promise<boolean> {
+    return this.navCtrl.navigateForward([AppRoute.GrandExchange, GrandExchangeRoute.ItemDetails, item.id]);
   }
 
-  trackByItemId(index: number, item: ItemSearchModel) {
+  trackByItemId(index: number, item: ItemSearchModel): number {
     return item.id;
   }
 

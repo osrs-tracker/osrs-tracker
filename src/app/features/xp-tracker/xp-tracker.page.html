@@ -14,7 +14,11 @@
 
 <ion-content>
   <ion-refresher pullMin="70" pullMax="300" (ionRefresh)="doRefresh()">
-    <ion-refresher-content pullingText="Pull to refresh" refreshingText="Refreshing..." refreshingSpinner="crescent"></ion-refresher-content>
+    <ion-refresher-content
+      pullingText="Pull to refresh"
+      refreshingText="Refreshing..."
+      refreshingSpinner="crescent"
+    ></ion-refresher-content>
   </ion-refresher>
 
   <search-xp></search-xp>

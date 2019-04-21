@@ -8,10 +8,7 @@ import { NativeHttpModule } from 'core/native-http/nativeHttp.module';
 import { AppInitializerModule } from './app-initializer.module';
 
 @NgModule({
-  imports: [
-    AppInitializerModule,
-    NativeHttpModule
-  ],
+  imports: [AppInitializerModule, NativeHttpModule],
   providers: [
     // CORDOVA PLUGINS
     BrowserTab,
@@ -19,6 +16,6 @@ import { AppInitializerModule } from './app-initializer.module';
     InAppBrowser,
     StatusBar,
     SplashScreen,
-  ]
+  ],
 })
-export class CoreModule { }
+export class CoreModule {}

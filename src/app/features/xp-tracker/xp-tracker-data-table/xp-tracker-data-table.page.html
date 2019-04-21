@@ -1,9 +1,13 @@
 <ion-content>
   <ion-refresher pullMin="70" pullMax="300" (ionRefresh)="doRefresh()">
-    <ion-refresher-content pullingText="Pull to refresh" refreshingText="Refreshing..." refreshingSpinner="crescent"></ion-refresher-content>
+    <ion-refresher-content
+      pullingText="Pull to refresh"
+      refreshingText="Refreshing..."
+      refreshingSpinner="crescent"
+    ></ion-refresher-content>
   </ion-refresher>
 
-  <ion-card *ngFor="let gains of dataTable; trackBy:trackByXpDate; let index = index">
+  <ion-card *ngFor="let gains of dataTable; trackBy: trackByXpDate; let index = index">
     <ion-card-content no-padding>
       <ion-list-header no-margin color="secondary">
         {{ getFormattedDate(gains.date, index) }}
@@ -15,7 +19,7 @@
           </ion-col>
         </ion-row>
         <ion-row>
-          <ion-col size="6" class="skill" *ngFor="let skill of gains.xp.skills; trackBy:trackBySkillName">
+          <ion-col size="6" class="skill" *ngFor="let skill of gains.xp.skills; trackBy: trackBySkillName">
             <ion-row align-items-start>
               <skill-icon [skill]="skill.name" height="18px"></skill-icon>
               <span class="skill-label">{{ skill.name }}</span>
@@ -31,6 +35,9 @@
   </ion-card>
 
   <ion-infinite-scroll (ionInfinite)="doInfinite()">
-    <ion-infinite-scroll-content loadingText="Loading older gains..." loadingSpinner="crescent"></ion-infinite-scroll-content>
+    <ion-infinite-scroll-content
+      loadingText="Loading older gains..."
+      loadingSpinner="crescent"
+    ></ion-infinite-scroll-content>
   </ion-infinite-scroll>
 </ion-content>

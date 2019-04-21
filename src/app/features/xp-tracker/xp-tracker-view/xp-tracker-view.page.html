@@ -10,8 +10,8 @@
         </ion-col>
         <ion-col>
           <ion-row align-items-center>
-            <img *ngIf="dead" class="icon" src="./assets/imgs/player_types/dead.png">
-            <img *ngIf="type !== 'normal'" class="icon" [src]="getTypeImageUrl()">
+            <img *ngIf="hiscore.player.dead" class="icon" src="./assets/imgs/player_types/dead.png" />
+            <img *ngIf="hiscore.type !== 'normal'" class="icon" [src]="getTypeImageUrl()" />
           </ion-row>
         </ion-col>
       </ion-row>
@@ -30,7 +30,6 @@
 <ion-content>
   <ion-tabs>
     <ion-tab-bar slot="bottom">
-
       <ion-tab-button [tab]="XpTrackerRoute.AdventureLog" [href]="getTabRoute(XpTrackerRoute.AdventureLog)">
         <ion-label>Adventure Log</ion-label>
         <ion-icon name="book"></ion-icon>
@@ -40,7 +39,6 @@
         <ion-label>Data Table</ion-label>
         <ion-icon name="list"></ion-icon>
       </ion-tab-button>
-
     </ion-tab-bar>
   </ion-tabs>
 </ion-content>

@@ -6,12 +6,12 @@
     <ion-title>
       <ion-row align-items-center>
         <ion-col size="auto">
-          <ion-label text-capitalize>Player: {{ hiscore.username }}</ion-label>
+          <ion-label text-capitalize>Player: {{ hiscore.player.username }}</ion-label>
         </ion-col>
         <ion-col>
           <ion-row align-items-center>
-            <img *ngIf="dead" class="icon" src="./assets/imgs/player_types/dead.png">
-            <img *ngIf="type !== 'normal'" class="icon" [src]="getTypeImageUrl()">
+            <img *ngIf="hiscore.player.dead" class="icon" src="./assets/imgs/player_types/dead.png" />
+            <img *ngIf="hiscore.type !== 'normal'" class="icon" [src]="getTypeImageUrl()" />
           </ion-row>
         </ion-col>
       </ion-row>
@@ -25,9 +25,12 @@
 </ion-header>
 
 <ion-content>
-
   <ion-refresher pullMin="70" pullMax="300" (ionRefresh)="refreshHiscore()">
-    <ion-refresher-content pullingText="Pull to refresh" refreshingText="Refreshing..." refreshingSpinner="crescent"></ion-refresher-content>
+    <ion-refresher-content
+      pullingText="Pull to refresh"
+      refreshingText="Refreshing..."
+      refreshingSpinner="crescent"
+    ></ion-refresher-content>
   </ion-refresher>
 
   <ion-list no-margin>
@@ -61,7 +64,11 @@
             <ion-col size="4" text-right>Experience</ion-col>
           </ion-row>
         </ion-list-header>
-        <ion-item color="primary" lines="full" *ngFor="let skill of hiscore.skills; trackBy:trackBySkillName; let index = index">
+        <ion-item
+          color="primary"
+          lines="full"
+          *ngFor="let skill of hiscore.skills; trackBy: trackBySkillName; let index = index"
+        >
           <ion-row align-items-center>
             <ion-col size="1" class="pl-xs" no-padding>
               <skill-icon [skill]="skill.name" height="22px"></skill-icon>
@@ -99,10 +106,10 @@
             <ion-col size="3" text-right>Amount</ion-col>
           </ion-row>
         </ion-list-header>
-        <ion-item color="primary" lines="full" *ngFor="let clue of hiscore.cluescrolls; trackBy:trackByMinigameName;">
+        <ion-item color="primary" lines="full" *ngFor="let clue of hiscore.cluescrolls; trackBy: trackByMinigameName">
           <ion-row align-items-center>
             <ion-col size="1" class="pl-xs" no-padding>
-              <img class="icon" src="./assets/imgs/hiscore/cluescroll.gif">
+              <img class="icon" src="./assets/imgs/hiscore/cluescroll.gif" />
             </ion-col>
             <ion-col size="5">
               <div>{{ clue.name }}</div>
@@ -130,10 +137,17 @@
             <ion-col size="3" text-right>Score</ion-col>
           </ion-row>
         </ion-list-header>
-        <ion-item color="primary" lines="full" *ngFor="let bounty of hiscore.bountyhunter; trackBy:trackByMinigameName; let index = index">
+        <ion-item
+          color="primary"
+          lines="full"
+          *ngFor="let bounty of hiscore.bountyhunter; trackBy: trackByMinigameName; let index = index"
+        >
           <ion-row align-items-center>
             <ion-col size="1" class="icon" class="pl-xs" no-padding>
-              <img class="icon" [src]="'./assets/imgs/hiscore/bountyhunter-' + (index === 0 ? 'hunter.gif' : 'rogue.gif')">
+              <img
+                class="icon"
+                [src]="'./assets/imgs/hiscore/bountyhunter-' + (index === 0 ? 'hunter.gif' : 'rogue.gif')"
+              />
             </ion-col>
             <ion-col size="5">
               <div>{{ bounty.name }}</div>
@@ -149,7 +163,7 @@
         <ion-item color="primary">
           <ion-row align-items-center>
             <ion-col size="1" class="icon" class="pl-xs" no-padding>
-              <img class="icon" src="./assets/imgs/hiscore/last-man-standing.gif">
+              <img class="icon" src="./assets/imgs/hiscore/last-man-standing.gif" />
             </ion-col>
             <ion-col size="5">
               <div>Last Man Standing</div>
@@ -165,5 +179,4 @@
       </ion-list>
     </ion-card-content>
   </ion-card>
-
 </ion-content>

@@ -6,21 +6,15 @@ import { NativeHttp } from './nativeHttp';
 
 @Injectable()
 export class NativeHttpImplementation extends NativeHttp {
-
-  constructor(
-    private http: HTTP
-  ) {
+  constructor(private http: HTTP) {
     super();
   }
 
   get<T>(url: string): Observable<T> {
-    return from(this.http.get(url, {}, {}))
-      .pipe(map(response => JSON.parse(response.data)));
+    return from(this.http.get(url, {}, {})).pipe(map(response => JSON.parse(response.data)));
   }
 
   getText(url: string): Observable<string> {
-    return from(this.http.get(url, {}, {}))
-      .pipe(map(response => response.data as string));
+    return from(this.http.get(url, {}, {})).pipe(map(response => response.data as string));
   }
-
 }

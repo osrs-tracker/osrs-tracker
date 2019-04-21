@@ -17,11 +17,11 @@ export class SettingsPage implements OnDestroy {
     this.settingsSubscription.add(this.settingsProvider.settings.subscribe(settings => (this.settings = settings)));
   }
 
-  updateSettings() {
+  updateSettings(): void {
     this.settingsProvider.setSettings(this.settings);
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this.settingsSubscription.unsubscribe();
   }
 }

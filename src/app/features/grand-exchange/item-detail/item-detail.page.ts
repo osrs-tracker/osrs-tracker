@@ -15,7 +15,7 @@ import { StorageService } from 'services/storage/storage.service';
 export class ItemDetailPage {
   readonly AppRoute = AppRoute;
 
-  item: ItemSearchModel = ItemSearchModel.empty();
+  item: ItemSearchModel;
   isFavorite = false;
 
   constructor(
@@ -34,12 +34,12 @@ export class ItemDetailPage {
       .then(favorites => (this.isFavorite = favorites.includes(this.item.id.toString())));
   }
 
-  async toggleFavorite() {
+  async toggleFavorite(): Promise<void> {
     this.isFavorite = await this.storageService.uniqueCacheToggle(StorageKey.FavoriteItems, this.item.id.toString());
-    this.addItemToRecents();
+    await this.addItemToRecents();
   }
 
-  async openWiki() {
+  async openWiki(): Promise<void> {
     const url = `https://oldschool.runescape.wiki/w/${this.item.name}`;
     if (await this.browserTab.isAvailable()) {
       this.browserTab.openUrl(url);

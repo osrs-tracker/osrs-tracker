@@ -21,24 +21,24 @@ import { PlayerHiscoreResolver } from './player-hiscore/player-hiscore.resolver'
         path: `${HiscoresRoute.PlayerHiscore}/:player`,
         component: PlayerHiscorePage,
         resolve: {
-          playerHiscore: PlayerHiscoreResolver
-        }
+          playerHiscore: PlayerHiscoreResolver,
+        },
       },
       {
         path: `${HiscoresRoute.CompareHiscores}/:player/:compare`,
         component: HiscoresComparePage,
         resolve: {
-          compareHiscores: CompareHiscoresResolver
-        }
-      }
-    ])
+          compareHiscores: CompareHiscoresResolver,
+        },
+      },
+    ]),
   ],
   declarations: [
     HiscoresPage,
     PlayerHiscorePage,
     HiscoresComparePage,
     HiscoreFavoriteComponent,
-    SearchHiscoreComponent
+    SearchHiscoreComponent,
   ],
 })
-export class HiscoresPageModule { }
+export class HiscoresPageModule {}

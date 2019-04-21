@@ -5,7 +5,7 @@ import { StorageService } from 'services/storage/storage.service';
 import { PreferredXpTrackerView } from './preferred-xp-tracker-view';
 
 export interface Settings {
-  preferredXpTrackerView?: PreferredXpTrackerView;
+  preferredXpTrackerView: PreferredXpTrackerView;
 }
 
 @Injectable({
@@ -20,12 +20,12 @@ export class SettingsProvider {
     this.settings.next(await this.storageProvider.getValue<Settings>(StorageKey.Settings, this.initSettings()));
   }
 
-  setSettings(settings: Settings) {
+  setSettings(settings: Settings): void {
     this.settings.next(settings);
     this.storageProvider.setValue(StorageKey.Settings, this.settings.value);
   }
 
-  get preferredXpTrackerView() {
+  get preferredXpTrackerView(): PreferredXpTrackerView {
     return this.settings.value.preferredXpTrackerView;
   }
 
@@ -33,7 +33,7 @@ export class SettingsProvider {
     this.updateSettings<PreferredXpTrackerView>('preferredXpTrackerView', preferredXpTrackerView);
   }
 
-  private updateSettings<T>(setting: string, value: T) {
+  private updateSettings<T>(setting: string, value: T): void {
     this.settings.next({
       ...this.settings.value,
       [setting]: value,

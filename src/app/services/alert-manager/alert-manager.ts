@@ -10,7 +10,7 @@ export class AlertManager {
 
   constructor(private alertCtrl: AlertController) {}
 
-  async create(options?: AlertOptions) {
+  async create(options?: AlertOptions): Promise<void> {
     const alert = await this.alertCtrl.create({
       ...options,
     });
@@ -19,15 +19,15 @@ export class AlertManager {
     await alert.present();
   }
 
-  isDialogOpen() {
+  isDialogOpen(): boolean {
     return this.alertStack.length > 0;
   }
 
-  async close() {
-    await this.alertStack.pop().dismiss();
+  async close(): Promise<void> {
+    await this.alertStack.pop()!.dismiss();
   }
 
-  closeAll() {
+  closeAll(): void {
     while (this.alertStack.length > 0) {
       close();
     }

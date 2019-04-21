@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { NativeHttp } from 'core/native-http/nativeHttp';
 import { environment } from 'environments/environment';
 import { Observable } from 'rxjs';
-import { map, mergeMap } from 'rxjs/operators';
+import { map, switchMap } from 'rxjs/operators';
 import { StorageKey } from 'services/storage/storage-key';
 import { StorageService } from 'services/storage/storage.service';
 import { ElementCompact, xml2js } from 'xml-js';
@@ -47,7 +47,7 @@ export class NewsProvider {
       map(xmlRss => {
         const xml: ElementCompact = xml2js(xmlRss, { compact: true });
         return xml.rss.channel.item.map(
-          item =>
+          (item: ElementCompact) =>
             new NewsItemOSRS(
               item.title._text,
               item.pubDate._text,
@@ -64,36 +64,35 @@ export class NewsProvider {
     );
   }
 
-  getAppNews(uuid, offset = 0): Observable<NewsItemApp[]> {
+  getAppNews(uuid: string | null = null, offset: number = 0): Observable<NewsItemApp[]> {
     return this.http.get<NewsItemApp[]>(`${environment.API_GEPT}/news`, {
-      params: { uuid: uuid, offset: `${offset}` },
+      params: {
+        uuid: uuid || '',
+        offset: `${offset}`,
+      },
     });
   }
 
-  getAppNewsItem(id, uuid): Observable<NewsItemApp> {
+  getAppNewsItem(id: number, uuid: string): Observable<NewsItemApp> {
     return this.http.get<NewsItemApp>(`${environment.API_GEPT}/news/${id}`, { params: { uuid: uuid } });
   }
 
-  upvoteAppNews(newsId, uuid) {
+  upvoteAppNews(newsId: number, uuid: string): Observable<NewsItemApp> {
     return this.http
       .post(`${environment.API_GEPT}/news/upvote`, {
         newsId: newsId,
         uuid: uuid,
       })
-      .pipe(
-        mergeMap(() => {
-          return this.getAppNewsItem(newsId, uuid);
-        })
-      );
+      .pipe(switchMap(() => this.getAppNewsItem(newsId, uuid)));
   }
 
-  downvoteAppNews(newsId, uuid) {
+  downvoteAppNews(newsId: number, uuid: string): Observable<NewsItemApp> {
     return this.http
       .post(`${environment.API_GEPT}/news/downvote`, {
         newsId: newsId,
         uuid: uuid,
       })
-      .pipe(mergeMap(() => this.getAppNewsItem(newsId, uuid)));
+      .pipe(switchMap(() => this.getAppNewsItem(newsId, uuid)));
   }
 
   async isNewAppArticleAvailable(): Promise<boolean> {
@@ -103,12 +102,10 @@ export class NewsProvider {
       if (!appNews) {
         resolve(true);
       } else {
-        this.getAppNews(null).subscribe(
-          newItems => {
-            resolve(newItems[0].id > appNews[0].id);
-          },
-          () => resolve(false)
-        );
+        this.getAppNews().subscribe({
+          next: newItems => resolve(newItems[0].id > appNews[0].id),
+          error: () => resolve(false),
+        });
       }
     });
   }

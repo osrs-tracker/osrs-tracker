@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'environments/environment';
+import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { HiscoreUtilitiesProvider } from '../hiscores/hiscore-utilities';
 import { Hiscore, Minigame, Skill } from '../hiscores/hiscore.model';
@@ -15,17 +16,19 @@ export class Xp {
 export class XpProvider {
   constructor(private http: HttpClient, private hiscoreUtilities: HiscoreUtilitiesProvider) {}
 
-  insertInitialXpDatapoint(username: string, hiscore: Hiscore) {
+  insertInitialXpDatapoint(username: string, hiscore: Hiscore): Observable<Hiscore> {
     return this.http
       .post(`${environment.API_GEPT}/xp/${username}/initialDatapoint`, { xpString: hiscore.srcString })
       .pipe(map(() => hiscore));
   }
 
-  getXpFor(username: string, period: number = 14, offset = 0) {
+  getXpFor(username: string, period: number = 14, offset: number = 0): Observable<Xp[]> {
     return this.http
-      .get(`${environment.API_GEPT}/xp/${username}/${period}`, { params: { offset: offset.toString() } })
+      .get<{ date: string; xpString: string }[]>(`${environment.API_GEPT}/xp/${username}/${period}`, {
+        params: { offset: offset.toString() },
+      })
       .pipe(
-        map((xpPeriod: { date: string; xpString: string }[]) =>
+        map(xpPeriod =>
           xpPeriod.map(
             xp => new Xp(new Date(xp.date), this.hiscoreUtilities.parseHiscoreString(xp.xpString, new Date(xp.date)))
           )

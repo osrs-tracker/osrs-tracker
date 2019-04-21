@@ -2,13 +2,13 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { NavController } from '@ionic/angular';
 import { AppRoute } from 'app-routing.routes';
 import { XpTrackerRoute } from 'features/xp-tracker/hiscores.routes';
-import { forkJoin, throwError } from 'rxjs';
+import { forkJoin, Observable, throwError } from 'rxjs';
 import { catchError, delay, finalize, retry, tap } from 'rxjs/operators';
 import { Hiscore } from 'services/hiscores/hiscore.model';
 import { HiscoresProvider } from 'services/hiscores/hiscores';
 import { StorageKey } from 'services/storage/storage-key';
 import { StorageService } from 'services/storage/storage.service';
-import { XpProvider } from 'services/xp/xp';
+import { Xp, XpProvider } from 'services/xp/xp';
 
 @Component({
   selector: 'xp-favorite',
@@ -22,7 +22,7 @@ export class XpFavoriteComponent implements OnInit {
   @Output() delete: EventEmitter<void> = new EventEmitter<void>();
 
   hiscore: Hiscore;
-  gains: string;
+  gains?: string;
 
   loading = true;
 
@@ -33,16 +33,15 @@ export class XpFavoriteComponent implements OnInit {
     private xpProvider: XpProvider
   ) {}
 
-  async goToXp() {
-    await this.navCtrl.navigateForward([AppRoute.XpTracker, XpTrackerRoute.View, this.player]);
-  }
-
-  ngOnInit() {
+  ngOnInit(): void {
     this.getData().subscribe();
   }
 
-  getData() {
-    this.gains = undefined;
+  goToXp(): Promise<boolean> {
+    return this.navCtrl.navigateForward([AppRoute.XpTracker, XpTrackerRoute.View, this.player]);
+  }
+
+  getData(): Observable<[Xp[], Hiscore]> {
     this.loading = true;
     return forkJoin(this.xpProvider.getXpFor(this.player, 1), this.hiscoreProvider.getHiscoreAndType(this.player)).pipe(
       finalize(() => (this.loading = false)),
@@ -61,9 +60,9 @@ export class XpFavoriteComponent implements OnInit {
     );
   }
 
-  get typeImageUrl() {
+  get typeImageUrl(): string {
     return this.hiscore
-      ? `./assets/imgs/player_types/${this.hiscore.deIroned ? 'de_' : ''}${this.hiscore.type}.png`
+      ? `./assets/imgs/player_types/${this.hiscore.player.deIroned ? 'de_' : ''}${this.hiscore.type}.png`
       : '';
   }
 
