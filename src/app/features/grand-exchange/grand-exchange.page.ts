@@ -11,12 +11,12 @@ export class GrandExchangePage {
   @ViewChild(IonRefresher) refresher: IonRefresher;
   @ViewChild(SearchItemComponent) searchItem: SearchItemComponent;
 
-  ionViewWillEnter() {
+  ionViewWillEnter(): void {
     this.searchItem.updateFavorites();
     this.searchItem.updateRecent();
   }
 
-  doRefresh() {
+  doRefresh(): void {
     this.searchItem
       .refresh()
       .pipe(finalize(() => this.refresher.complete()))

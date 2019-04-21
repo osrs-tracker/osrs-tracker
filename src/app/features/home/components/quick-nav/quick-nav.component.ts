@@ -22,11 +22,11 @@ export class QuickNavComponent {
 
   constructor(private navCtrl: NavController) {}
 
-  async navigateTo(page: string) {
-    await this.navCtrl.navigateForward(page);
+  navigateTo(page: string): Promise<boolean> {
+    return this.navCtrl.navigateForward(page);
   }
 
-  trackByButtonId(index: number, button: QuickNavButton) {
+  trackByButtonId(index: number, button: QuickNavButton): number {
     return button.id;
   }
 }

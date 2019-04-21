@@ -27,19 +27,19 @@ export class SearchItemComponent {
     this.updateRecent();
   }
 
-  async updateFavorites() {
-    this.favoriteItems = await this.storageService.getValue<string[]>(StorageKey.FavoriteItems);
+  async updateFavorites(): Promise<void> {
+    this.favoriteItems = await this.storageService.getValue<string[]>(StorageKey.FavoriteItems, []);
   }
 
-  async updateRecent() {
-    this.recentItems = await this.storageService.getValue<string[]>(StorageKey.RecentItems);
+  async updateRecent(): Promise<void> {
+    this.recentItems = await this.storageService.getValue<string[]>(StorageKey.RecentItems, []);
   }
 
   refresh(): Observable<any> {
     return forkJoin([timer(500), ...(this.itemFavoriteComponents || []).map(fav => fav.getData())]);
   }
 
-  async searchItem(query: string) {
+  async searchItem(query: string): Promise<void> {
     query = query.trim();
 
     if (query.length < 3) {
@@ -60,7 +60,7 @@ export class SearchItemComponent {
     }
   }
 
-  trackByItemId(index: number, itemId: number) {
+  trackByItemId(index: number, itemId: number): number {
     return itemId;
   }
 }

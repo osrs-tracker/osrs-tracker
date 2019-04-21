@@ -14,19 +14,19 @@ export class XpTrackerPage {
 
   constructor(private alertManager: AlertManager) {}
 
-  ionViewWillEnter() {
+  ionViewWillEnter(): void {
     this.searchXp.updateFavorites();
     this.searchXp.updateRecent();
   }
 
-  doRefresh() {
+  doRefresh(): void {
     this.searchXp
       .refresh()
       .pipe(finalize(() => this.refresher.complete()))
       .subscribe();
   }
 
-  openHelp() {
+  openHelp(): void {
     this.alertManager.create({
       header: 'Help',
       subHeader: 'What is XP Tracker?',

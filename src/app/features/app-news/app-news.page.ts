@@ -34,7 +34,7 @@ export class AppNewsPage implements OnInit {
     private toastController: ToastController
   ) {}
 
-  async ngOnInit() {
+  async ngOnInit(): Promise<void> {
     this.uuid = environment.production ? this.device.uuid : 'test';
     this.items = await this.storageService.getValue<NewsItemApp[]>(StorageKey.CacheAppNews, []);
     this.getNews().subscribe();
@@ -53,8 +53,8 @@ export class AppNewsPage implements OnInit {
     );
   }
 
-  upvote(id: number) {
-    const item = this.items.find(newsItem => newsItem.id === id);
+  upvote(id: number): void {
+    const item = this.items.find(newsItem => newsItem.id === id)!;
     this.offlineUpvoteLogic(item);
     this.newsProvider.upvoteAppNews(id, this.uuid).subscribe(
       newsItem => Object.assign(item, newsItem),
@@ -65,8 +65,8 @@ export class AppNewsPage implements OnInit {
     );
   }
 
-  downvote(id: number) {
-    const item = this.items.find(newsItem => newsItem.id === id);
+  downvote(id: number): void {
+    const item = this.items.find(newsItem => newsItem.id === id)!;
     this.offlineDownvoteLogic(item);
     this.newsProvider.downvoteAppNews(id, this.uuid).subscribe(
       newsItem => Object.assign(item, newsItem),
@@ -77,13 +77,13 @@ export class AppNewsPage implements OnInit {
     );
   }
 
-  doRefresh() {
+  doRefresh(): void {
     forkJoin(timer(500), this.getNews())
       .pipe(finalize(() => this.refresher.complete()))
       .subscribe();
   }
 
-  doInfinite() {
+  doInfinite(): void {
     if (this.loading === false) {
       this.loading = true;
       this.newsProvider
@@ -110,12 +110,12 @@ export class AppNewsPage implements OnInit {
     }
   }
 
-  trackByNewsItemId(index: number, newsItem: NewsItemApp) {
+  trackByNewsItemId(index: number, newsItem: NewsItemApp): number {
     return newsItem.id;
   }
 
-  private replaceNewsLinks() {
-    document.querySelectorAll('a[href]').forEach((el: HTMLAnchorElement) => {
+  private replaceNewsLinks(): void {
+    document.querySelectorAll<HTMLAnchorElement>('a[href]').forEach(el => {
       el.onclick = (event: Event) => {
         event.preventDefault();
         this.browserTab.isAvailable().then(isAvailabe => {
@@ -129,7 +129,7 @@ export class AppNewsPage implements OnInit {
     });
   }
 
-  private async voteErrorToast() {
+  private async voteErrorToast(): Promise<void> {
     const toast = await this.toastController.create({
       message: 'Failed to process vote. Check your internet connection.',
       duration: 3000,
@@ -137,7 +137,7 @@ export class AppNewsPage implements OnInit {
     await toast.present();
   }
 
-  private offlineUpvoteLogic(item: NewsItemApp) {
+  private offlineUpvoteLogic(item: NewsItemApp): void {
     if (item.vote === 1) {
       item.upvotes--;
     } else if (!item.vote) {
@@ -149,7 +149,7 @@ export class AppNewsPage implements OnInit {
     item.vote = item.vote === 1 ? 0 : 1;
   }
 
-  private offlineDownvoteLogic(item: NewsItemApp) {
+  private offlineDownvoteLogic(item: NewsItemApp): void {
     if (item.vote === 1) {
       item.upvotes--;
       item.downvotes++;

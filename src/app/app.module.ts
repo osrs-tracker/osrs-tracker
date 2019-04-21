@@ -17,11 +17,9 @@ import { CoreModule } from './core/core.module';
     IonicModule.forRoot(),
     IonicStorageModule.forRoot({ driverOrder: ['sqlite', 'indexeddb', 'websql'] }),
     CoreModule,
-    AppRoutingModule
+    AppRoutingModule,
   ],
-  providers: [
-    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
-  ],
-  bootstrap: [AppComponent]
+  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

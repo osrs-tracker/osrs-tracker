@@ -19,15 +19,11 @@ export class PlayerHiscorePage {
 
   @ViewChild(IonRefresher) refresher: IonRefresher;
 
-  type = 'normal';
-  deIroned = false;
-  dead = false;
-
   hiscore: Hiscore;
   hiscoreSuffix = 'normal';
   oldHiscoreSuffix = 'normal';
 
-  isFavorite: boolean = null;
+  isFavorite = false;
 
   constructor(
     private loadCtrl: LoadingController,
@@ -38,32 +34,34 @@ export class PlayerHiscorePage {
   ) {
     this.hiscore = this.activatedRoute.snapshot.data.playerHiscore;
     this.hiscoreSuffix = this.oldHiscoreSuffix = this.getHiscoreSuffix();
-    ({ type: this.type, deIroned: this.deIroned, dead: this.dead } = this.hiscore);
 
     this.addPlayerToRecents();
 
     this.storageService
       .getValue<string[]>(StorageKey.FavoriteHiscores, [])
-      .then(favorites => (this.isFavorite = favorites.includes(this.hiscore.username)));
+      .then(favorites => (this.isFavorite = favorites.includes(this.hiscore.player.username)));
   }
 
-  async favorite() {
-    this.isFavorite = await this.storageService.uniqueCacheToggle(StorageKey.FavoriteHiscores, this.hiscore.username);
+  async favorite(): Promise<void> {
+    this.isFavorite = await this.storageService.uniqueCacheToggle(
+      StorageKey.FavoriteHiscores,
+      this.hiscore.player.username
+    );
     this.addPlayerToRecents();
   }
 
-  getTypeImageUrl() {
-    return `./assets/imgs/player_types/${this.deIroned ? 'de_' : ''}${this.type}.png`;
+  getTypeImageUrl(): string {
+    return `./assets/imgs/player_types/${this.hiscore.player.deIroned ? 'de_' : ''}${this.hiscore.type}.png`;
   }
 
-  refreshHiscore() {
+  refreshHiscore(): void {
     this.hiscoreService
-      .getHiscore(this.hiscore.username, this.oldHiscoreSuffix)
+      .getHiscore(this.hiscore.player.username, this.oldHiscoreSuffix)
       .pipe(finalize(() => this.refresher.complete()))
       .subscribe(hiscore => (this.hiscore = hiscore));
   }
 
-  async changeHiscore() {
+  async changeHiscore(): Promise<void> {
     if (this.oldHiscoreSuffix === this.hiscoreSuffix) {
       return;
     }
@@ -72,7 +70,7 @@ export class PlayerHiscorePage {
     await loader.present();
 
     this.hiscoreService
-      .getHiscore(this.hiscore.username, this.hiscoreSuffix)
+      .getHiscore(this.hiscore.player.username, this.hiscoreSuffix)
       .pipe(finalize(() => loader.dismiss()))
       .subscribe({
         next: hiscores => {
@@ -89,25 +87,25 @@ export class PlayerHiscorePage {
       });
   }
 
-  trackBySkillName(index: number, skill: Skill) {
+  trackBySkillName(index: number, skill: Skill): string {
     return skill.name;
   }
 
-  trackByMinigameName(index: number, minigame: Minigame) {
+  trackByMinigameName(index: number, minigame: Minigame): string {
     return minigame.name;
   }
 
-  private getHiscoreSuffix() {
-    if (this.hiscore.type === 'normal' || this.hiscore.deIroned) {
+  private getHiscoreSuffix(): string {
+    if (this.hiscore.type === 'normal' || this.hiscore.player.deIroned) {
       return 'normal';
     }
-    return this.hiscore.dead ? 'ironman' : this.hiscore.type;
+    return this.hiscore.player.dead ? 'ironman' : this.hiscore.type;
   }
 
   private async addPlayerToRecents(): Promise<void> {
     const favoritedPlayers = await this.storageService.getValue(StorageKey.FavoriteHiscores, []);
 
-    await this.storageService.limitedArrayPush(StorageKey.RecentHiscores, this.hiscore.username, {
+    await this.storageService.limitedArrayPush(StorageKey.RecentHiscores, this.hiscore.player.username, {
       maxLength: 5,
       blacklist: favoritedPlayers,
     });

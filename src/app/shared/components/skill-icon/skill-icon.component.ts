@@ -38,7 +38,7 @@ export class SkillIconComponent implements OnInit {
   @Input() height: string;
   src: string;
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.src = `./assets/imgs/skills/${SkillIconComponent.SKILL_NAMES.indexOf(this.skill.toLocaleLowerCase()) + 1}.gif`;
   }
 }

@@ -26,7 +26,6 @@ export class XpTrackerAdventureLogPage {
   logs: Xp[];
 
   username: string;
-
   private loading = false;
 
   constructor(
@@ -35,13 +34,13 @@ export class XpTrackerAdventureLogPage {
     private xpProvider: XpProvider,
     private xpTrackerViewCache: XpTrackerViewCache
   ) {
-    this.originalXp = this.xpTrackerViewCache.get()[0];
-    this.originalHiscore = this.xpTrackerViewCache.get()[1];
+    this.originalXp = this.xpTrackerViewCache.get()![0];
+    this.originalHiscore = this.xpTrackerViewCache.get()![1];
     this.period = this.xpProvider.calcXpGains(this.originalXp, this.originalHiscore);
 
     this.parseLogs();
 
-    this.username = this.originalHiscore.username;
+    this.username = this.originalHiscore.player.username;
   }
 
   doRefresh(): void {
@@ -102,20 +101,20 @@ export class XpTrackerAdventureLogPage {
         return 'Yesterday';
       }
     }
-    return this.datePipe.transform(date, 'MMMM d, yyyy');
+    return this.datePipe.transform(date, 'MMMM d, yyyy')!;
   }
 
-  trackByXpDate(index: number, xp: Xp) {
+  trackByXpDate(index: number, xp: Xp): number {
     return xp.date.getTime();
   }
 
-  trackByName(index: number, prop: { name: string }) {
+  trackByName(index: number, prop: { name: string }): string {
     return prop.name;
   }
 
-  private parseLogs() {
+  private parseLogs(): void {
     this.logs = this.period.map(period => {
-      period.xp.skills = [period.xp.skills.shift(), ...period.xp.skills.filter(skill => Number(skill.level) > 0)];
+      period.xp.skills = [period.xp.skills[0], ...period.xp.skills.slice(1).filter(skill => Number(skill.level) > 0)];
       period.xp.cluescrolls = period.xp.cluescrolls.slice(1).filter(cluescroll => Number(cluescroll.amount) > 0);
       period.xp.bountyhunter = period.xp.bountyhunter.filter(bountyhunter => Number(bountyhunter.amount) > 0);
       return period;

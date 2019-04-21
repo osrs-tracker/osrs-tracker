@@ -32,17 +32,16 @@ export class HiscoreFavoriteComponent implements OnInit {
     private navCtrl: NavController
   ) {}
 
-  goToHiscore() {
-    this.navCtrl.navigateForward([AppRoute.Hiscores, HiscoresRoute.PlayerHiscore, this.player]);
+  ngOnInit(): void {
+    this.getData().subscribe();
   }
 
-  ngOnInit() {
-    this.getData().subscribe();
+  goToHiscore(): Promise<boolean> {
+    return this.navCtrl.navigateForward([AppRoute.Hiscores, HiscoresRoute.PlayerHiscore, this.player]);
   }
 
   getData(): Observable<Hiscore> {
     this.loading = true;
-    this.combatLevel = undefined;
     return this.hiscoreProvider.getHiscoreAndType(this.player).pipe(
       finalize(() => (this.loading = false)),
       catchError(err => {
@@ -54,12 +53,12 @@ export class HiscoreFavoriteComponent implements OnInit {
       tap(hiscore => {
         this.hiscore = hiscore;
         this.combatLevel = this.calculateCombatLevel(hiscore);
-        this.icon = `./assets/imgs/player_types/${this.hiscore.deIroned ? 'de_' : ''}${this.hiscore.type}.png`;
+        this.icon = `./assets/imgs/player_types/${this.hiscore.player.deIroned ? 'de_' : ''}${this.hiscore.type}.png`;
       })
     );
   }
 
-  private calculateCombatLevel(hiscore: Hiscore) {
+  private calculateCombatLevel(hiscore: Hiscore): number {
     const [total, attack, strength, defence, hitpoints, prayer, ranged, magic] = hiscore.skills.map(skill =>
       Number(skill.level)
     );

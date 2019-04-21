@@ -2,7 +2,7 @@
   <ion-item item-result [button]="true" [detail]="true" color="primary" (click)="goToDetails()">
     <ion-thumbnail slot="start">
       <ng-template [ngIf]="item?.icon">
-        <img [src]="item.icon" />
+        <img [src]="item?.icon" />
       </ng-template>
     </ion-thumbnail>
     <ion-label class="description">
@@ -23,7 +23,7 @@
             </div>
           </ion-row>
           <ion-row align-items-center justify-content-end>
-            <div [class]="item.trendClass">
+            <div [class]="item?.trendClass">
               <small>{{ item?.today !== '0' ? item?.today + ' gp' : '-' }} </small>
             </div>
           </ion-row>

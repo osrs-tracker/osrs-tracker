@@ -1,8 +1,7 @@
 import { AfterViewInit, Component, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
-import { IonMenu, IonSplitPane, NavController, Platform } from '@ionic/angular';
-import { tap } from 'rxjs/operators';
+import { IonMenu, NavController, Platform } from '@ionic/angular';
 import { AppRoute } from './app-routing.routes';
 import { AlertManager } from './services/alert-manager/alert-manager';
 import { NewsProvider } from './services/news/news';
@@ -12,8 +11,8 @@ class Page {
     public id: number,
     public icon: string,
     public title: string,
-    public badge: string,
     public route?: string,
+    public badge?: string,
     public action?: () => void
   ) {}
 }
@@ -24,19 +23,18 @@ class Page {
 })
 export class AppComponent implements AfterViewInit {
   @ViewChild(IonMenu) menu: IonMenu;
-  @ViewChild(IonSplitPane) splitPane: IonSplitPane;
 
   pages: Page[] = [
-    new Page(0, 'home', 'Home', null, AppRoute.Home),
-    new Page(1, 'ios-paper', 'App News', null, AppRoute.AppNews),
-    new Page(2, 'trending-up', 'Grand Exchange', null, AppRoute.GrandExchange),
-    new Page(3, 'trophy', 'Hiscores', null, AppRoute.Hiscores),
-    new Page(4, 'ios-podium', 'XP Tracker', null, AppRoute.XpTracker),
-    new Page(5, 'discord', 'Discord', null, null, () => window.open('https://discord.gg/k7E6WZj', '_system')),
-    new Page(5, 'star', 'Rate App', null, null, () =>
+    new Page(0, 'home', 'Home', AppRoute.Home),
+    new Page(1, 'ios-paper', 'App News', AppRoute.AppNews),
+    new Page(2, 'trending-up', 'Grand Exchange', AppRoute.GrandExchange),
+    new Page(3, 'trophy', 'Hiscores', AppRoute.Hiscores),
+    new Page(4, 'ios-podium', 'XP Tracker', AppRoute.XpTracker),
+    new Page(5, 'discord', 'Discord', undefined, undefined, () => window.open('https://discord.gg/k7E6WZj', '_system')),
+    new Page(5, 'star', 'Rate App', undefined, undefined, () =>
       window.open('market://details?id=com.toxsickproductions.geptv2', '_system')
     ),
-    new Page(6, 'settings', 'Settings', null, AppRoute.Settings),
+    new Page(6, 'settings', 'Settings', AppRoute.Settings),
   ];
 
   splitPaneVisible = false;
@@ -52,18 +50,18 @@ export class AppComponent implements AfterViewInit {
     this.initializeApp();
   }
 
-  async initializeApp() {
+  async initializeApp(): Promise<void> {
     this.checkForNewAppNews();
     await this.platform.ready();
     this.splashScreen.hide();
     this.backButtonLogic();
   }
 
-  ngAfterViewInit() {
-    this.menu.ionWillOpen.pipe(tap(() => this.checkForNewAppNews())).subscribe();
+  ngAfterViewInit(): void {
+    this.menu.ionWillOpen.subscribe({ next: () => this.checkForNewAppNews() });
   }
 
-  linkClicked(page: Page) {
+  linkClicked(page: Page): void {
     if (page.route) {
       this.navCtrl.navigateRoot(page.route, { animated: false });
     } else if (page.action) {
@@ -71,21 +69,21 @@ export class AppComponent implements AfterViewInit {
     }
   }
 
-  trackByPageId(index: number, page: Page) {
+  trackByPageId(index: number, page: Page): number {
     return page.id;
   }
 
-  splitPaneChanged(event: any) {
+  splitPaneChanged(event: any): void {
     this.splitPaneVisible = event.detail.visible;
   }
 
-  private async checkForNewAppNews() {
-    if (this.newsProvider.isNewAppArticleAvailable()) {
+  private async checkForNewAppNews(): Promise<void> {
+    if (await this.newsProvider.isNewAppArticleAvailable()) {
       this.pages.filter(page => page.title === 'App News')[0].badge = 'NEW';
     }
   }
 
-  private backButtonLogic() {
+  private backButtonLogic(): void {
     this.platform.backButton.subscribeWithPriority(1, async () => {
       const segments = this.router.url.substr(1).split('/');
       if (this.alertManager.isDialogOpen()) {
@@ -99,7 +97,7 @@ export class AppComponent implements AfterViewInit {
       } else if (!this.router.isActive(AppRoute.Home, false)) {
         this.navCtrl.navigateRoot(AppRoute.Home, { animated: true, animationDirection: 'back' });
       } else {
-        navigator['app'].exitApp();
+        (navigator as any)['app'].exitApp();
       }
     });
   }

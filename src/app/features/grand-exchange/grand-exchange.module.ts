@@ -16,9 +16,17 @@ import { ItemResultsResolver } from './item-results/item-results.resolver';
     SharedModule,
     RouterModule.forChild([
       { path: '', component: GrandExchangePage },
-      { path: `${GrandExchangeRoute.ItemResults}/:query`, component: ItemResultsPage, resolve: { itemResults: ItemResultsResolver } },
-      { path: `${GrandExchangeRoute.ItemDetails}/:id`, component: ItemDetailPage, resolve: { itemDetail: ItemDetailResolver } }
-    ])
+      {
+        path: `${GrandExchangeRoute.ItemResults}/:query`,
+        component: ItemResultsPage,
+        resolve: { itemResults: ItemResultsResolver },
+      },
+      {
+        path: `${GrandExchangeRoute.ItemDetails}/:id`,
+        component: ItemDetailPage,
+        resolve: { itemDetail: ItemDetailResolver },
+      },
+    ]),
   ],
   declarations: [
     GrandExchangePage,
@@ -26,7 +34,7 @@ import { ItemResultsResolver } from './item-results/item-results.resolver';
     ItemResultsPage,
     ItemResultComponent,
     SearchItemComponent,
-    PriceTrendComponent
-  ]
+    PriceTrendComponent,
+  ],
 })
 export class GrandExchangePageModule {}

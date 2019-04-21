@@ -2,7 +2,7 @@ import { Component, Input, ViewChildren } from '@angular/core';
 import { NavController } from '@ionic/angular';
 import { AppRoute } from 'app-routing.routes';
 import { XpTrackerRoute } from 'features/xp-tracker/hiscores.routes';
-import { forkJoin, timer } from 'rxjs';
+import { forkJoin, Observable, timer } from 'rxjs';
 import { AlertManager } from 'services/alert-manager/alert-manager';
 import { StorageKey } from 'services/storage/storage-key';
 import { StorageService } from 'services/storage/storage.service';
@@ -30,29 +30,29 @@ export class SearchXpComponent {
     this.updateRecent();
   }
 
-  async updateFavorites() {
-    this.favoriteXp = await this.storageService.getValue<string[]>(StorageKey.FavoriteXp);
+  async updateFavorites(): Promise<void> {
+    this.favoriteXp = await this.storageService.getValue<string[]>(StorageKey.FavoriteXp, []);
   }
 
-  async updateRecent() {
-    this.recentXp = await this.storageService.getValue<string[]>(StorageKey.RecentXp);
+  async updateRecent(): Promise<void> {
+    this.recentXp = await this.storageService.getValue<string[]>(StorageKey.RecentXp, []);
   }
 
-  refresh() {
+  refresh(): Observable<any> {
     return forkJoin([timer(500), ...(this.xpFavoriteComponents || []).map(fav => fav.getData())]);
   }
 
-  async removeFavorite(username: string) {
+  async removeFavorite(username: string): Promise<void> {
     await this.storageService.removeFromArray(StorageKey.FavoriteXp, username);
     await this.updateFavorites();
   }
 
-  async removeRecent(username: string) {
+  async removeRecent(username: string): Promise<void> {
     await this.storageService.removeFromArray(StorageKey.RecentXp, username);
     await this.updateFavorites();
   }
 
-  async searchXp(playerName: string) {
+  async searchXp(playerName: string): Promise<void> {
     playerName = playerName.trim();
 
     if (!playerName) {
@@ -73,7 +73,7 @@ export class SearchXpComponent {
     }
   }
 
-  trackByUsername(index: number, username: string) {
+  trackByUsername(index: number, username: string): string {
     return username;
   }
 }

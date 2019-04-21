@@ -22,14 +22,8 @@ export class XpTrackerViewPage implements OnDestroy {
   readonly XpTrackerRoute = XpTrackerRoute;
 
   hiscore: Hiscore;
-  rootParams: { hiscore; xp };
-
-  isFavorite: boolean = null;
+  isFavorite = false;
   username: string;
-  type = 'normal';
-  deIroned = false;
-  dead = false;
-
   settingsSubscription = new Subscription();
 
   constructor(
@@ -40,42 +34,43 @@ export class XpTrackerViewPage implements OnDestroy {
     private settingsProvider: SettingsProvider,
     private xpTrackerViewCache: XpTrackerViewCache
   ) {
-    this.xpTrackerViewCache.store((this.rootParams = activatedRoute.snapshot.data.period));
+    this.xpTrackerViewCache.store(activatedRoute.snapshot.data.period);
     this.hiscore = activatedRoute.snapshot.data.period[1];
-    ({ username: this.username, type: this.type, deIroned: this.deIroned, dead: this.dead } = this.hiscore);
+    this.username = this.hiscore.player.username;
 
     this.addXpToRecents();
 
     this.storageService
       .getValue<string[]>(StorageKey.FavoriteXp, [])
-      .then(favorites => (this.isFavorite = favorites.includes(this.hiscore.username.toString())));
+      .then(favorites => (this.isFavorite = favorites.includes(this.username)));
 
     this.loadPreferredRoute();
   }
 
-  getTabRoute(tab: string) {
-    return `/${AppRoute.XpTracker}/${XpTrackerRoute.View}/${this.hiscore.username}/(${tab}:${tab})`;
+  getTabRoute(tab: string): string {
+    return `/${AppRoute.XpTracker}/${XpTrackerRoute.View}/${this.username}/(${tab}:${tab})`;
   }
 
-  async goToHiscore() {
-    await this.navCtrl.navigateForward([AppRoute.Hiscores, HiscoresRoute.PlayerHiscore, this.hiscore.username]);
+  goToHiscore(): Promise<boolean> {
+    return this.navCtrl.navigateForward([AppRoute.Hiscores, HiscoresRoute.PlayerHiscore, this.username]);
   }
 
-  async favorite() {
+  async favorite(): Promise<void> {
     this.isFavorite = await this.storageService.uniqueCacheToggle(StorageKey.FavoriteXp, this.username);
     await this.addXpToRecents();
   }
 
-  getTypeImageUrl() {
-    return `./assets/imgs/player_types/${this.deIroned ? 'de_' : ''}${this.type}.png`;
+  getTypeImageUrl(): string {
+    return `./assets/imgs/player_types/${this.hiscore.player.deIroned ? 'de_' : ''}${this.hiscore.type ||
+      'normal'}.png`;
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this.xpTrackerViewCache.clear();
     this.settingsSubscription.unsubscribe();
   }
 
-  private loadPreferredRoute() {
+  private loadPreferredRoute(): void {
     const settingsSubscribtion = this.settingsProvider.settings.subscribe(settings => {
       if (this.activatedRoute.children.length !== 0) {
         return;
@@ -99,7 +94,7 @@ export class XpTrackerViewPage implements OnDestroy {
   private async addXpToRecents(): Promise<void> {
     const favoritedXp = await this.storageService.getValue(StorageKey.FavoriteXp, []);
 
-    await this.storageService.limitedArrayPush(StorageKey.RecentXp, this.hiscore.username, {
+    await this.storageService.limitedArrayPush(StorageKey.RecentXp, this.username, {
       maxLength: 5,
       blacklist: favoritedXp,
     });

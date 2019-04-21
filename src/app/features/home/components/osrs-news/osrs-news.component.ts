@@ -22,7 +22,7 @@ export class OSRSNewsComponent implements OnInit {
     private storageService: StorageService
   ) {}
 
-  async ngOnInit() {
+  async ngOnInit(): Promise<void> {
     this.items = await this.storageService.getValue<NewsItemOSRS[]>(StorageKey.CacheOsrsNews, []);
     this.getNews().subscribe();
   }
@@ -36,7 +36,7 @@ export class OSRSNewsComponent implements OnInit {
     );
   }
 
-  async openInBrowser(url: string) {
+  async openInBrowser(url: string): Promise<void> {
     if (await this.browserTab.isAvailable()) {
       this.browserTab.openUrl(url);
     } else {
@@ -44,7 +44,7 @@ export class OSRSNewsComponent implements OnInit {
     }
   }
 
-  trackByNewsItemDate(index: number, newsItem: NewsItemOSRS) {
+  trackByNewsItemDate(index: number, newsItem: NewsItemOSRS): Date {
     return newsItem.pubDate;
   }
 }

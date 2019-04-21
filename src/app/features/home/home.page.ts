@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { IonRefresher } from '@ionic/angular';
 import { forkJoin, timer } from 'rxjs';
 import { finalize } from 'rxjs/operators';
@@ -9,17 +9,12 @@ import { OSRSNewsComponent } from './components/osrs-news/osrs-news.component';
   templateUrl: 'home.page.html',
 })
 export class HomePage {
-
   @ViewChild(IonRefresher) refresher: IonRefresher;
   @ViewChild(OSRSNewsComponent) news: OSRSNewsComponent;
 
-  doRefresh() {
-    forkJoin(
-      timer(500),
-      this.news.getNews()
-    ).pipe(
-      finalize(() => this.refresher.complete())
-    ).subscribe();
+  doRefresh(): void {
+    forkJoin(timer(500), this.news.getNews())
+      .pipe(finalize(() => this.refresher.complete()))
+      .subscribe();
   }
-
 }

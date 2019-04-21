@@ -6,19 +6,9 @@ import { forkJoin, Observable, of, throwError } from 'rxjs';
 import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
 import { XpProvider } from '../xp/xp';
 import { HiscoreUtilitiesProvider } from './hiscore-utilities';
-import { Hiscore } from './hiscore.model';
+import { Hiscore, Player } from './hiscore.model';
 
 const CACHE_TIME_TYPES = 12; // hours
-
-export class Player {
-  constructor(
-    public username: string,
-    public playerType: string,
-    public deIroned: boolean = false,
-    public dead: boolean = false,
-    public lastChecked: string = null
-  ) {}
-}
 
 @Injectable({
   providedIn: 'root',
@@ -31,7 +21,7 @@ export class HiscoresProvider {
     private xpProvider: XpProvider
   ) {}
 
-  getCompareHiscores(username: string, compare: string) {
+  getCompareHiscores(username: string, compare: string): Observable<Hiscore[]> {
     return forkJoin(
       this.getHiscore(username).pipe(catchError(err => of(err))),
       this.getHiscore(compare).pipe(catchError(err => of(err)))
@@ -53,12 +43,11 @@ export class HiscoresProvider {
         `${environment.API_RUNESCAPE}/m=hiscore_oldschool${type ? `_${type}` : ''}/index_lite.ws?player=${username}`
       )
       .pipe(
-        map((response: string) => {
-          const hiscore = this.hiscoreUtilities.parseHiscoreString(response, new Date());
-          hiscore.username = username;
-          hiscore.type = type ? type : 'normal';
-          return hiscore;
-        })
+        map(response => ({
+          ...this.hiscoreUtilities.parseHiscoreString(response, new Date()),
+          player: new Player(username),
+          type: type ? type : 'normal',
+        }))
       );
   }
 
@@ -75,7 +64,7 @@ export class HiscoresProvider {
               username,
               player.deIroned ? 'normal' : player.dead ? 'ironman' : player.playerType
             ).pipe(
-              map((hiscore: Hiscore) => this.addPlayerToHiscore(hiscore, player)),
+              map((hiscore: Hiscore) => ({ ...hiscore, player })),
               catchError(err => throwError(err))
             );
           }
@@ -100,43 +89,30 @@ export class HiscoresProvider {
           const deIroned = +ultimate.skills[0].exp < +normal.skills[0].exp;
 
           const player = new Player(username.trim(), 'ultimate', deIroned);
-          return forkJoin(
-            of(this.addPlayerToHiscore(deIroned ? normal : ultimate, player)),
-            this.insertOrUpdatePlayer(player)
-          );
+          return forkJoin(of({ ...(deIroned ? normal : ultimate), player }), this.insertOrUpdatePlayer(player));
         } else if (hardcore.status !== 404 && ultimate.status === 404) {
           const deIroned = +ironman.skills[0].exp < +normal.skills[0].exp;
           const dead = +ironman.skills[0].exp > +hardcore.skills[0].exp;
 
           const player = new Player(username.trim(), 'hardcore_ironman', deIroned, dead);
           return forkJoin(
-            of(this.addPlayerToHiscore(deIroned ? normal : dead ? ironman : hardcore, player)),
+            of({ ...(deIroned ? normal : dead ? ironman : hardcore), player }),
             this.insertOrUpdatePlayer(player)
           );
         } else if (ironman.status !== 404) {
           const deIroned = +ironman.skills[0].exp < +normal.skills[0].exp;
 
           const player = new Player(username.trim(), 'ironman', deIroned);
-          return forkJoin(
-            of(this.addPlayerToHiscore(deIroned ? normal : ironman, player)),
-            this.insertOrUpdatePlayer(player)
-          );
+          return forkJoin(of({ ...(deIroned ? normal : ironman), player }), this.insertOrUpdatePlayer(player));
         } else {
           const player = new Player(username.trim(), 'normal');
-          return forkJoin(of(this.addPlayerToHiscore(normal, player)), this.insertOrUpdatePlayer(player));
+          return forkJoin(of({ ...normal, player }), this.insertOrUpdatePlayer(player));
         }
       }),
       switchMap(([hiscore, statusCode]: [Hiscore, number]) =>
         statusCode === 201 ? this.xpProvider.insertInitialXpDatapoint(username, hiscore) : of(hiscore)
       )
     );
-  }
-
-  private addPlayerToHiscore(hiscore: Hiscore, player: Player) {
-    hiscore.type = player.playerType;
-    hiscore.deIroned = player.deIroned;
-    hiscore.dead = player.dead;
-    return hiscore;
   }
 
   private insertOrUpdatePlayer(player: Player): Observable<number> {

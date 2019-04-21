@@ -4,5 +4,5 @@ export enum AppRoute {
   GrandExchange = 'grand-exchange',
   Hiscores = 'hiscores',
   XpTracker = 'xp-tracker',
-  Settings = 'settings'
+  Settings = 'settings',
 }

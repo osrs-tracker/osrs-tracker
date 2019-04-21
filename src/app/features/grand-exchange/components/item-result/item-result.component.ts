@@ -24,8 +24,8 @@ import { GrandExchangeRoute } from '../../grand-exchange.routes';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ItemResultComponent implements OnInit {
-  @Input() itemId: string = null;
-  @Input() item: ItemSearchModel = null;
+  @Input() itemId: string | null = null;
+  @Input() item: ItemSearchModel | null = null;
   @Input() slide = false;
 
   @Output() delete: EventEmitter<void> = new EventEmitter<void>();
@@ -39,17 +39,17 @@ export class ItemResultComponent implements OnInit {
     private navCtrl: NavController
   ) {}
 
-  async ngOnInit() {
+  async ngOnInit(): Promise<void> {
     if (this.itemId && !this.item) {
       const items = await this.storageService.getValue<ItemSearchModel>(StorageKey.CacheItems, {} as ItemSearchModel);
-      this.item = items[this.itemId] || ItemSearchModel.empty();
+      this.item = items[this.itemId];
       this.getData().subscribe();
     } else {
       this.loading = false;
     }
   }
 
-  getData(): Observable<ItemSearchModel> {
+  getData(): Observable<ItemSearchModel | null> {
     this.loading = true;
     this.changeDetectorRef.markForCheck();
     return this.itemService.getItem(Number(this.itemId)).pipe(
@@ -62,12 +62,12 @@ export class ItemResultComponent implements OnInit {
   }
 
   async goToDetails(): Promise<void> {
-    await this.navCtrl.navigateForward([AppRoute.GrandExchange, GrandExchangeRoute.ItemDetails, this.item.id]);
+    await this.navCtrl.navigateForward([AppRoute.GrandExchange, GrandExchangeRoute.ItemDetails, this.item!.id]);
   }
 
   async deleteItem(): Promise<void> {
-    await this.storageService.removeFromArray(StorageKey.FavoriteItems, this.item.id.toString());
-    await this.storageService.removeFromArray(StorageKey.RecentItems, this.item.id.toString());
+    await this.storageService.removeFromArray(StorageKey.FavoriteItems, this.item!.id.toString());
+    await this.storageService.removeFromArray(StorageKey.RecentItems, this.item!.id.toString());
     this.delete.emit();
   }
 }
