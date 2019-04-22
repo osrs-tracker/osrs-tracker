@@ -15,8 +15,8 @@
     "build:ci": "ng build --prod",
     "test": "ng test",
     "lint": "ng lint",
-    "build:android": "ionic cordova build android --prod --release -- -- --minSdkVersion=21 --targetSdkVersion=27",
-    "run:android": "ionic cordova run android --prod -- -- --minSdkVersion=21 --targetSdkVersion=27"
+    "android:build": "ionic cordova build android --prod --release",
+    "android:run": "ionic cordova run android --prod"
   },
   "private": true,
   "dependencies": {
