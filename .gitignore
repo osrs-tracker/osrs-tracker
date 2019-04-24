@@ -23,7 +23,7 @@ www/
 node_modules/
 tmp/
 temp/
-plugins/
+plugins/**/
 $RECYCLE.BIN/
 
 .DS_Store
@@ -33,3 +33,12 @@ UserInterfaceState.xcuserstate
 # secret
 keystores/
 platforms/
+
+# plugins
+
+# removed permission from file plugin
+!plugins/cordova-plugin-file/
+plugins/cordova-plugin-file/*.md
+plugins/cordova-plugin-file/*.json
+plugins/cordova-plugin-file/LICENSE
+plugins/cordova-plugin-file/NOTICE
