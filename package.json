@@ -1,6 +1,6 @@
 {
   "name": "osrs-tracker-app",
-  "version": "3.2.2",
+  "version": "3.2.2-dev.3",
   "license": "MIT",
   "author": "Freek Mencke",
   "homepage": "https://twitter.com/FreekMencke",
@@ -15,8 +15,8 @@
     "build:ci": "ng build --prod",
     "test": "ng test",
     "lint": "ng lint",
-    "android:build": "ionic cordova build android --prod --release",
-    "android:run": "ionic cordova run android --prod"
+    "android:build": "rm -rf ./www/ && ionic cordova build android --prod --release",
+    "android:run": "rm -rf ./www/ && ionic cordova run android --prod"
   },
   "private": true,
   "dependencies": {
