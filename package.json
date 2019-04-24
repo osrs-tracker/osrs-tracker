@@ -102,8 +102,6 @@
       "cordova-plugin-advanced-http": {},
       "cordova-plugin-file": {}
     },
-    "platforms": [
-      "android"
-    ]
+    "platforms": []
   }
 }
