@@ -73,19 +73,16 @@ export class XpProvider {
         amount: `${Math.max(0, +latest.bountyhunter[i].amount) - Math.max(0, +oldest.bountyhunter[i].amount)}`,
       });
     }
-    return Object.assign({}, <Hiscore>{
+    return Object.assign({}, {
       skills: diffSkills,
       bountyhunter: diffBounties,
       cluescrolls: diffClues,
-    });
+    } as Hiscore);
   }
 
   private expDiff(a: string | number, b: string | number): string {
     // For some reason for free to play people membership skills can have 0 or -1 exp in the hiscore API.
     // Default to zero to fix ghost exp in membership skills (+1 exp).
-    a = (a = Number(a)) < 0 ? 0 : a;
-    b = (b = Number(b)) < 0 ? 0 : b;
-
-    return `${a - b}`;
+    return `${Math.max(Number(a), 0) - Math.max(Number(b), 0)}`;
   }
 }

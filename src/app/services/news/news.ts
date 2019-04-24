@@ -74,24 +74,18 @@ export class NewsProvider {
   }
 
   getAppNewsItem(id: number, uuid: string): Observable<NewsItemApp> {
-    return this.http.get<NewsItemApp>(`${environment.API_GEPT}/news/${id}`, { params: { uuid: uuid } });
+    return this.http.get<NewsItemApp>(`${environment.API_GEPT}/news/${id}`, { params: { uuid } });
   }
 
   upvoteAppNews(newsId: number, uuid: string): Observable<NewsItemApp> {
     return this.http
-      .post(`${environment.API_GEPT}/news/upvote`, {
-        newsId: newsId,
-        uuid: uuid,
-      })
+      .post(`${environment.API_GEPT}/news/upvote`, { newsId, uuid })
       .pipe(switchMap(() => this.getAppNewsItem(newsId, uuid)));
   }
 
   downvoteAppNews(newsId: number, uuid: string): Observable<NewsItemApp> {
     return this.http
-      .post(`${environment.API_GEPT}/news/downvote`, {
-        newsId: newsId,
-        uuid: uuid,
-      })
+      .post(`${environment.API_GEPT}/news/downvote`, { newsId, uuid })
       .pipe(switchMap(() => this.getAppNewsItem(newsId, uuid)));
   }
 
