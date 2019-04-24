@@ -28,8 +28,8 @@
     </ion-row>
   </ion-item>
 
-  <ion-item-options (ionSwipe)="deleteItem()" (click)="deleteItem()">
-    <ion-item-option slot="icon-only" expandable color="danger">
+  <ion-item-options (ionSwipe)="deleteItem()">
+    <ion-item-option slot="icon-only" (click)="deleteItem()" expandable color="danger">
       <ion-icon name="trash" size="large" padding-start padding-end></ion-icon>
     </ion-item-option>
   </ion-item-options>
