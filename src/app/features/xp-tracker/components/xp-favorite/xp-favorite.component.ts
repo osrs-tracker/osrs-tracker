@@ -41,9 +41,13 @@ export class XpFavoriteComponent implements OnInit {
     return this.navCtrl.navigateForward([AppRoute.XpTracker, XpTrackerRoute.View, this.player]);
   }
 
-  getData(): Observable<[Xp[], Hiscore]> {
+  getData(): Observable<[Xp[], Hiscore, Hiscore]> {
     this.loading = true;
-    return forkJoin(this.xpProvider.getXpFor(this.player, 1), this.hiscoreProvider.getHiscoreAndType(this.player)).pipe(
+    return forkJoin(
+      this.xpProvider.getXpFor(this.player, 1),
+      this.hiscoreProvider.getHiscore(this.player),
+      this.hiscoreProvider.getHiscoreAndType(this.player)
+    ).pipe(
       finalize(() => (this.loading = false)),
       catchError(err => {
         if (err.status === 404) {
@@ -51,8 +55,12 @@ export class XpFavoriteComponent implements OnInit {
         }
         return throwError(err);
       }),
-      tap(([xp, hiscore]) => {
-        this.hiscore = hiscore;
+      tap(([xp, hiscore, typedHiscore]) => {
+        this.hiscore = {
+          ...hiscore,
+          player: typedHiscore.player,
+          type: typedHiscore.type,
+        };
         this.gains = this.xpProvider.calcXpGains(xp, hiscore)[0].xp.skills[0].exp;
       }),
       delay(300),

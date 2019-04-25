@@ -73,11 +73,12 @@ export class XpProvider {
         amount: `${Math.max(0, +latest.bountyhunter[i].amount) - Math.max(0, +oldest.bountyhunter[i].amount)}`,
       });
     }
-    return Object.assign({}, {
+
+    return {
       skills: diffSkills,
       bountyhunter: diffBounties,
       cluescrolls: diffClues,
-    } as Hiscore);
+    } as Hiscore;
   }
 
   private expDiff(a: string | number, b: string | number): string {
