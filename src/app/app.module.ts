@@ -14,8 +14,10 @@ import { CoreModule } from './core/core.module';
   imports: [
     BrowserModule,
     HttpClientModule,
-    IonicModule.forRoot(),
-    IonicStorageModule.forRoot({ driverOrder: ['sqlite', 'indexeddb', 'websql'] }),
+    IonicModule.forRoot({
+      refreshingSpinner: 'crescent',
+    }),
+    IonicStorageModule.forRoot({ driverOrder: ['sqlite', 'indexeddb', 'localStorage'] }),
     CoreModule,
     AppRoutingModule,
   ],

@@ -23,16 +23,21 @@
               {
                 "glob": "**/*",
                 "input": "src/assets",
-                "output": "assets"
+                "output": "./assets"
               },
               {
                 "glob": "manifest.json",
-                "input": "src/",
-                "output": "/"
+                "input": "src",
+                "output": "./"
               },
               {
                 "glob": "**/*.svg",
                 "input": "node_modules/ionicons/dist/ionicons/svg",
+                "output": "./svg"
+              },
+              {
+                "glob": "**/*.svg",
+                "input": "graphics/assets/svg",
                 "output": "./svg"
               }
             ],
@@ -122,6 +127,11 @@
               {
                 "glob": "**/*.svg",
                 "input": "node_modules/ionicons/dist/ionicons/svg",
+                "output": "./svg"
+              },
+              {
+                "glob": "**/*.svg",
+                "input": "graphics/assets/svg",
                 "output": "./svg"
               }
             ]

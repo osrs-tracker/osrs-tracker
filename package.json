@@ -1,6 +1,6 @@
 {
   "name": "osrs-tracker-app",
-  "version": "3.3.0",
+  "version": "3.3.1",
   "license": "MIT",
   "author": "Freek Mencke",
   "homepage": "https://twitter.com/FreekMencke",
@@ -55,7 +55,7 @@
     "core-js": "^2.6.3",
     "rxjs": "6.4.0",
     "xml-js": "1.6.11",
-    "zone.js": "^0.8.6"
+    "zone.js": "0.8.29"
   },
   "devDependencies": {
     "@angular-devkit/architect": "0.13.8",
@@ -98,10 +98,12 @@
       "cordova-plugin-ionic-webview": {
         "ANDROID_SUPPORT_ANNOTATIONS_VERSION": "27.+"
       },
-      "cordova-sqlite-storage": {},
       "cordova-plugin-advanced-http": {},
-      "cordova-plugin-file": {}
+      "cordova-plugin-file": {},
+      "cordova-sqlite-storage": {}
     },
-    "platforms": []
+    "platforms": [
+      "android"
+    ]
   }
 }

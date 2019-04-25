@@ -8,12 +8,8 @@
 </ion-header>
 
 <ion-content>
-  <ion-refresher slot="fixed" pullMin="70" pullMax="300" (ionRefresh)="doRefresh()">
-    <ion-refresher-content
-      pullingText="Pull to refresh"
-      refreshingText="Refreshing..."
-      refreshingSpinner="crescent"
-    ></ion-refresher-content>
+  <ion-refresher slot="fixed" pullMin="70" pullMax="300" (ionRefresh)="doRefresh($event, news)">
+    <ion-refresher-content pullingText="Pull to refresh" refreshingText="Refreshing..."></ion-refresher-content>
   </ion-refresher>
 
   <ion-card>
@@ -30,5 +26,5 @@
 
   <quick-nav></quick-nav>
 
-  <osrs-news></osrs-news>
+  <osrs-news #news></osrs-news>
 </ion-content>

@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ViewChild } from '@angular/core';
+import { Component, DoCheck, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { IonMenu, NavController, Platform } from '@ionic/angular';
@@ -9,7 +9,7 @@ import { NewsProvider } from './services/news/news';
 class Page {
   constructor(
     public id: number,
-    public icon: string,
+    public src: string,
     public title: string,
     public route?: string,
     public badge?: string,
@@ -21,20 +21,24 @@ class Page {
   selector: 'app-root',
   templateUrl: 'app.component.html',
 })
-export class AppComponent implements AfterViewInit {
+export class AppComponent implements DoCheck {
   @ViewChild(IonMenu) menu: IonMenu;
 
+  cdCount = 0;
+
   pages: Page[] = [
-    new Page(0, 'home', 'Home', AppRoute.Home),
-    new Page(1, 'ios-paper', 'App News', AppRoute.AppNews, undefined, () => this.checkForNewAppNews()),
-    new Page(2, 'trending-up', 'Grand Exchange', AppRoute.GrandExchange),
-    new Page(3, 'trophy', 'Hiscores', AppRoute.Hiscores),
-    new Page(4, 'ios-podium', 'XP Tracker', AppRoute.XpTracker),
-    new Page(5, 'discord', 'Discord', undefined, undefined, () => window.open('https://discord.gg/k7E6WZj', '_system')),
-    new Page(5, 'star', 'Rate App', undefined, undefined, () =>
+    new Page(0, 'svg/md-home.svg', 'Home', AppRoute.Home),
+    new Page(1, 'svg/md-today.svg', 'App News', AppRoute.AppNews, undefined, () => this.checkForNewAppNews()),
+    new Page(2, 'svg/md-trending-up.svg', 'Grand Exchange', AppRoute.GrandExchange),
+    new Page(3, 'svg/md-trophy.svg', 'Hiscores', AppRoute.Hiscores),
+    new Page(4, 'svg/md-podium.svg', 'XP Tracker', AppRoute.XpTracker),
+    new Page(5, 'svg/md-discord.svg', 'Discord', undefined, undefined, () =>
+      window.open('https://discord.gg/k7E6WZj', '_system')
+    ),
+    new Page(5, 'svg/md-star.svg', 'Rate App', undefined, undefined, () =>
       window.open('market://details?id=com.toxsickproductions.geptv2', '_system')
     ),
-    new Page(6, 'settings', 'Settings', AppRoute.Settings),
+    new Page(6, 'svg/md-settings.svg', 'Settings', AppRoute.Settings),
   ];
 
   splitPaneVisible = false;
@@ -51,14 +55,15 @@ export class AppComponent implements AfterViewInit {
   }
 
   async initializeApp(): Promise<void> {
-    this.checkForNewAppNews();
     await this.platform.ready();
     this.splashScreen.hide();
     this.backButtonLogic();
+    this.checkForNewAppNews();
+    this.menu.ionWillOpen.subscribe({ next: () => this.checkForNewAppNews() });
   }
 
-  ngAfterViewInit(): void {
-    this.menu.ionWillOpen.subscribe({ next: () => this.checkForNewAppNews() });
+  ngDoCheck(): void {
+    console.log(this.cdCount++);
   }
 
   linkClicked(page: Page): void {

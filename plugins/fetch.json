@@ -81,14 +81,6 @@
       "ANDROID_SUPPORT_ANNOTATIONS_VERSION": "27.+"
     }
   },
-  "cordova-sqlite-storage": {
-    "source": {
-      "type": "registry",
-      "id": "cordova-sqlite-storage@2.6.0"
-    },
-    "is_top_level": true,
-    "variables": {}
-  },
   "cordova-plugin-advanced-http": {
     "source": {
       "type": "registry",
@@ -103,6 +95,14 @@
       "id": "cordova-plugin-file@>=2.0.0"
     },
     "is_top_level": false,
+    "variables": {}
+  },
+  "cordova-sqlite-storage": {
+    "source": {
+      "type": "registry",
+      "id": "cordova-sqlite-storage"
+    },
+    "is_top_level": true,
     "variables": {}
   }
 }
