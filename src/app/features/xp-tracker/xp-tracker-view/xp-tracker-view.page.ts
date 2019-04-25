@@ -71,21 +71,28 @@ export class XpTrackerViewPage implements OnDestroy {
   }
 
   private loadPreferredRoute(): void {
-    const settingsSubscribtion = this.settingsProvider.settings.subscribe(settings => {
-      if (this.activatedRoute.children.length !== 0) {
-        return;
-      }
-      if (settings.preferredXpTrackerView === PreferredXpTrackerView.AdventureLog) {
-        return this.router.navigate([
-          AppRoute.XpTracker,
-          XpTrackerRoute.View,
-          this.username,
-          XpTrackerRoute.AdventureLog,
-        ]);
-      }
-      if (settings.preferredXpTrackerView === PreferredXpTrackerView.DataTable) {
-        return this.router.navigate([AppRoute.XpTracker, XpTrackerRoute.View, this.username, XpTrackerRoute.DataTable]);
-      }
+    const settingsSubscribtion = this.settingsProvider.settings.subscribe({
+      next: settings => {
+        if (this.activatedRoute.children.length !== 0) {
+          return;
+        }
+        if (settings.preferredXpTrackerView === PreferredXpTrackerView.AdventureLog) {
+          return this.router.navigate([
+            AppRoute.XpTracker,
+            XpTrackerRoute.View,
+            this.username.toLocaleLowerCase(),
+            XpTrackerRoute.AdventureLog,
+          ]);
+        }
+        if (settings.preferredXpTrackerView === PreferredXpTrackerView.DataTable) {
+          return this.router.navigate([
+            AppRoute.XpTracker,
+            XpTrackerRoute.View,
+            this.username.toLocaleLowerCase(),
+            XpTrackerRoute.DataTable,
+          ]);
+        }
+      },
     });
 
     this.settingsSubscription.add(settingsSubscribtion);

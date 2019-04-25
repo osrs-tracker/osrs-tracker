@@ -64,7 +64,7 @@ export class SearchXpComponent {
     }
 
     try {
-      await this.navCtrl.navigateForward([AppRoute.XpTracker, XpTrackerRoute.View, playerName]);
+      await this.navCtrl.navigateForward([AppRoute.XpTracker, XpTrackerRoute.View, playerName.toLocaleLowerCase()]);
     } catch (e) {
       this.alertManger.create({
         header: 'Player not found',
