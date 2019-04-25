@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, Resolve } from '@angular/router';
 import { LoadingController } from '@ionic/angular';
 import { forkJoin, of } from 'rxjs';
-import { finalize, switchMap, tap } from 'rxjs/operators';
+import { finalize, map, switchMap, tap } from 'rxjs/operators';
 import { AlertManager } from 'services/alert-manager/alert-manager';
 import { Hiscore } from 'services/hiscores/hiscore.model';
 import { HiscoresProvider } from 'services/hiscores/hiscores';
@@ -31,9 +31,13 @@ export class XpTrackerViewResolver implements Resolve<[Xp[], Hiscore]> {
     await loader.present();
 
     const player = route.params.player;
-    return this.hiscoreProvider
-      .getHiscoreAndType(player)
+    return forkJoin(this.hiscoreProvider.getHiscore(player), this.hiscoreProvider.getHiscoreAndType(player))
       .pipe(
+        map(([hiscore, typedHiscore]) => ({
+          ...hiscore,
+          player: typedHiscore.player,
+          type: typedHiscore.type,
+        })),
         finalize(() => loader.dismiss()),
         switchMap((hiscore: Hiscore) => forkJoin(this.xpProvider.getXpFor(player), of(hiscore))),
         tap(([xp, hiscore]) => {

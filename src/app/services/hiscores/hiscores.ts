@@ -56,9 +56,23 @@ export class HiscoresProvider {
       catchError(err => of(err)),
       mergeMap(response => {
         if (response.status === 200) {
-          const player = response.body;
-          const hoursSinceCheck = (Date.now() - new Date(player.lastChecked).getTime()) / 36e5;
+          const player = response.body as Player;
+          const hoursSinceCheck = (Date.now() - new Date(player.lastChecked!).getTime()) / 36e5;
 
+          // When a player is a normal player, don't try to redetermine it's type.
+          if (player.playerType === 'normal') {
+            const requests$: Observable<any>[] = [this.getHiscore(player.username)];
+            if (hoursSinceCheck > CACHE_TIME_TYPES) {
+              // Update lastChecked only when CACHE_TIME_TYPES expired
+              requests$.push(this.insertOrUpdatePlayer(player));
+            }
+            return forkJoin(requests$).pipe(
+              map(([hiscore]) => ({ ...hiscore, player })),
+              catchError(err => throwError(err))
+            );
+          }
+
+          // Return cached ironman status.
           if (hoursSinceCheck < CACHE_TIME_TYPES) {
             return this.getHiscore(
               username,
@@ -69,6 +83,7 @@ export class HiscoresProvider {
             );
           }
         }
+        // Determine ironman status after CACHE_TIME_TYPES have expired (dead hardcore? deironed?)
         return this.determineHiscoreAndType(username);
       })
     );
