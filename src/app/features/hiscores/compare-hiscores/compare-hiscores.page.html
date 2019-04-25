@@ -126,7 +126,7 @@
       >
         <ion-row align-items-center>
           <ion-col size="1" class="pl-xs" no-padding>
-            <img class="icon" src="./assets/imgs/hiscore/cluescroll.gif" />
+            <img class="icon" [src]="'./assets/imgs/hiscore/cluescroll_' + clue.name.toLocaleLowerCase() + '.gif'" />
           </ion-col>
           <ion-col size="3" class="pr-none" text-left>
             {{ clue.name }}
