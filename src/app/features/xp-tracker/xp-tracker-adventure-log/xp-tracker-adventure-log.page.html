@@ -40,7 +40,10 @@
       color="primary"
       *ngFor="let cluescroll of log.xp.cluescrolls; trackBy: trackByName"
     >
-      <img src="./assets/imgs/hiscore/cluescroll.gif" class="pr-xs icon" />
+      <img
+        class="pr-xs icon"
+        [src]="'./assets/imgs/hiscore/cluescroll_' + cluescroll.name.toLocaleLowerCase() + '.gif'"
+      />
       Completed
       <span class="pl-xs">
         {{ cluescroll.amount }} {{ cluescroll.name }} {{ 'Clue' + (cluescroll.amount > 1 ? 's' : '') }}.
