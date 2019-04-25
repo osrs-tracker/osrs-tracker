@@ -26,7 +26,7 @@ export class AppComponent implements AfterViewInit {
 
   pages: Page[] = [
     new Page(0, 'home', 'Home', AppRoute.Home),
-    new Page(1, 'ios-paper', 'App News', AppRoute.AppNews),
+    new Page(1, 'ios-paper', 'App News', AppRoute.AppNews, undefined, () => this.checkForNewAppNews()),
     new Page(2, 'trending-up', 'Grand Exchange', AppRoute.GrandExchange),
     new Page(3, 'trophy', 'Hiscores', AppRoute.Hiscores),
     new Page(4, 'ios-podium', 'XP Tracker', AppRoute.XpTracker),
@@ -62,10 +62,11 @@ export class AppComponent implements AfterViewInit {
   }
 
   linkClicked(page: Page): void {
+    if (page.action) {
+      page.action();
+    }
     if (page.route) {
       this.navCtrl.navigateRoot(page.route, { animated: false });
-    } else if (page.action) {
-      page.action();
     }
   }
 
@@ -80,6 +81,8 @@ export class AppComponent implements AfterViewInit {
   private async checkForNewAppNews(): Promise<void> {
     if (await this.newsProvider.isNewAppArticleAvailable()) {
       this.pages.filter(page => page.title === 'App News')[0].badge = 'NEW';
+    } else {
+      this.pages.filter(page => page.title === 'App News')[0].badge = undefined;
     }
   }
 
