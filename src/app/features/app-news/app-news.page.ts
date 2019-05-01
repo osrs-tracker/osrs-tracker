@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { BrowserTab } from '@ionic-native/browser-tab/ngx';
 import { Device } from '@ionic-native/device/ngx';
 import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
@@ -26,17 +27,19 @@ export class AppNewsPage implements OnInit {
   loading = false;
 
   constructor(
+    private activatedRoute: ActivatedRoute,
     private browserTab: BrowserTab,
     private device: Device,
     private inAppBrowser: InAppBrowser,
     private newsProvider: NewsProvider,
     private storageService: StorageService,
     private toastController: ToastController
-  ) {}
+  ) {
+    this.items = this.activatedRoute.snapshot.data.cachedNewsItems;
+  }
 
   async ngOnInit(): Promise<void> {
     this.uuid = environment.production ? this.device.uuid : 'test';
-    this.items = await this.storageService.getValue<NewsItemApp[]>(StorageKey.CacheAppNews, []);
     this.getNews().subscribe();
   }
 
