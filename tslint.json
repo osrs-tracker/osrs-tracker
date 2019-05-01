@@ -5,7 +5,7 @@
     "array-type": false,
     "arrow-parens": false,
     "deprecation": {
-      "severity": "warn"
+      "severity": "error"
     },
     "import-blacklist": [true, "rxjs/Rx"],
     "interface-name": false,
