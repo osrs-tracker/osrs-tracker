@@ -14,5 +14,5 @@ You can find the OSRS Tracker API here https://github.com/osrs-tracker/osrs-trac
 You can find the OSRS Tracker Cron here https://github.com/osrs-tracker/osrs-tracker-cron.
 
 The OSRS Tracker Cron performs tasks at certain times to update the OSRS Tracker database.
-  - It updates all items that are tradable on the Grand Exchange every hour.
+  - It updates all items that are tradable on the Grand Exchange every two hours.
   - It adds a new XP Datapoint at UTC 00:00 for all players.
