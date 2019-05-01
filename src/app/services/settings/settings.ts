@@ -17,7 +17,8 @@ export class SettingsProvider {
   constructor(private storageProvider: StorageService) {}
 
   async init(): Promise<void> {
-    this.settings.next(await this.storageProvider.getValue<Settings>(StorageKey.Settings, this.initSettings()));
+    const settings = await this.storageProvider.getValue<Settings>(StorageKey.Settings, this.initSettings());
+    this.settings.next(settings);
   }
 
   setSettings(settings: Settings): void {
