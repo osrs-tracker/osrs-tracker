@@ -9,11 +9,13 @@
     "lib": ["es2018", "dom"],
     "module": "es2015",
     "moduleResolution": "node",
+    "noUnusedLocals": true,
     "noImplicitAny": true,
     "outDir": "./dist/out-tsc",
     "paths": {
       "*": ["app/*", "*"],
-      "stream": ["../node_modules/readable-stream/readable.js"]
+      "stream": ["../node_modules/readable-stream/readable.js"],
+      "core-js/es7/reflect": ["../node_modules/core-js/proposals/reflect-metadata"]
     },
     "sourceMap": true,
     "suppressImplicitAnyIndexErrors": true,
