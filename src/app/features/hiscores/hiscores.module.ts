@@ -41,4 +41,4 @@ import { PlayerHiscoreResolver } from './player-hiscore/player-hiscore.resolver'
     SearchHiscoreComponent,
   ],
 })
-export class HiscoresPageModule {}
+export class HiscoresModule {}

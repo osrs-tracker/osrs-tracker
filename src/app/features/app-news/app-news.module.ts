@@ -15,4 +15,4 @@ import { AppNewsPage } from './app-news.page';
   ],
   declarations: [AppNewsPage],
 })
-export class AppNewsPageModule {}
+export class AppNewsModule {}

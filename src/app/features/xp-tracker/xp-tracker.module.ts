@@ -41,4 +41,4 @@ import { XpTrackerPage } from './xp-tracker.page';
   ],
   providers: [DatePipe],
 })
-export class XpTrackerPageModule {}
+export class XpTrackerModule {}
