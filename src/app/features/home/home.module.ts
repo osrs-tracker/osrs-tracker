@@ -17,4 +17,4 @@ import { HomePage } from './home.page';
   ],
   declarations: [HomePage, OSRSNewsComponent, QuickNavComponent],
 })
-export class HomePageModule {}
+export class HomeModule {}

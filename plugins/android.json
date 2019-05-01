@@ -10,13 +10,7 @@
     "cordova-plugin-advanced-http": {
       "PACKAGE_NAME": "com.toxsickproductions.geptv2"
     },
-    "cordova-plugin-browsertab": {
-      "PACKAGE_NAME": "com.toxsickproductions.geptv2"
-    },
     "cordova-plugin-device": {
-      "PACKAGE_NAME": "com.toxsickproductions.geptv2"
-    },
-    "cordova-plugin-headercolor": {
       "PACKAGE_NAME": "com.toxsickproductions.geptv2"
     },
     "cordova-plugin-inappbrowser": {
@@ -36,6 +30,9 @@
       "PACKAGE_NAME": "com.toxsickproductions.geptv2"
     },
     "cordova-plugin-whitelist": {
+      "PACKAGE_NAME": "com.toxsickproductions.geptv2"
+    },
+    "cordova-plugin-browsertab": {
       "PACKAGE_NAME": "com.toxsickproductions.geptv2"
     },
     "cordova-sqlite-storage": {

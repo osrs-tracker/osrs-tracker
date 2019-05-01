@@ -37,4 +37,4 @@ import { ItemResultsResolver } from './item-results/item-results.resolver';
     PriceTrendComponent,
   ],
 })
-export class GrandExchangePageModule {}
+export class GrandExchangeModule {}
