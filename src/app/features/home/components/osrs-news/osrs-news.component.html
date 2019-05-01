@@ -7,8 +7,8 @@
     <ion-card-subtitle>{{ item.pubDate | date }} | {{ (item?.categories)[0] }}</ion-card-subtitle>
     <ion-card-title>{{ item.title }}</ion-card-title>
   </ion-card-header>
-  <ion-card-content>
-    <img (click)="openInBrowser(item.link)" [src]="item.enclosure.link" height="115" class="mb-sm" />
+  <ion-card-content class="img-container">
+    <ion-img (click)="openInBrowser(item.link)" [src]="item.enclosure.link"></ion-img>
   </ion-card-content>
   <ion-card-content>
     <p>{{ item.description }}</p>
