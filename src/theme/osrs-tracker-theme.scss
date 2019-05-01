@@ -36,8 +36,15 @@
     --highlight-height: 0;
   }
   ion-menu {
-    .menu-icon[slot='start'] {
-      filter: invert(1);
+    .menu-item,
+    .menu-item ion-icon {
+      color: rgba(255, 255, 255, 0.5);
+      &.active,
+      &.active ion-icon {
+        color: rgba(255, 255, 255, 1);
+      }
+    }
+    .menu-item ion-icon {
       margin-right: 16px;
     }
     ion-item {

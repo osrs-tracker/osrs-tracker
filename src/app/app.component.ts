@@ -1,7 +1,9 @@
-import { Component, DoCheck, ViewChild } from '@angular/core';
-import { Router } from '@angular/router';
+import { AfterViewInit, Component, ViewChild } from '@angular/core';
+import { NavigationEnd, Router } from '@angular/router';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { IonMenu, NavController, Platform } from '@ionic/angular';
+import { Logger } from 'core/logger/logger';
+import { filter } from 'rxjs/operators';
 import { AppRoute } from './app-routing.routes';
 import { AlertManager } from './services/alert-manager/alert-manager';
 import { NewsProvider } from './services/news/news';
@@ -9,8 +11,9 @@ import { NewsProvider } from './services/news/news';
 class Page {
   constructor(
     public id: number,
-    public src: string,
+    public icon: string,
     public title: string,
+    public active: boolean,
     public route?: string,
     public badge?: string,
     public action?: () => void
@@ -21,24 +24,24 @@ class Page {
   selector: 'app-root',
   templateUrl: 'app.component.html',
 })
-export class AppComponent implements DoCheck {
+export class AppComponent implements AfterViewInit {
   @ViewChild(IonMenu) menu: IonMenu;
 
   cdCount = 0;
 
   pages: Page[] = [
-    new Page(0, 'svg/md-home.svg', 'Home', AppRoute.Home),
-    new Page(1, 'svg/md-today.svg', 'App News', AppRoute.AppNews, undefined, () => this.checkForNewAppNews()),
-    new Page(2, 'svg/md-trending-up.svg', 'Grand Exchange', AppRoute.GrandExchange),
-    new Page(3, 'svg/md-trophy.svg', 'Hiscores', AppRoute.Hiscores),
-    new Page(4, 'svg/md-podium.svg', 'XP Tracker', AppRoute.XpTracker),
-    new Page(5, 'svg/md-discord.svg', 'Discord', undefined, undefined, () =>
+    new Page(0, 'md-home', 'Home', false, AppRoute.Home),
+    new Page(1, 'md-today', 'App News', false, AppRoute.AppNews, undefined, () => this.checkForNewAppNews()),
+    new Page(2, 'md-trending-up', 'Grand Exchange', false, AppRoute.GrandExchange),
+    new Page(3, 'md-trophy', 'Hiscores', false, AppRoute.Hiscores),
+    new Page(4, 'md-podium', 'XP Tracker', false, AppRoute.XpTracker),
+    new Page(5, 'md-discord', 'Discord', false, undefined, undefined, () =>
       window.open('https://discord.gg/k7E6WZj', '_system')
     ),
-    new Page(5, 'svg/md-star.svg', 'Rate App', undefined, undefined, () =>
+    new Page(5, 'md-star', 'Rate App', false, undefined, undefined, () =>
       window.open('market://details?id=com.toxsickproductions.geptv2', '_system')
     ),
-    new Page(6, 'svg/md-settings.svg', 'Settings', AppRoute.Settings),
+    new Page(6, 'md-settings', 'Settings', false, AppRoute.Settings),
   ];
 
   splitPaneVisible = false;
@@ -52,18 +55,18 @@ export class AppComponent implements DoCheck {
     private router: Router
   ) {
     this.initializeApp();
+    this.listenForActivePage();
   }
 
-  async initializeApp(): Promise<void> {
-    await this.platform.ready();
-    this.splashScreen.hide();
-    this.backButtonLogic();
-    this.checkForNewAppNews();
+  ngAfterViewInit(): void {
     this.menu.ionWillOpen.subscribe({ next: () => this.checkForNewAppNews() });
   }
 
-  ngDoCheck(): void {
-    console.log(this.cdCount++);
+  private initializeApp(): void {
+    Logger.log('Initializing app');
+    this.backButtonLogic();
+    this.checkForNewAppNews();
+    this.splashScreen.hide();
   }
 
   linkClicked(page: Page): void {
@@ -89,6 +92,21 @@ export class AppComponent implements DoCheck {
     } else {
       this.pages.filter(page => page.title === 'App News')[0].badge = undefined;
     }
+  }
+
+  private listenForActivePage(): void {
+    this.router.events.pipe(filter(event => event instanceof NavigationEnd)).subscribe({
+      next: () => {
+        const activePage = this.router.url.substr(1).split('/')[0];
+        this.pages = this.pages.map(
+          page =>
+            ({
+              ...page,
+              active: activePage === page.route,
+            } as Page)
+        );
+      },
+    });
   }
 
   private backButtonLogic(): void {

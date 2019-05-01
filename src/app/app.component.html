@@ -10,8 +10,14 @@
       <ion-content>
         <ion-list>
           <ion-menu-toggle auto-hide="false">
-            <ion-item button *ngFor="let page of pages; trackBy: trackByPageId" (click)="linkClicked(page)">
-              <img slot="start" class="menu-icon" height="24" [src]="page.src" />
+            <ion-item
+              button
+              class="menu-item"
+              [class.active]="page.active"
+              *ngFor="let page of pages; trackBy: trackByPageId"
+              (click)="linkClicked(page)"
+            >
+              <ion-icon slot="start" [name]="page.icon"></ion-icon>
               {{ page.title }}
               <ion-badge margin-start color="light">{{ page.badge }}</ion-badge>
             </ion-item>
