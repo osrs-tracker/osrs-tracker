@@ -9,7 +9,6 @@ import { StorageService } from 'services/storage/storage.service';
 export class HiscoresResolver implements Resolve<{ favorites: string[]; recents: string[] }> {
   constructor(private storageService: StorageService) {}
 
-  // TODO: implement this
   async resolve(): Promise<{ favorites: string[]; recents: string[] }> {
     return {
       favorites: await this.storageService.getValue<string[]>(StorageKey.FavoriteHiscores, []),
