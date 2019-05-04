@@ -12,8 +12,8 @@ import { OSRSNewsComponent } from './components/osrs-news/osrs-news.component';
 export class HomePage {
   cachedNewsItems: NewsItemOSRS[];
 
-  constructor(private activatedRoute: ActivatedRoute) {
-    this.cachedNewsItems = this.activatedRoute.snapshot.data.cachedNewsItems;
+  constructor(activatedRoute: ActivatedRoute) {
+    this.cachedNewsItems = activatedRoute.snapshot.data.cachedNewsItems;
   }
 
   doRefresh(event: any, news: OSRSNewsComponent): void {

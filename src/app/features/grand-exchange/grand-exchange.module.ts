@@ -4,6 +4,7 @@ import { SharedModule } from 'app/shared/shared.module';
 import { ItemResultComponent } from './components/item-result/item-result.component';
 import { SearchItemComponent } from './components/search-item/search-item.component';
 import { GrandExchangePage } from './grand-exchange.page';
+import { GrandExchangeResolver } from './grand-exchange.resolver';
 import { GrandExchangeRoute } from './grand-exchange.routes';
 import { ItemDetailPage } from './item-detail/item-detail.page';
 import { ItemDetailResolver } from './item-detail/item-detail.resolver';
@@ -15,7 +16,11 @@ import { ItemResultsResolver } from './item-results/item-results.resolver';
   imports: [
     SharedModule,
     RouterModule.forChild([
-      { path: '', component: GrandExchangePage },
+      {
+        path: '',
+        component: GrandExchangePage,
+        resolve: { cachedItems: GrandExchangeResolver },
+      },
       {
         path: `${GrandExchangeRoute.ItemResults}/:query`,
         component: ItemResultsPage,

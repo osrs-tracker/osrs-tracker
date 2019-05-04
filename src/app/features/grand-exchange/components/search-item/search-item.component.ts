@@ -1,4 +1,4 @@
-import { Component, ViewChildren } from '@angular/core';
+import { Component, Input, OnInit, ViewChildren } from '@angular/core';
 import { NavController } from '@ionic/angular';
 import { AppRoute } from 'app-routing.routes';
 import { GrandExchangeRoute } from 'features/grand-exchange/grand-exchange.routes';
@@ -13,8 +13,11 @@ import { ItemResultComponent } from '../item-result/item-result.component';
   templateUrl: 'search-item.component.html',
   styleUrls: ['./search-item.component.scss'],
 })
-export class SearchItemComponent {
-  @ViewChildren(ItemResultComponent) itemFavoriteComponents: ItemResultComponent[];
+export class SearchItemComponent implements OnInit {
+  @Input() cachedItems: { favorites: string[]; recents: string[] };
+
+  @ViewChildren(ItemResultComponent) itemResultComponents: ItemResultComponent[];
+
   favoriteItems: string[] = [];
   recentItems: string[] = [];
 
@@ -22,9 +25,11 @@ export class SearchItemComponent {
     private navCtrl: NavController,
     private alertManager: AlertManager,
     private storageService: StorageService
-  ) {
-    this.updateFavorites();
-    this.updateRecent();
+  ) {}
+
+  ngOnInit(): void {
+    this.favoriteItems = this.cachedItems.favorites;
+    this.recentItems = this.cachedItems.recents;
   }
 
   async updateFavorites(): Promise<void> {
@@ -36,7 +41,7 @@ export class SearchItemComponent {
   }
 
   refresh(): Observable<any> {
-    return forkJoin([timer(500), ...(this.itemFavoriteComponents || []).map(fav => fav.getData())]);
+    return forkJoin([timer(500), ...(this.itemResultComponents || []).map(i => i.getData())]);
   }
 
   async searchItem(query: string): Promise<void> {
