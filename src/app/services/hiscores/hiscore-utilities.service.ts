@@ -34,7 +34,7 @@ const BOUNTYHUNTER_NAMES = ['Hunter', 'Rogue'];
 @Injectable({
   providedIn: 'root',
 })
-export class HiscoreUtilitiesProvider {
+export class HiscoreUtilitiesService {
   /**
    * Octobre 2018: Fixed the order of the minigames and cluescrolls (were in a weird order before).
    * April 2019: Reordered minigames and added beginner cluescrolls.

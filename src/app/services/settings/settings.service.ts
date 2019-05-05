@@ -11,19 +11,19 @@ export interface Settings {
 @Injectable({
   providedIn: 'root',
 })
-export class SettingsProvider {
+export class SettingsService {
   settings: BehaviorSubject<Settings> = new BehaviorSubject<Settings>(this.initSettings());
 
-  constructor(private storageProvider: StorageService) {}
+  constructor(private settingsService: StorageService) {}
 
   async init(): Promise<void> {
-    const settings = await this.storageProvider.getValue<Settings>(StorageKey.Settings, this.initSettings());
+    const settings = await this.settingsService.getValue<Settings>(StorageKey.Settings, this.initSettings());
     this.settings.next(settings);
   }
 
   setSettings(settings: Settings): void {
     this.settings.next(settings);
-    this.storageProvider.setValue(StorageKey.Settings, this.settings.value);
+    this.settingsService.setValue(StorageKey.Settings, this.settings.value);
   }
 
   get preferredXpTrackerView(): PreferredXpTrackerView {
@@ -39,7 +39,7 @@ export class SettingsProvider {
       ...this.settings.value,
       [setting]: value,
     });
-    this.storageProvider.setValue(StorageKey.Settings, this.settings.value);
+    this.settingsService.setValue(StorageKey.Settings, this.settings.value);
   }
 
   private initSettings(): Settings {

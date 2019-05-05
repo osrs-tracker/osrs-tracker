@@ -1,14 +1,14 @@
 import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { Platform } from '@ionic/angular';
 import { Storage } from '@ionic/storage';
-import { SettingsProvider } from 'services/settings/settings';
+import { SettingsService } from 'services/settings/settings.service';
 import { Logger } from './logger/logger';
 
 @NgModule({
   providers: [
     {
       provide: APP_INITIALIZER,
-      useFactory: (platform: Platform, storage: Storage, settingsProvider: SettingsProvider) => async () => {
+      useFactory: (platform: Platform, storage: Storage, settingsProvider: SettingsService) => async () => {
         await platform.ready();
         Logger.log('IonicPlatform ready');
         await storage.ready();
@@ -16,7 +16,7 @@ import { Logger } from './logger/logger';
         await settingsProvider.init();
         Logger.log('Settings loaded');
       },
-      deps: [Platform, Storage, SettingsProvider],
+      deps: [Platform, Storage, SettingsService],
       multi: true,
     },
   ],

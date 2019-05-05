@@ -3,7 +3,7 @@ import { NavController } from '@ionic/angular';
 import { AppRoute } from 'app-routing.routes';
 import { GrandExchangeRoute } from 'features/grand-exchange/grand-exchange.routes';
 import { forkJoin, Observable, timer } from 'rxjs';
-import { AlertManager } from 'services/alert-manager/alert-manager';
+import { AlertManager } from 'services/alert-manager/alert.manager';
 import { StorageKey } from 'services/storage/storage-key';
 import { StorageService } from 'services/storage/storage.service';
 import { ItemResultComponent } from '../item-result/item-result.component';

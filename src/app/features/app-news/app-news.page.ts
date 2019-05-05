@@ -7,7 +7,7 @@ import { ToastController } from '@ionic/angular';
 import { environment } from 'environments/environment';
 import { forkJoin, Observable, timer } from 'rxjs';
 import { finalize, tap } from 'rxjs/operators';
-import { NewsItemApp, NewsProvider } from 'services/news/news';
+import { NewsItemApp, NewsService } from 'services/news/news.service';
 import { StorageKey } from 'services/storage/storage-key';
 import { StorageService } from 'services/storage/storage.service';
 
@@ -28,7 +28,7 @@ export class AppNewsPage implements OnInit {
     private browserTab: BrowserTab,
     private device: Device,
     private inAppBrowser: InAppBrowser,
-    private newsProvider: NewsProvider,
+    private newsProvider: NewsService,
     private storageService: StorageService,
     private toastController: ToastController
   ) {

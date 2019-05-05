@@ -20,7 +20,7 @@
   </ion-card-content>
 </ion-card>
 
-<ion-card *ngIf="favorites && favoriteXp?.length > 0">
+<ion-card *ngIf="favoriteXp?.length > 0">
   <ion-list lines="full" #favoriteList>
     <ion-list-header no-margin color="secondary">
       <ion-label>Favorites</ion-label>
@@ -34,7 +34,7 @@
   </ion-list>
 </ion-card>
 
-<ion-card *ngIf="recents && recentXp?.length > 0">
+<ion-card *ngIf="recentXp?.length > 0">
   <ion-list lines="full" #recentList>
     <ion-list-header no-margin color="secondary">
       <ion-label>Recent</ion-label>

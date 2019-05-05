@@ -3,7 +3,7 @@ import { BrowserTab } from '@ionic-native/browser-tab/ngx';
 import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
-import { NewsItemOSRS, NewsProvider } from 'services/news/news';
+import { NewsItemOSRS, NewsService } from 'services/news/news.service';
 import { StorageKey } from 'services/storage/storage-key';
 import { StorageService } from 'services/storage/storage.service';
 
@@ -19,7 +19,7 @@ export class OSRSNewsComponent implements OnInit {
   constructor(
     private browserTab: BrowserTab,
     private inAppBrowser: InAppBrowser,
-    private newsProvider: NewsProvider,
+    private newsProvider: NewsService,
     private storageService: StorageService
   ) {}
 

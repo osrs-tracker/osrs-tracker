@@ -3,8 +3,8 @@ import { ActivatedRouteSnapshot, Resolve } from '@angular/router';
 import { LoadingController } from '@ionic/angular';
 import { of, throwError } from 'rxjs';
 import { finalize, switchMap } from 'rxjs/operators';
-import { ItemProvider } from 'services/item/item';
 import { ItemSearchModel } from 'services/item/item.model';
+import { ItemService } from 'services/item/item.service';
 import { ItemResultsCache } from './item-results-cache.service';
 
 @Injectable({
@@ -12,7 +12,7 @@ import { ItemResultsCache } from './item-results-cache.service';
 })
 export class ItemResultsResolver implements Resolve<ItemSearchModel[]> {
   constructor(
-    private itemProvider: ItemProvider,
+    private itemProvider: ItemService,
     private itemResultsCache: ItemResultsCache,
     private loadCtrl: LoadingController
   ) {}

@@ -6,10 +6,10 @@ import { HiscoresRoute } from 'features/hiscores/hiscores.routes';
 import { Subscription } from 'rxjs';
 import { Hiscore } from 'services/hiscores/hiscore.model';
 import { PreferredXpTrackerView } from 'services/settings/preferred-xp-tracker-view';
-import { SettingsProvider } from 'services/settings/settings';
+import { SettingsService } from 'services/settings/settings.service';
 import { StorageKey } from 'services/storage/storage-key';
 import { StorageService } from 'services/storage/storage.service';
-import { XpTrackerRoute } from '../hiscores.routes';
+import { XpTrackerRoute } from '../xp-tracker.routes';
 import { XpTrackerViewCache } from './xp-tracker-view-cache.service';
 
 @Component({
@@ -31,7 +31,7 @@ export class XpTrackerViewPage implements OnDestroy {
     private router: Router,
     private navCtrl: NavController,
     private storageService: StorageService,
-    private settingsProvider: SettingsProvider,
+    private settingsProvider: SettingsService,
     private xpTrackerViewCache: XpTrackerViewCache
   ) {
     this.xpTrackerViewCache.store(activatedRoute.snapshot.data.period);

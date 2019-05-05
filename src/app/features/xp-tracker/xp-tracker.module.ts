@@ -5,19 +5,26 @@ import { RouterModule } from '@angular/router';
 import { SharedModule } from 'shared/shared.module';
 import { SearchXpComponent } from './components/search-xp/search-xp.component';
 import { XpFavoriteComponent } from './components/xp-favorite/xp-favorite.component';
-import { XpTrackerRoute } from './hiscores.routes';
 import { XpTrackerAdventureLogPage } from './xp-tracker-adventure-log/xp-tracker-adventure-log.page';
 import { XpTrackerDataTablePage } from './xp-tracker-data-table/xp-tracker-data-table.page';
 import { XpTrackerViewPage } from './xp-tracker-view/xp-tracker-view.page';
 import { XpTrackerViewResolver } from './xp-tracker-view/xp-tracker-view.resolver';
 import { XpTrackerPage } from './xp-tracker.page';
+import { XpTrackerResolver } from './xp-tracker.resolver';
+import { XpTrackerRoute } from './xp-tracker.routes';
 
 @NgModule({
   imports: [
     SharedModule,
     FormsModule,
     RouterModule.forChild([
-      { path: '', component: XpTrackerPage },
+      {
+        path: '',
+        component: XpTrackerPage,
+        resolve: {
+          cachedXp: XpTrackerResolver,
+        },
+      },
       {
         path: `${XpTrackerRoute.View}/:player`,
         component: XpTrackerViewPage,

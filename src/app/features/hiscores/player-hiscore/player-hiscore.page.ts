@@ -3,9 +3,9 @@ import { ActivatedRoute } from '@angular/router';
 import { IonRefresher, LoadingController } from '@ionic/angular';
 import { AppRoute } from 'app-routing.routes';
 import { finalize } from 'rxjs/operators';
-import { AlertManager } from 'services/alert-manager/alert-manager';
+import { AlertManager } from 'services/alert-manager/alert.manager';
 import { Hiscore, Minigame, Skill } from 'services/hiscores/hiscore.model';
-import { HiscoresProvider } from 'services/hiscores/hiscores';
+import { HiscoresService } from 'services/hiscores/hiscores.service';
 import { StorageKey } from 'services/storage/storage-key';
 import { StorageService } from 'services/storage/storage.service';
 
@@ -28,7 +28,7 @@ export class PlayerHiscorePage {
   constructor(
     private loadCtrl: LoadingController,
     private alertManager: AlertManager,
-    private hiscoreService: HiscoresProvider,
+    private hiscoreService: HiscoresService,
     private storageService: StorageService,
     private activatedRoute: ActivatedRoute
   ) {
