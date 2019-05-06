@@ -43,7 +43,7 @@ export class NewsService {
 
   getOSRSNews(): Observable<NewsItemOSRS[]> {
     // OLD because no HTTPS available for the rss feed.
-    return this.nativeHttp.getText(`${environment.API_RUNESCAPE_OLD}/m=news/latest_news.rss?oldschool=true`).pipe(
+    return this.nativeHttp.getText(`${environment.API_RUNESCAPE}/m=news/latest_news.rss?oldschool=true`).pipe(
       map(xmlRss => {
         const xml: ElementCompact = xml2js(xmlRss, { compact: true });
         return xml.rss.channel.item.map(
