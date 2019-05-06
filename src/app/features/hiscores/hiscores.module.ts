@@ -7,6 +7,7 @@ import { CompareHiscoresResolver } from './compare-hiscores/compare-hiscores.res
 import { HiscoreFavoriteComponent } from './components/hiscore-favorite/hiscore-favorite.component';
 import { SearchHiscoreComponent } from './components/search-hiscore/search-hiscore.component';
 import { HiscoresPage } from './hiscores.page';
+import { HiscoresResolver } from './hiscores.resolver';
 import { HiscoresRoute } from './hiscores.routes';
 import { PlayerHiscorePage } from './player-hiscore/player-hiscore.page';
 import { PlayerHiscoreResolver } from './player-hiscore/player-hiscore.resolver';
@@ -16,7 +17,13 @@ import { PlayerHiscoreResolver } from './player-hiscore/player-hiscore.resolver'
     SharedModule,
     FormsModule,
     RouterModule.forChild([
-      { path: '', component: HiscoresPage },
+      {
+        path: '',
+        component: HiscoresPage,
+        resolve: {
+          cachedHiscores: HiscoresResolver
+        },
+      },
       {
         path: `${HiscoresRoute.PlayerHiscore}/:player`,
         component: PlayerHiscorePage,

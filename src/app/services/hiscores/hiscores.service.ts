@@ -4,8 +4,8 @@ import { NativeHttp } from 'app/core/native-http/nativeHttp';
 import { environment } from 'environments/environment';
 import { forkJoin, Observable, of, throwError } from 'rxjs';
 import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
-import { XpProvider } from '../xp/xp';
-import { HiscoreUtilitiesProvider } from './hiscore-utilities';
+import { XpService } from '../xp/xp.service';
+import { HiscoreUtilitiesService } from './hiscore-utilities.service';
 import { Hiscore, Player } from './hiscore.model';
 
 const CACHE_TIME_TYPES = 12; // hours
@@ -13,12 +13,12 @@ const CACHE_TIME_TYPES = 12; // hours
 @Injectable({
   providedIn: 'root',
 })
-export class HiscoresProvider {
+export class HiscoresService {
   constructor(
     private http: HttpClient,
     private nativeHttp: NativeHttp,
-    private hiscoreUtilities: HiscoreUtilitiesProvider,
-    private xpProvider: XpProvider
+    private hiscoreUtilitiesService: HiscoreUtilitiesService,
+    private xpService: XpService
   ) {}
 
   getCompareHiscores(username: string, compare: string): Observable<Hiscore[]> {
@@ -44,7 +44,7 @@ export class HiscoresProvider {
       )
       .pipe(
         map(response => ({
-          ...this.hiscoreUtilities.parseHiscoreString(response, new Date()),
+          ...this.hiscoreUtilitiesService.parseHiscoreString(response, new Date()),
           player: new Player(username),
           type: type ? type : 'normal',
         }))
@@ -125,7 +125,7 @@ export class HiscoresProvider {
         }
       }),
       switchMap(([hiscore, statusCode]: [Hiscore, number]) =>
-        statusCode === 201 ? this.xpProvider.insertInitialXpDatapoint(username, hiscore) : of(hiscore)
+        statusCode === 201 ? this.xpService.insertInitialXpDatapoint(username, hiscore) : of(hiscore)
       )
     );
   }

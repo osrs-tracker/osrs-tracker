@@ -3,10 +3,10 @@ import { ActivatedRouteSnapshot, Resolve } from '@angular/router';
 import { LoadingController } from '@ionic/angular';
 import { forkJoin, of } from 'rxjs';
 import { finalize, map, switchMap, tap } from 'rxjs/operators';
-import { AlertManager } from 'services/alert-manager/alert-manager';
+import { AlertManager } from 'services/alert-manager/alert.manager';
 import { Hiscore } from 'services/hiscores/hiscore.model';
-import { HiscoresProvider } from 'services/hiscores/hiscores';
-import { Xp, XpProvider } from 'services/xp/xp';
+import { HiscoresService } from 'services/hiscores/hiscores.service';
+import { Xp, XpService } from 'services/xp/xp.service';
 import { XpTrackerViewCache } from './xp-tracker-view-cache.service';
 
 @Injectable({
@@ -16,8 +16,8 @@ export class XpTrackerViewResolver implements Resolve<[Xp[], Hiscore]> {
   constructor(
     private alertManager: AlertManager,
     private loadCtrl: LoadingController,
-    private hiscoreProvider: HiscoresProvider,
-    private xpProvider: XpProvider,
+    private hiscoreProvider: HiscoresService,
+    private xpProvider: XpService,
     private xpTrackerViewCache: XpTrackerViewCache
   ) {}
 

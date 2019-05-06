@@ -1,9 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { BrowserTab } from '@ionic-native/browser-tab/ngx';
 import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
-import { NewsItemOSRS, NewsProvider } from 'services/news/news';
+import { NewsItemOSRS, NewsService } from 'services/news/news.service';
 import { StorageKey } from 'services/storage/storage-key';
 import { StorageService } from 'services/storage/storage.service';
 
@@ -13,17 +13,18 @@ import { StorageService } from 'services/storage/storage.service';
   styleUrls: ['./osrs-news.component.scss'],
 })
 export class OSRSNewsComponent implements OnInit {
+  @Input() cachedNewsItems: NewsItemOSRS[];
   items: NewsItemOSRS[];
 
   constructor(
     private browserTab: BrowserTab,
     private inAppBrowser: InAppBrowser,
-    private newsProvider: NewsProvider,
+    private newsProvider: NewsService,
     private storageService: StorageService
   ) {}
 
-  async ngOnInit(): Promise<void> {
-    this.items = await this.storageService.getValue<NewsItemOSRS[]>(StorageKey.CacheOsrsNews, []);
+  ngOnInit(): void {
+    this.items = this.cachedNewsItems;
     this.getNews().subscribe();
   }
 

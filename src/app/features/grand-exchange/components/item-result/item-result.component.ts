@@ -11,8 +11,8 @@ import { NavController } from '@ionic/angular';
 import { AppRoute } from 'app-routing.routes';
 import { Observable } from 'rxjs';
 import { finalize, tap } from 'rxjs/operators';
-import { ItemProvider } from 'services/item/item';
 import { ItemSearchModel } from 'services/item/item.model';
+import { ItemService } from 'services/item/item.service';
 import { StorageKey } from 'services/storage/storage-key';
 import { StorageService } from 'services/storage/storage.service';
 import { GrandExchangeRoute } from '../../grand-exchange.routes';
@@ -34,7 +34,7 @@ export class ItemResultComponent implements OnInit {
 
   constructor(
     private changeDetectorRef: ChangeDetectorRef,
-    private itemService: ItemProvider,
+    private itemService: ItemService,
     private storageService: StorageService,
     private navCtrl: NavController
   ) {}

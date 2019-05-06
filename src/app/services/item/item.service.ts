@@ -10,7 +10,7 @@ import { ItemDetailModel, ItemSearchModel } from './item.model';
 @Injectable({
   providedIn: 'root',
 })
-export class ItemProvider {
+export class ItemService {
   constructor(private http: HttpClient, private nativeHttp: NativeHttp) {}
 
   searchItems(query: string): Observable<HttpResponse<ItemSearchModel[]>> {

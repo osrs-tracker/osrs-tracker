@@ -8,7 +8,7 @@
 </ion-header>
 
 <ion-content>
-  <ion-refresher slot="fixed" pullMin="70" pullMax="300" (ionRefresh)="doRefresh()">
+  <ion-refresher slot="fixed" pullMin="70" pullMax="300" (ionRefresh)="doRefresh($event)">
     <ion-refresher-content pullingText="Pull to refresh" refreshingText="Refreshing..."></ion-refresher-content>
   </ion-refresher>
 
@@ -50,7 +50,7 @@
     </ion-item>
   </ion-card>
 
-  <ion-infinite-scroll (ionInfinite)="doInfinite()">
+  <ion-infinite-scroll (ionInfinite)="doInfinite($event)">
     <ion-infinite-scroll-content
       loadingText="Loading older news..."
       loadingSpinner="crescent"

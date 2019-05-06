@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { IonRefresher } from '@ionic/angular';
+import { ActivatedRoute } from '@angular/router';
 import { finalize } from 'rxjs/operators';
 import { SearchHiscoreComponent } from './components/search-hiscore/search-hiscore.component';
 
@@ -8,18 +8,23 @@ import { SearchHiscoreComponent } from './components/search-hiscore/search-hisco
   templateUrl: './hiscores.page.html',
 })
 export class HiscoresPage {
-  @ViewChild(IonRefresher) refresher: IonRefresher;
   @ViewChild(SearchHiscoreComponent) searchHiscore: SearchHiscoreComponent;
+
+  cachedHiscores: { favorites: string[]; recents: string[] };
+
+  constructor(activatedRoute: ActivatedRoute) {
+    this.cachedHiscores = activatedRoute.snapshot.data.cachedHiscores;
+  }
 
   ionViewWillEnter(): void {
     this.searchHiscore.updateFavorites();
     this.searchHiscore.updateRecent();
   }
 
-  doRefresh(): void {
+  doRefresh(event: any): void {
     this.searchHiscore
       .refresh()
-      .pipe(finalize(() => this.refresher.complete()))
+      .pipe(finalize(() => event.target.complete()))
       .subscribe();
   }
 }

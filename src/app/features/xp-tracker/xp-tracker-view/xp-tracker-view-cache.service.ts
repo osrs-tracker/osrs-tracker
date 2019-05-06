@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Hiscore } from 'services/hiscores/hiscore.model';
-import { Xp } from 'services/xp/xp';
+import { Xp } from 'services/xp/xp.service';
 
 @Injectable({
   providedIn: 'root',

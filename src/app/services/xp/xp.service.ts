@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { environment } from 'environments/environment';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { HiscoreUtilitiesProvider } from '../hiscores/hiscore-utilities';
+import { HiscoreUtilitiesService } from '../hiscores/hiscore-utilities.service';
 import { Hiscore, Minigame, Skill } from '../hiscores/hiscore.model';
 
 export class Xp {
@@ -13,8 +13,8 @@ export class Xp {
 @Injectable({
   providedIn: 'root',
 })
-export class XpProvider {
-  constructor(private http: HttpClient, private hiscoreUtilities: HiscoreUtilitiesProvider) {}
+export class XpService {
+  constructor(private http: HttpClient, private hiscoreUtilitiesService: HiscoreUtilitiesService) {}
 
   insertInitialXpDatapoint(username: string, hiscore: Hiscore): Observable<Hiscore> {
     return this.http
@@ -30,7 +30,8 @@ export class XpProvider {
       .pipe(
         map(xpPeriod =>
           xpPeriod.map(
-            xp => new Xp(new Date(xp.date), this.hiscoreUtilities.parseHiscoreString(xp.xpString, new Date(xp.date)))
+            xp =>
+              new Xp(new Date(xp.date), this.hiscoreUtilitiesService.parseHiscoreString(xp.xpString, new Date(xp.date)))
           )
         )
       );

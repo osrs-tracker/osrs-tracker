@@ -38,7 +38,7 @@ export class NewsItemOSRS {
 @Injectable({
   providedIn: 'root',
 })
-export class NewsProvider {
+export class NewsService {
   constructor(private http: HttpClient, private nativeHttp: NativeHttp, private storageService: StorageService) {}
 
   getOSRSNews(): Observable<NewsItemOSRS[]> {

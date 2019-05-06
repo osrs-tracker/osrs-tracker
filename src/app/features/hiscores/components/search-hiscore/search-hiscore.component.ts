@@ -1,9 +1,9 @@
-import { Component, Input, ViewChildren } from '@angular/core';
+import { Component, Input, OnInit, ViewChildren } from '@angular/core';
 import { NavController } from '@ionic/angular';
 import { AppRoute } from 'app-routing.routes';
 import { HiscoresRoute } from 'features/hiscores/hiscores.routes';
 import { forkJoin, Observable, timer } from 'rxjs';
-import { AlertManager } from 'services/alert-manager/alert-manager';
+import { AlertManager } from 'services/alert-manager/alert.manager';
 import { StorageKey } from 'services/storage/storage-key';
 import { StorageService } from 'services/storage/storage.service';
 import { HiscoreFavoriteComponent } from '../hiscore-favorite/hiscore-favorite.component';
@@ -13,9 +13,8 @@ import { HiscoreFavoriteComponent } from '../hiscore-favorite/hiscore-favorite.c
   templateUrl: './search-hiscore.component.html',
   styleUrls: ['./search-hiscore.component.scss'],
 })
-export class SearchHiscoreComponent {
-  @Input() favorites = true;
-  @Input() recents = true;
+export class SearchHiscoreComponent implements OnInit {
+  @Input() cachedHiscores: { favorites: string[]; recents: string[] };
 
   @ViewChildren(HiscoreFavoriteComponent) hiscoreFavoriteComponents: HiscoreFavoriteComponent[];
   favoriteHiscores: string[] = [];
@@ -29,9 +28,11 @@ export class SearchHiscoreComponent {
     private navCtrl: NavController,
     private alertManager: AlertManager,
     private storageService: StorageService
-  ) {
-    this.updateFavorites();
-    this.updateRecent();
+  ) {}
+
+  ngOnInit(): void {
+    this.favoriteHiscores = this.cachedHiscores.favorites;
+    this.recentHiscores = this.cachedHiscores.recents;
   }
 
   refresh(): Observable<any> {

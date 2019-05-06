@@ -5,8 +5,8 @@ import { IonMenu, NavController, Platform } from '@ionic/angular';
 import { Logger } from 'core/logger/logger';
 import { filter } from 'rxjs/operators';
 import { AppRoute } from './app-routing.routes';
-import { AlertManager } from './services/alert-manager/alert-manager';
-import { NewsProvider } from './services/news/news';
+import { AlertManager } from './services/alert-manager/alert.manager';
+import { NewsService } from './services/news/news.service';
 
 class Page {
   constructor(
@@ -49,7 +49,7 @@ export class AppComponent implements AfterViewInit {
   constructor(
     private alertManager: AlertManager,
     private navCtrl: NavController,
-    private newsProvider: NewsProvider,
+    private newsProvider: NewsService,
     private platform: Platform,
     private splashScreen: SplashScreen,
     private router: Router

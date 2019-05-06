@@ -1,14 +1,14 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { NavController } from '@ionic/angular';
 import { AppRoute } from 'app-routing.routes';
-import { XpTrackerRoute } from 'features/xp-tracker/hiscores.routes';
+import { XpTrackerRoute } from 'features/xp-tracker/xp-tracker.routes';
 import { forkJoin, Observable, throwError } from 'rxjs';
 import { catchError, delay, finalize, retry, tap } from 'rxjs/operators';
 import { Hiscore } from 'services/hiscores/hiscore.model';
-import { HiscoresProvider } from 'services/hiscores/hiscores';
+import { HiscoresService } from 'services/hiscores/hiscores.service';
 import { StorageKey } from 'services/storage/storage-key';
 import { StorageService } from 'services/storage/storage.service';
-import { Xp, XpProvider } from 'services/xp/xp';
+import { Xp, XpService } from 'services/xp/xp.service';
 
 @Component({
   selector: 'xp-favorite',
@@ -27,10 +27,10 @@ export class XpFavoriteComponent implements OnInit {
   loading = true;
 
   constructor(
-    private hiscoreProvider: HiscoresProvider,
+    private hiscoreProvider: HiscoresService,
     private storageService: StorageService,
     private navCtrl: NavController,
-    private xpProvider: XpProvider
+    private xpProvider: XpService
   ) {}
 
   ngOnInit(): void {

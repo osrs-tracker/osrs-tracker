@@ -1,14 +1,17 @@
-.mb-sm {
-  margin-bottom: 8px;
-}
 ion-card-content:last-of-type {
   padding-bottom: 8px;
 }
-img {
-  border-radius: 4px;
-  display: block;
-  margin: auto;
+.img-container {
+  text-align: center;
+}
+ion-img {
+  display: inline-block;
+  height: 115px;
   width: auto;
+  margin-top: 8px;
+  margin-bottom: 8px;
+  border-radius: 4px;
+  overflow: hidden;
 }
 ion-button {
   margin: 0;

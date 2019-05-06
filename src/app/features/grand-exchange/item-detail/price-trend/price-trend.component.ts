@@ -2,8 +2,8 @@ import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { Chart } from 'chart.js';
 import { forkJoin, Observable } from 'rxjs';
 import { finalize, map, tap } from 'rxjs/operators';
-import { ItemProvider } from 'services/item/item';
 import { ItemDetailModel } from 'services/item/item.model';
+import { ItemService } from 'services/item/item.service';
 
 @Component({
   selector: 'price-trend',
@@ -21,7 +21,7 @@ export class PriceTrendComponent implements OnInit {
   period = 90;
   loading = false;
 
-  constructor(private itemService: ItemProvider) {}
+  constructor(private itemService: ItemService) {}
 
   ngOnInit(): void {
     this.loading = true;
