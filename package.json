@@ -12,7 +12,7 @@
     "ng": "ng",
     "start": "ng serve --open",
     "build": "ng build",
-    "build:ci": "ng build --prod",
+    "build:ci": "ng build --prod --progress false",
     "test": "ng test",
     "lint": "ng lint",
     "android": "rm -rf ./www/ && ionic cordova run android --prod",
