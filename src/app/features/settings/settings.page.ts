@@ -1,7 +1,7 @@
 import { Component, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { PreferredXpTrackerView } from 'services/settings/preferred-xp-tracker-view';
-import { Settings, SettingsProvider } from 'services/settings/settings';
+import { Settings, SettingsService } from 'services/settings/settings.service';
 
 @Component({
   selector: 'page-settings',
@@ -13,7 +13,7 @@ export class SettingsPage implements OnDestroy {
   settingsSubscription = new Subscription();
   settings: Settings;
 
-  constructor(private settingsProvider: SettingsProvider) {
+  constructor(private settingsProvider: SettingsService) {
     this.settingsSubscription.add(this.settingsProvider.settings.subscribe(settings => (this.settings = settings)));
   }
 

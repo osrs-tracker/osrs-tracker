@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { IonRefresher } from '@ionic/angular';
+import { ActivatedRoute } from '@angular/router';
 import { finalize } from 'rxjs/operators';
 import { SearchItemComponent } from './components/search-item/search-item.component';
 
@@ -8,18 +8,23 @@ import { SearchItemComponent } from './components/search-item/search-item.compon
   templateUrl: './grand-exchange.page.html',
 })
 export class GrandExchangePage {
-  @ViewChild(IonRefresher) refresher: IonRefresher;
   @ViewChild(SearchItemComponent) searchItem: SearchItemComponent;
+
+  cachedItems: { favorites: string[]; recents: string[] };
+
+  constructor(activatedRoute: ActivatedRoute) {
+    this.cachedItems = activatedRoute.snapshot.data.cachedItems;
+  }
 
   ionViewWillEnter(): void {
     this.searchItem.updateFavorites();
     this.searchItem.updateRecent();
   }
 
-  doRefresh(): void {
+  doRefresh(event: any): void {
     this.searchItem
       .refresh()
-      .pipe(finalize(() => this.refresher.complete()))
+      .pipe(finalize(() => event.target.complete()))
       .subscribe();
   }
 }

@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { forkJoin, timer } from 'rxjs';
 import { finalize } from 'rxjs/operators';
-import { NewsItemOSRS } from 'services/news/news';
+import { NewsItemOSRS } from 'services/news/news.service';
 import { OSRSNewsComponent } from './components/osrs-news/osrs-news.component';
 
 @Component({
@@ -12,8 +12,8 @@ import { OSRSNewsComponent } from './components/osrs-news/osrs-news.component';
 export class HomePage {
   cachedNewsItems: NewsItemOSRS[];
 
-  constructor(private activatedRoute: ActivatedRoute) {
-    this.cachedNewsItems = this.activatedRoute.snapshot.data.cachedNewsItems;
+  constructor(activatedRoute: ActivatedRoute) {
+    this.cachedNewsItems = activatedRoute.snapshot.data.cachedNewsItems;
   }
 
   doRefresh(event: any, news: OSRSNewsComponent): void {

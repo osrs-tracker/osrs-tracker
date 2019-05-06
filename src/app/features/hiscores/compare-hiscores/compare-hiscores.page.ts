@@ -4,7 +4,7 @@ import { IonRefresher } from '@ionic/angular';
 import { AppRoute } from 'app-routing.routes';
 import { finalize } from 'rxjs/operators';
 import { Hiscore, Minigame, Skill } from 'services/hiscores/hiscore.model';
-import { HiscoresProvider } from 'services/hiscores/hiscores';
+import { HiscoresService } from 'services/hiscores/hiscores.service';
 
 @Component({
   selector: 'page-compare-hiscores',
@@ -21,7 +21,7 @@ export class HiscoresComparePage {
 
   expToggle = true;
 
-  constructor(private hiscoreProvider: HiscoresProvider, private activatedRoute: ActivatedRoute) {
+  constructor(private hiscoreProvider: HiscoresService, private activatedRoute: ActivatedRoute) {
     [this.playerHiscore, this.compareHiscore] = this.activatedRoute.snapshot.data.compareHiscores;
   }
 

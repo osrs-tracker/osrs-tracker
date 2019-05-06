@@ -1,13 +1,13 @@
-import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { BrowserTab } from '@ionic-native/browser-tab/ngx';
 import { Device } from '@ionic-native/device/ngx';
 import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
-import { IonInfiniteScroll, IonRefresher, ToastController } from '@ionic/angular';
+import { ToastController } from '@ionic/angular';
 import { environment } from 'environments/environment';
 import { forkJoin, Observable, timer } from 'rxjs';
 import { finalize, tap } from 'rxjs/operators';
-import { NewsItemApp, NewsProvider } from 'services/news/news';
+import { NewsItemApp, NewsService } from 'services/news/news.service';
 import { StorageKey } from 'services/storage/storage-key';
 import { StorageService } from 'services/storage/storage.service';
 
@@ -18,9 +18,6 @@ import { StorageService } from 'services/storage/storage.service';
   encapsulation: ViewEncapsulation.None, // needed for innerHTML styling
 })
 export class AppNewsPage implements OnInit {
-  @ViewChild(IonRefresher) refresher: IonRefresher;
-  @ViewChild(IonInfiniteScroll) infiniteScroll: IonInfiniteScroll;
-
   uuid: string;
   items: NewsItemApp[];
   originalItems: NewsItemApp[];
@@ -31,7 +28,7 @@ export class AppNewsPage implements OnInit {
     private browserTab: BrowserTab,
     private device: Device,
     private inAppBrowser: InAppBrowser,
-    private newsProvider: NewsProvider,
+    private newsProvider: NewsService,
     private storageService: StorageService,
     private toastController: ToastController
   ) {
@@ -80,13 +77,13 @@ export class AppNewsPage implements OnInit {
     );
   }
 
-  doRefresh(): void {
+  doRefresh(event: any): void {
     forkJoin(timer(500), this.getNews())
-      .pipe(finalize(() => this.refresher.complete()))
+      .pipe(finalize(() => event.target.complete()))
       .subscribe();
   }
 
-  doInfinite(): void {
+  doInfinite(event: any): void {
     if (this.loading === false) {
       this.loading = true;
       this.newsProvider
@@ -94,21 +91,21 @@ export class AppNewsPage implements OnInit {
         .pipe(
           finalize(() => {
             this.loading = false;
-            this.infiniteScroll.complete();
+            event.target.complete();
           })
         )
         .subscribe(
           items => {
             if (items.length === 0) {
-              return (this.infiniteScroll.disabled = true);
+              return (event.target.disabled = true);
             }
             this.items = [...this.items, ...items];
             this.originalItems = [...this.originalItems, ...items.map(item => ({ ...item }))];
             if (items.length < 5) {
-              this.infiniteScroll.disabled = true;
+              event.target.disabled = true;
             }
           },
-          () => (this.infiniteScroll.disabled = true)
+          () => (event.target.disabled = true)
         );
     }
   }

@@ -8,9 +8,9 @@
 </ion-header>
 
 <ion-content>
-  <ion-refresher pullMin="70" pullMax="300" (ionRefresh)="doRefresh()">
+  <ion-refresher pullMin="70" pullMax="300" (ionRefresh)="doRefresh($event)">
     <ion-refresher-content pullingText="Pull to refresh" refreshingText="Refreshing..."></ion-refresher-content>
   </ion-refresher>
 
-  <search-hiscore></search-hiscore>
+  <search-hiscore [cachedHiscores]="cachedHiscores"></search-hiscore>
 </ion-content>

@@ -1,9 +1,9 @@
-import { Component, Input, ViewChildren } from '@angular/core';
+import { Component, Input, OnInit, ViewChildren } from '@angular/core';
 import { NavController } from '@ionic/angular';
 import { AppRoute } from 'app-routing.routes';
-import { XpTrackerRoute } from 'features/xp-tracker/hiscores.routes';
+import { XpTrackerRoute } from 'features/xp-tracker/xp-tracker.routes';
 import { forkJoin, Observable, timer } from 'rxjs';
-import { AlertManager } from 'services/alert-manager/alert-manager';
+import { AlertManager } from 'services/alert-manager/alert.manager';
 import { StorageKey } from 'services/storage/storage-key';
 import { StorageService } from 'services/storage/storage.service';
 import { XpFavoriteComponent } from '../xp-favorite/xp-favorite.component';
@@ -13,9 +13,8 @@ import { XpFavoriteComponent } from '../xp-favorite/xp-favorite.component';
   templateUrl: 'search-xp.component.html',
   styleUrls: ['./search-xp.component.scss'],
 })
-export class SearchXpComponent {
-  @Input() favorites = true;
-  @Input() recents = true;
+export class SearchXpComponent implements OnInit {
+  @Input() cachedXp: { favorites: string[]; recents: string[] };
 
   @ViewChildren(XpFavoriteComponent) xpFavoriteComponents: XpFavoriteComponent[];
   favoriteXp: string[] = [];
@@ -25,9 +24,11 @@ export class SearchXpComponent {
     private alertManger: AlertManager,
     private navCtrl: NavController,
     private storageService: StorageService
-  ) {
-    this.updateFavorites();
-    this.updateRecent();
+  ) {}
+
+  ngOnInit(): void {
+    this.favoriteXp = this.cachedXp.favorites;
+    this.recentXp = this.cachedXp.recents;
   }
 
   async updateFavorites(): Promise<void> {

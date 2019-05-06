@@ -1,7 +1,7 @@
 import { Component, ViewChild } from '@angular/core';
-import { IonRefresher } from '@ionic/angular';
+import { ActivatedRoute } from '@angular/router';
 import { finalize } from 'rxjs/operators';
-import { AlertManager } from 'services/alert-manager/alert-manager';
+import { AlertManager } from 'services/alert-manager/alert.manager';
 import { SearchXpComponent } from './components/search-xp/search-xp.component';
 
 @Component({
@@ -9,20 +9,23 @@ import { SearchXpComponent } from './components/search-xp/search-xp.component';
   templateUrl: 'xp-tracker.page.html',
 })
 export class XpTrackerPage {
-  @ViewChild(IonRefresher) refresher: IonRefresher;
   @ViewChild(SearchXpComponent) searchXp: SearchXpComponent;
 
-  constructor(private alertManager: AlertManager) {}
+  cachedXp: { favorites: string[]; recents: string[] };
+
+  constructor(activatedRoute: ActivatedRoute, private alertManager: AlertManager) {
+    this.cachedXp = activatedRoute.snapshot.data.cachedXp;
+  }
 
   ionViewWillEnter(): void {
     this.searchXp.updateFavorites();
     this.searchXp.updateRecent();
   }
 
-  doRefresh(): void {
+  doRefresh(event: any): void {
     this.searchXp
       .refresh()
-      .pipe(finalize(() => this.refresher.complete()))
+      .pipe(finalize(() => event.target.complete()))
       .subscribe();
   }
 

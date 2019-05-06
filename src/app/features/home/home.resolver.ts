@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Resolve } from '@angular/router';
-import { NewsItemOSRS } from 'services/news/news';
+import { NewsItemOSRS } from 'services/news/news.service';
 import { StorageKey } from 'services/storage/storage-key';
 import { StorageService } from 'services/storage/storage.service';
 

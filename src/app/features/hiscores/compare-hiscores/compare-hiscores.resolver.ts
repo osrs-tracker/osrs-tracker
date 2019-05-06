@@ -4,13 +4,13 @@ import { LoadingController } from '@ionic/angular';
 import { forkJoin, throwError } from 'rxjs';
 import { catchError, finalize } from 'rxjs/operators';
 import { Hiscore } from 'services/hiscores/hiscore.model';
-import { HiscoresProvider } from 'services/hiscores/hiscores';
+import { HiscoresService } from 'services/hiscores/hiscores.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CompareHiscoresResolver implements Resolve<Hiscore[]> {
-  constructor(private hiscoresProvider: HiscoresProvider, private loadCtrl: LoadingController) {}
+  constructor(private hiscoresProvider: HiscoresService, private loadCtrl: LoadingController) {}
 
   async resolve(route: ActivatedRouteSnapshot): Promise<Hiscore[]> {
     const loader = await this.loadCtrl.create({ message: 'Please wait...' });

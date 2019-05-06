@@ -5,7 +5,7 @@ import { HiscoresRoute } from 'features/hiscores/hiscores.routes';
 import { EMPTY, Observable } from 'rxjs';
 import { catchError, finalize, tap } from 'rxjs/operators';
 import { Hiscore } from 'services/hiscores/hiscore.model';
-import { HiscoresProvider } from 'services/hiscores/hiscores';
+import { HiscoresService } from 'services/hiscores/hiscores.service';
 import { StorageKey } from 'services/storage/storage-key';
 import { StorageService } from 'services/storage/storage.service';
 
@@ -27,7 +27,7 @@ export class HiscoreFavoriteComponent implements OnInit {
   loading = true;
 
   constructor(
-    private hiscoreProvider: HiscoresProvider,
+    private hiscoreProvider: HiscoresService,
     private storageService: StorageService,
     private navCtrl: NavController
   ) {}

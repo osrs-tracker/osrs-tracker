@@ -4,8 +4,8 @@ import { IonInfiniteScroll, IonRefresher } from '@ionic/angular';
 import { forkJoin, timer } from 'rxjs';
 import { finalize } from 'rxjs/operators';
 import { Hiscore } from 'services/hiscores/hiscore.model';
-import { HiscoresProvider } from 'services/hiscores/hiscores';
-import { Xp, XpProvider } from 'services/xp/xp';
+import { HiscoresService } from 'services/hiscores/hiscores.service';
+import { Xp, XpService } from 'services/xp/xp.service';
 import { XpTrackerViewCache } from '../xp-tracker-view/xp-tracker-view-cache.service';
 
 @Component({
@@ -30,8 +30,8 @@ export class XpTrackerAdventureLogPage {
 
   constructor(
     private datePipe: DatePipe,
-    private hiscoreProvider: HiscoresProvider,
-    private xpProvider: XpProvider,
+    private hiscoreProvider: HiscoresService,
+    private xpProvider: XpService,
     private xpTrackerViewCache: XpTrackerViewCache
   ) {
     this.originalXp = this.xpTrackerViewCache.get()![0];
