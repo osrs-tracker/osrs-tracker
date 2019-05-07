@@ -1,6 +1,5 @@
 import { AfterViewInit, Component, ViewChild } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
-import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { IonMenu, NavController, Platform } from '@ionic/angular';
 import { Logger } from 'core/logger/logger';
 import { filter } from 'rxjs/operators';
@@ -51,7 +50,6 @@ export class AppComponent implements AfterViewInit {
     private navCtrl: NavController,
     private newsProvider: NewsService,
     private platform: Platform,
-    private splashScreen: SplashScreen,
     private router: Router
   ) {
     this.initializeApp();
@@ -66,7 +64,6 @@ export class AppComponent implements AfterViewInit {
     Logger.log('Initializing app');
     this.backButtonLogic();
     this.checkForNewAppNews();
-    this.splashScreen.hide();
   }
 
   linkClicked(page: Page): void {

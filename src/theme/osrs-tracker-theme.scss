@@ -38,10 +38,10 @@
   ion-menu {
     .menu-item,
     .menu-item ion-icon {
-      color: rgba(255, 255, 255, 0.5);
+      color: rgba(255, 255, 255, 0.75);
       &.active,
       &.active ion-icon {
-        color: rgba(255, 255, 255, 1);
+        color: var(--ion-color-primary);
       }
     }
     .menu-item ion-icon {
