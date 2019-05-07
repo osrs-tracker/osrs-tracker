@@ -15,7 +15,7 @@
     "build:ci": "ng build --prod --progress false",
     "test": "ng test",
     "lint": "ng lint",
-    "android": "rm -rf ./www/ && ionic cordova run android --prod",
+    "android": "rm -rf ./www/ && ionic cordova run android --prod --device",
     "android:serve": "rm -rf ./www/ && ionic cordova run android --prod --livereload",
     "android:build": "rm -rf ./www/ && ionic cordova build android --prod --release"
   },
