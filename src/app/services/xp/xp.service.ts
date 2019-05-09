@@ -14,16 +14,16 @@ export class Xp {
   providedIn: 'root',
 })
 export class XpService {
-  constructor(private http: HttpClient, private hiscoreUtilitiesService: HiscoreUtilitiesService) {}
+  constructor(private httpClient: HttpClient, private hiscoreUtilitiesService: HiscoreUtilitiesService) {}
 
   insertInitialXpDatapoint(username: string, hiscore: Hiscore): Observable<Hiscore> {
-    return this.http
+    return this.httpClient
       .post(`${environment.API_GEPT}/xp/${username}/initialDatapoint`, { xpString: hiscore.srcString })
       .pipe(map(() => hiscore));
   }
 
   getXpFor(username: string, period: number = 14, offset: number = 0): Observable<Xp[]> {
-    return this.http
+    return this.httpClient
       .get<{ date: string; xpString: string }[]>(`${environment.API_GEPT}/xp/${username}/${period}`, {
         params: { offset: offset.toString() },
       })

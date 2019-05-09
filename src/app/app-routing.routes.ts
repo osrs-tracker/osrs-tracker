@@ -3,6 +3,7 @@ export enum AppRoute {
   AppNews = 'app-news',
   GrandExchange = 'grand-exchange',
   Hiscores = 'hiscores',
-  XpTracker = 'xp-tracker',
+  OSRSWiki = 'osrs-wiki',
   Settings = 'settings',
+  XpTracker = 'xp-tracker',
 }

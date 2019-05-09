@@ -15,7 +15,7 @@ const CACHE_TIME_TYPES = 12; // hours
 })
 export class HiscoresService {
   constructor(
-    private http: HttpClient,
+    private httpClient: HttpClient,
     private nativeHttp: NativeHttp,
     private hiscoreUtilitiesService: HiscoreUtilitiesService,
     private xpService: XpService
@@ -52,7 +52,7 @@ export class HiscoresService {
   }
 
   getHiscoreAndType(username: string): Observable<Hiscore> {
-    return this.http.get(`${environment.API_GEPT}/player/${username}`, { observe: 'response' }).pipe(
+    return this.httpClient.get(`${environment.API_GEPT}/player/${username}`, { observe: 'response' }).pipe(
       catchError(err => of(err)),
       mergeMap(response => {
         if (response.status === 200) {
@@ -131,7 +131,7 @@ export class HiscoresService {
   }
 
   private insertOrUpdatePlayer(player: Player): Observable<number> {
-    return this.http
+    return this.httpClient
       .post(`${environment.API_GEPT}/player`, player, { observe: 'response' })
       .pipe(map(res => res.status));
   }

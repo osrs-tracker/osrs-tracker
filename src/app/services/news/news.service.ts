@@ -39,7 +39,7 @@ export class NewsItemOSRS {
   providedIn: 'root',
 })
 export class NewsService {
-  constructor(private http: HttpClient, private nativeHttp: NativeHttp, private storageService: StorageService) {}
+  constructor(private httpClient: HttpClient, private nativeHttp: NativeHttp, private storageService: StorageService) {}
 
   getOSRSNews(): Observable<NewsItemOSRS[]> {
     // OLD because no HTTPS available for the rss feed.
@@ -65,7 +65,7 @@ export class NewsService {
   }
 
   getAppNews(uuid: string | null = null, offset: number = 0): Observable<NewsItemApp[]> {
-    return this.http.get<NewsItemApp[]>(`${environment.API_GEPT}/news`, {
+    return this.httpClient.get<NewsItemApp[]>(`${environment.API_GEPT}/news`, {
       params: {
         uuid: uuid || '',
         offset: `${offset}`,
@@ -74,17 +74,17 @@ export class NewsService {
   }
 
   getAppNewsItem(id: number, uuid: string): Observable<NewsItemApp> {
-    return this.http.get<NewsItemApp>(`${environment.API_GEPT}/news/${id}`, { params: { uuid } });
+    return this.httpClient.get<NewsItemApp>(`${environment.API_GEPT}/news/${id}`, { params: { uuid } });
   }
 
   upvoteAppNews(newsId: number, uuid: string): Observable<NewsItemApp> {
-    return this.http
+    return this.httpClient
       .post(`${environment.API_GEPT}/news/upvote`, { newsId, uuid })
       .pipe(switchMap(() => this.getAppNewsItem(newsId, uuid)));
   }
 
   downvoteAppNews(newsId: number, uuid: string): Observable<NewsItemApp> {
-    return this.http
+    return this.httpClient
       .post(`${environment.API_GEPT}/news/downvote`, { newsId, uuid })
       .pipe(switchMap(() => this.getAppNewsItem(newsId, uuid)));
   }
