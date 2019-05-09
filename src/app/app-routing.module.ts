@@ -11,8 +11,9 @@ const routes: Routes = [
     loadChildren: './features/grand-exchange/grand-exchange.module#GrandExchangeModule',
   },
   { path: AppRoute.Hiscores, loadChildren: './features/hiscores/hiscores.module#HiscoresModule' },
-  { path: AppRoute.XpTracker, loadChildren: './features/xp-tracker/xp-tracker.module#XpTrackerModule' },
   { path: AppRoute.Settings, loadChildren: './features/settings/settings.module#SettingsModule' },
+  { path: AppRoute.OSRSWiki, loadChildren: './features/osrs-wiki/osrs-wiki.module#OsrsWikiModule' },
+  { path: AppRoute.XpTracker, loadChildren: './features/xp-tracker/xp-tracker.module#XpTrackerModule' },
 ];
 
 @NgModule({

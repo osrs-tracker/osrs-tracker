@@ -1,5 +1,8 @@
 page-app-news {
   .content {
+    p + p {
+      margin-top: 10px;
+    }
     p a {
       color: var(--ion-color-secondary);
       text-decoration: underline;

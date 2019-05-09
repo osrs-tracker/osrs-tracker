@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, DoCheck, ViewChild } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { IonMenu, NavController, Platform } from '@ionic/angular';
 import { Logger } from 'core/logger/logger';
@@ -23,7 +23,7 @@ class Page {
   selector: 'app-root',
   templateUrl: 'app.component.html',
 })
-export class AppComponent implements AfterViewInit {
+export class AppComponent implements AfterViewInit, DoCheck {
   @ViewChild(IonMenu) menu: IonMenu;
 
   cdCount = 0;
@@ -34,6 +34,7 @@ export class AppComponent implements AfterViewInit {
     new Page(2, 'md-trending-up', 'Grand Exchange', false, AppRoute.GrandExchange),
     new Page(3, 'md-trophy', 'Hiscores', false, AppRoute.Hiscores),
     new Page(4, 'md-podium', 'XP Tracker', false, AppRoute.XpTracker),
+    new Page(5, 'md-wikipedia', 'OSRS Wiki', false, AppRoute.OSRSWiki),
     new Page(5, 'md-discord', 'Discord', false, undefined, undefined, () =>
       window.open('https://discord.gg/k7E6WZj', '_system')
     ),
@@ -58,6 +59,10 @@ export class AppComponent implements AfterViewInit {
 
   ngAfterViewInit(): void {
     this.menu.ionWillOpen.subscribe({ next: () => this.checkForNewAppNews() });
+  }
+
+  ngDoCheck(): void {
+    console.log(this.cdCount++);
   }
 
   private initializeApp(): void {

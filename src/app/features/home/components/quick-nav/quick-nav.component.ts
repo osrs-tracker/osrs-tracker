@@ -3,7 +3,13 @@ import { NavController } from '@ionic/angular';
 import { AppRoute } from '../../../../app-routing.routes';
 
 class QuickNavButton {
-  constructor(public id: number, public icon: string, public title: string, public page: string) {}
+  constructor(
+    public id: number,
+    public icon: string,
+    public title: string,
+    public page?: string,
+    public action?: () => void
+  ) {}
 }
 
 @Component({
@@ -14,16 +20,24 @@ class QuickNavButton {
 })
 export class QuickNavComponent {
   buttons = [
-    new QuickNavButton(0, 'ios-paper', 'App News', AppRoute.AppNews),
-    new QuickNavButton(1, 'trending-up', 'GE Tracker', AppRoute.GrandExchange),
-    new QuickNavButton(2, 'trophy', 'Hiscores', AppRoute.Hiscores),
-    new QuickNavButton(3, 'ios-podium', 'XP Tracker', AppRoute.XpTracker),
+    new QuickNavButton(0, 'md-today', 'App News', AppRoute.AppNews),
+    new QuickNavButton(1, 'md-trending-up', 'GE Tracker', AppRoute.GrandExchange),
+    new QuickNavButton(2, 'md-trophy', 'Hiscores', AppRoute.Hiscores),
+    new QuickNavButton(3, 'md-podium', 'XP Tracker', AppRoute.XpTracker),
+    new QuickNavButton(3, 'md-wikipedia', 'OSRS Wiki', AppRoute.OSRSWiki),
+    new QuickNavButton(3, 'md-discord', 'On Discord', undefined, () =>
+      window.open('https://discord.gg/k7E6WZj', '_system')
+    ),
   ];
 
   constructor(private navCtrl: NavController) {}
 
-  navigateTo(page: string): Promise<boolean> {
-    return this.navCtrl.navigateForward(page);
+  doAction(button: QuickNavButton): void {
+    if (button.page) {
+      this.navCtrl.navigateForward(button.page);
+    } else {
+      button.action!();
+    }
   }
 
   trackByButtonId(index: number, button: QuickNavButton): number {

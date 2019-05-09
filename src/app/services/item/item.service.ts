@@ -11,10 +11,10 @@ import { ItemDetailModel, ItemSearchModel } from './item.model';
   providedIn: 'root',
 })
 export class ItemService {
-  constructor(private http: HttpClient, private nativeHttp: NativeHttp) {}
+  constructor(private httpClient: HttpClient, private nativeHttp: NativeHttp) {}
 
   searchItems(query: string): Observable<HttpResponse<ItemSearchModel[]>> {
-    return this.http
+    return this.httpClient
       .get<ItemSearchModel[]>(`${environment.API_GEPT}/item`, {
         params: { query },
         observe: 'response',
@@ -23,7 +23,7 @@ export class ItemService {
   }
 
   getItem(id: number): Observable<ItemSearchModel | null> {
-    return this.http
+    return this.httpClient
       .get<ItemSearchModel[]>(`${environment.API_GEPT}/item/${id}`)
       .pipe(map(items => (items ? plainToClass(ItemSearchModel, items[0]) : null)));
   }

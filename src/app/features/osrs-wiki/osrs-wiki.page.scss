@@ -1,0 +1,27 @@
+ion-list-header {
+  min-height: 30px;
+}
+ion-item ion-input {
+  --padding-start: 16px;
+}
+ion-item + ion-button {
+  margin-top: 4px;
+}
+.search-results {
+  ion-card-header {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--ion-color-secondary-tint);
+  }
+  ion-card-content {
+    padding: 0;
+    ion-list ion-item {
+      font-weight: 500;
+      --detail-text-color: var(--ion-color-dark);
+      --ion-color-primary-contrast: var(--ion-color-dark);
+      &:last-of-type {
+        --border-width: 0;
+      }
+    }
+  }
+}
