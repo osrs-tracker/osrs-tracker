@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, DoCheck, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ViewChild } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { IonMenu, NavController, Platform } from '@ionic/angular';
 import { Logger } from 'core/logger/logger';
@@ -23,10 +23,8 @@ class Page {
   selector: 'app-root',
   templateUrl: 'app.component.html',
 })
-export class AppComponent implements AfterViewInit, DoCheck {
+export class AppComponent implements AfterViewInit {
   @ViewChild(IonMenu) menu: IonMenu;
-
-  cdCount = 0;
 
   pages: Page[] = [
     new Page(0, 'md-home', 'Home', false, AppRoute.Home),
@@ -59,10 +57,6 @@ export class AppComponent implements AfterViewInit, DoCheck {
 
   ngAfterViewInit(): void {
     this.menu.ionWillOpen.subscribe({ next: () => this.checkForNewAppNews() });
-  }
-
-  ngDoCheck(): void {
-    console.log(this.cdCount++);
   }
 
   private initializeApp(): void {

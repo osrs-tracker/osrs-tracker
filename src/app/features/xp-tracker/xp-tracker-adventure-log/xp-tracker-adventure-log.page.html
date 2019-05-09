@@ -1,9 +1,6 @@
 <ion-content>
-  <ion-refresher slot="fixed" pullMin="70" pullMax="300" (ionRefresh)="doRefresh()">
-    <ion-refresher-content
-      pullingText="Pull to refresh"
-      refreshingText="Refreshing..."
-    ></ion-refresher-content>
+  <ion-refresher slot="fixed" pullMin="70" pullMax="250" pullFactor="0.5" (ionRefresh)="doRefresh()">
+    <ion-refresher-content pullingText="Pull to refresh" refreshingText="Refreshing..."></ion-refresher-content>
   </ion-refresher>
 
   <ion-card *ngFor="let log of logs; trackBy: trackByXpDate; let index = index">
@@ -27,7 +24,7 @@
       item-result
       lines="none"
       color="primary"
-      *ngFor="let skill of (log.xp.skills | slice: 1); trackBy: trackByName"
+      *ngFor="let skill of log.xp.skills | slice: 1; trackBy: trackByName"
     >
       <skill-icon [skill]="skill.name" height="18px" class="pr-xs"></skill-icon>
       Gained
