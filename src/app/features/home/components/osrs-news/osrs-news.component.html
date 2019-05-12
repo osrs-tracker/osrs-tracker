@@ -8,7 +8,7 @@
     <ion-card-title>{{ item.title }}</ion-card-title>
   </ion-card-header>
   <ion-card-content class="img-container">
-    <ion-img (click)="openInBrowser(item.link)" [src]="item.enclosure.link"></ion-img>
+    <img (click)="openInBrowser(item.link)" [src]="item.enclosure.link" />
   </ion-card-content>
   <ion-card-content>
     <p>{{ item.description }}</p>
