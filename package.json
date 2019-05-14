@@ -1,6 +1,6 @@
 {
   "name": "osrs-tracker-app",
-  "version": "3.4.0",
+  "version": "3.4.1",
   "license": "MIT",
   "author": "Freek Mencke",
   "homepage": "https://twitter.com/FreekMencke",
@@ -103,5 +103,9 @@
       "cordova-plugin-browsertab": {},
       "cordova-sqlite-storage": {}
     }
+  },
+  "config": {
+    "ionic_bundler": "webpack",
+    "ionic_source_map_type": "#inline-source-map"
   }
 }
