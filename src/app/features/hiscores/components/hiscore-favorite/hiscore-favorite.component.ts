@@ -59,7 +59,7 @@ export class HiscoreFavoriteComponent implements OnInit {
   }
 
   private calculateCombatLevel(hiscore: Hiscore): number {
-    const [, attack, strength, defence, hitpoints, prayer, ranged, magic] = hiscore.skills.map(skill =>
+    const [, attack, defence, strength, hitpoints, ranged, prayer, magic] = hiscore.skills.map(skill =>
       Number(skill.level)
     );
 
