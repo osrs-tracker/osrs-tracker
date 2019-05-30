@@ -22,7 +22,7 @@ export class HomePage implements AfterViewInit {
   }
 
   doRefresh(event: any, news: OSRSNewsComponent): void {
-    forkJoin(timer(500), news.getNews())
+    forkJoin([timer(500), news.getNews()])
       .pipe(finalize(() => event.target.complete()))
       .subscribe();
   }

@@ -25,7 +25,7 @@ export class PriceTrendComponent implements OnInit {
 
   ngOnInit(): void {
     this.loading = true;
-    forkJoin(this.getItemDetails(), this.getData())
+    forkJoin([this.getItemDetails(), this.getData()])
       .pipe(
         finalize(() => {
           this.loading = false;

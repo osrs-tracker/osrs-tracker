@@ -73,7 +73,7 @@ export class AppNewsPage implements OnInit {
   }
 
   doRefresh(event: any): void {
-    forkJoin(timer(500), this.getNews())
+    forkJoin([timer(500), this.getNews()])
       .pipe(finalize(() => event.target.complete()))
       .subscribe();
   }

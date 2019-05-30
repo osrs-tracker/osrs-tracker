@@ -16,10 +16,10 @@ export class CompareHiscoresResolver implements Resolve<Hiscore[]> {
     const loader = await this.loadCtrl.create({ message: 'Please wait...' });
     await loader.present();
 
-    return forkJoin(
+    return forkJoin([
       this.hiscoresProvider.getHiscoreAndType(route.params.player).pipe(catchError(() => throwError('Player'))),
-      this.hiscoresProvider.getHiscoreAndType(route.params.compare).pipe(catchError(() => throwError('Compare')))
-    )
+      this.hiscoresProvider.getHiscoreAndType(route.params.compare).pipe(catchError(() => throwError('Compare'))),
+    ])
       .pipe(finalize(() => loader.dismiss()))
       .toPromise();
   }

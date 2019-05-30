@@ -31,7 +31,7 @@ export class XpTrackerViewResolver implements Resolve<[Xp[], Hiscore]> {
     await loader.present();
 
     const player = route.params.player;
-    return forkJoin(this.hiscoreProvider.getHiscore(player), this.hiscoreProvider.getHiscoreAndType(player))
+    return forkJoin([this.hiscoreProvider.getHiscore(player), this.hiscoreProvider.getHiscoreAndType(player)])
       .pipe(
         map(([hiscore, typedHiscore]) => ({
           ...hiscore,
@@ -39,7 +39,7 @@ export class XpTrackerViewResolver implements Resolve<[Xp[], Hiscore]> {
           type: typedHiscore.type,
         })),
         finalize(() => loader.dismiss()),
-        switchMap((hiscore: Hiscore) => forkJoin(this.xpProvider.getXpFor(player), of(hiscore))),
+        switchMap((hiscore: Hiscore) => forkJoin([this.xpProvider.getXpFor(player), of(hiscore)])),
         tap(([xp, hiscore]) => {
           const justTracking = xp.length === 1 && xp[0].xp.skills[0].exp === hiscore.skills[0].exp;
           if (justTracking) {
