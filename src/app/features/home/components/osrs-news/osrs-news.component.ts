@@ -1,6 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { BrowserTab } from '@ionic-native/browser-tab/ngx';
-import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
+import { Plugins } from '@capacitor/core';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { NewsItemOSRS, NewsService } from 'services/news/news.service';
@@ -16,12 +15,7 @@ export class OSRSNewsComponent implements OnInit {
   @Input() cachedNewsItems: NewsItemOSRS[];
   items: NewsItemOSRS[];
 
-  constructor(
-    private browserTab: BrowserTab,
-    private inAppBrowser: InAppBrowser,
-    private newsProvider: NewsService,
-    private storageService: StorageService
-  ) {}
+  constructor(private newsProvider: NewsService, private storageService: StorageService) {}
 
   ngOnInit(): void {
     this.items = this.cachedNewsItems;
@@ -38,11 +32,10 @@ export class OSRSNewsComponent implements OnInit {
   }
 
   async openInBrowser(url: string): Promise<void> {
-    if (await this.browserTab.isAvailable()) {
-      this.browserTab.openUrl(url);
-    } else {
-      this.inAppBrowser.create(url, '_system');
-    }
+    Plugins.Browser.open({
+      url,
+      toolbarColor: '#1e2023',
+    });
   }
 
   trackByNewsItemDate(index: number, newsItem: NewsItemOSRS): Date {

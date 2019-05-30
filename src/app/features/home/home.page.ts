@@ -1,6 +1,6 @@
 import { AfterViewInit, Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { SplashScreen } from '@ionic-native/splash-screen/ngx';
+import { Plugins } from '@capacitor/core';
 import { forkJoin, timer } from 'rxjs';
 import { finalize } from 'rxjs/operators';
 import { NewsItemOSRS } from 'services/news/news.service';
@@ -13,12 +13,12 @@ import { OSRSNewsComponent } from './components/osrs-news/osrs-news.component';
 export class HomePage implements AfterViewInit {
   cachedNewsItems: NewsItemOSRS[];
 
-  constructor(activatedRoute: ActivatedRoute, private splashScreen: SplashScreen) {
+  constructor(activatedRoute: ActivatedRoute) {
     this.cachedNewsItems = activatedRoute.snapshot.data.cachedNewsItems;
   }
 
   ngAfterViewInit(): void {
-    setTimeout(() => requestAnimationFrame(() => this.splashScreen.hide()), 1000);
+    requestAnimationFrame(() => Plugins.SplashScreen.hide());
   }
 
   doRefresh(event: any, news: OSRSNewsComponent): void {

@@ -10,13 +10,6 @@
     <allow-intent href="https://*/*" />
     <preference name="android-minSdkVersion" value="21" />
     <preference name="android-targetSdkVersion" value="28" />
-    <preference name="SplashScreen" value="screen" />
-    <preference name="SplashScreenDelay" value="0" />
-    <preference name="AutoHideSplashScreen" value="false" />
-    <preference name="SplashMaintainAspectRatio" value="true" />
-    <preference name="SplashShowOnlyFirstTime" value="false" />
-    <preference name="FadeSplashScreenDuration" value="300" />
-    <preference name="ShowSplashScreenSpinner" value="false" />
     <preference name="StatusBarStyle" value="blacktranslucent" />
     <preference name="StatusBarBackgroundColor" value="#181a1c" />
     <preference name="AndroidPersistentFileLocation" value="Internal" />

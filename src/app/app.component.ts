@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ViewChild } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { IonMenu, NavController, Platform } from '@ionic/angular';
 import { Logger } from 'core/logger/logger';
@@ -23,9 +23,7 @@ class Page {
   selector: 'app-root',
   templateUrl: 'app.component.html',
 })
-export class AppComponent implements AfterViewInit {
-  @ViewChild(IonMenu) menu: IonMenu;
-
+export class AppComponent {
   pages: Page[] = [
     new Page(0, 'md-home', 'Home', false, AppRoute.Home),
     new Page(1, 'md-today', 'App News', false, AppRoute.AppNews, undefined, () => this.checkForNewAppNews()),
@@ -44,6 +42,8 @@ export class AppComponent implements AfterViewInit {
 
   splitPaneVisible = false;
 
+  @ViewChild(IonMenu) menu: IonMenu;
+
   constructor(
     private alertManager: AlertManager,
     private navCtrl: NavController,
@@ -52,15 +52,11 @@ export class AppComponent implements AfterViewInit {
     private router: Router
   ) {
     this.initializeApp();
-    this.listenForActivePage();
-  }
-
-  ngAfterViewInit(): void {
-    this.menu.ionWillOpen.subscribe({ next: () => this.checkForNewAppNews() });
   }
 
   private initializeApp(): void {
     Logger.log('Initializing app');
+    this.listenForActivePage();
     this.backButtonLogic();
     this.checkForNewAppNews();
   }

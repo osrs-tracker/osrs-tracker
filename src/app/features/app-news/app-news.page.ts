@@ -1,8 +1,6 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { BrowserTab } from '@ionic-native/browser-tab/ngx';
-import { Device } from '@ionic-native/device/ngx';
-import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
+import { Plugins } from '@capacitor/core';
 import { ToastController } from '@ionic/angular';
 import { environment } from 'environments/environment';
 import { forkJoin, Observable, timer } from 'rxjs';
@@ -25,9 +23,6 @@ export class AppNewsPage implements OnInit {
 
   constructor(
     private activatedRoute: ActivatedRoute,
-    private browserTab: BrowserTab,
-    private device: Device,
-    private inAppBrowser: InAppBrowser,
     private newsProvider: NewsService,
     private storageService: StorageService,
     private toastController: ToastController
@@ -36,7 +31,7 @@ export class AppNewsPage implements OnInit {
   }
 
   async ngOnInit(): Promise<void> {
-    this.uuid = environment.production ? this.device.uuid : 'test';
+    this.uuid = environment.production ? (await Plugins.Device.getInfo()).uuid : 'test';
     this.getNews().subscribe();
   }
 
@@ -118,12 +113,9 @@ export class AppNewsPage implements OnInit {
     document.querySelectorAll<HTMLAnchorElement>('a[href]').forEach(el => {
       el.onclick = (event: Event) => {
         event.preventDefault();
-        this.browserTab.isAvailable().then(isAvailabe => {
-          if (isAvailabe) {
-            this.browserTab.openUrl(el.href);
-          } else {
-            this.inAppBrowser.create(el.href, '_system');
-          }
+        Plugins.Browser.open({
+          url: el.href,
+          toolbarColor: '#1e2023',
         });
       };
     });

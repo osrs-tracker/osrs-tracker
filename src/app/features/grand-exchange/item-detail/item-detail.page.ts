@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { BrowserTab } from '@ionic-native/browser-tab/ngx';
-import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
+import { Plugins } from '@capacitor/core';
 import { AppRoute } from 'app-routing.routes';
 import { ItemSearchModel } from 'services/item/item.model';
 import { StorageKey } from 'services/storage/storage-key';
@@ -18,12 +17,7 @@ export class ItemDetailPage {
   item: ItemSearchModel;
   isFavorite = false;
 
-  constructor(
-    private activatedRoute: ActivatedRoute,
-    private browserTab: BrowserTab,
-    private inAppBrowser: InAppBrowser,
-    private storageService: StorageService
-  ) {
+  constructor(private activatedRoute: ActivatedRoute, private storageService: StorageService) {
     this.item = this.activatedRoute.snapshot.data.itemDetail;
 
     this.addItemToItemCache();
@@ -41,11 +35,10 @@ export class ItemDetailPage {
 
   async openWiki(): Promise<void> {
     const url = `https://oldschool.runescape.wiki/w/${this.item.name}`;
-    if (await this.browserTab.isAvailable()) {
-      this.browserTab.openUrl(url);
-    } else {
-      this.inAppBrowser.create(url, '_system');
-    }
+    Plugins.Browser.open({
+      url,
+      toolbarColor: '#1e2023',
+    });
   }
 
   private async addItemToRecents(): Promise<void> {

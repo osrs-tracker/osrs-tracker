@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Storage } from '@ionic/storage';
+import { Plugins } from '@capacitor/core';
 import { StorageKey } from './storage-key';
 import { LimitedCacheOptions } from './storage-options';
 
@@ -7,18 +7,27 @@ import { LimitedCacheOptions } from './storage-options';
   providedIn: 'root',
 })
 export class StorageService {
-  constructor(private storage: Storage) {}
+  private readonly storage = Plugins.Storage;
 
   async setValue<T>(key: StorageKey, value: T): Promise<T> {
-    const storage = await this.storage.ready();
-    return await storage.setItem<T>(key, value);
+    await this.storage.set({
+      key,
+      value: JSON.stringify(value),
+    });
+    return value;
   }
 
   async getValue<T>(key: StorageKey): Promise<T | null>;
   async getValue<T>(key: StorageKey, defaultValue: T): Promise<T>;
   async getValue<T>(key: StorageKey, defaultValue?: T): Promise<T | null> {
-    const storage = await this.storage.ready();
-    const value = await storage.getItem<T>(key);
+    const found = await this.storage.get({ key });
+
+    if (!found.value) {
+      return null;
+    }
+
+    const value = JSON.parse(found.value) as T;
+
     if (defaultValue !== undefined) {
       return value || defaultValue;
     }
