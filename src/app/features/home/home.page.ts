@@ -18,7 +18,7 @@ export class HomePage implements AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    requestAnimationFrame(() => Plugins.SplashScreen.hide());
+    setTimeout(() => requestAnimationFrame(() => Plugins.SplashScreen.hide()), 1000);
   }
 
   doRefresh(event: any, news: OSRSNewsComponent): void {

@@ -23,7 +23,7 @@ export class StorageService {
     const found = await this.storage.get({ key });
 
     if (!found.value) {
-      return null;
+      return defaultValue || null;
     }
 
     const value = JSON.parse(found.value) as T;

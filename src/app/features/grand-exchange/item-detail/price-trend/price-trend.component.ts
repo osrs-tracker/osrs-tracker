@@ -1,7 +1,7 @@
 import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { Chart } from 'chart.js';
 import { forkJoin, Observable } from 'rxjs';
-import { finalize, map, tap } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 import { ItemDetailModel } from 'services/item/item.model';
 import { ItemService } from 'services/item/item.service';
 
@@ -25,15 +25,11 @@ export class PriceTrendComponent implements OnInit {
 
   ngOnInit(): void {
     this.loading = true;
-    forkJoin([this.getItemDetails(), this.getData()])
-      .pipe(
-        finalize(() => {
-          this.loading = false;
-          this.setupChart();
-          this.updateData(90);
-        })
-      )
-      .subscribe();
+    forkJoin([this.getItemDetails(), this.getData()]).subscribe(() => {
+      this.loading = false;
+      this.setupChart();
+      this.updateData(90);
+    });
   }
 
   getItemDetails(): Observable<ItemDetailModel> {

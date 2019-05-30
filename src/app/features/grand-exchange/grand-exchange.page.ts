@@ -16,9 +16,9 @@ export class GrandExchangePage {
     this.cachedItems = activatedRoute.snapshot.data.cachedItems;
   }
 
-  ionViewWillEnter(): void {
-    this.searchItem.updateFavorites();
-    this.searchItem.updateRecent();
+  async ionViewWillEnter(): Promise<void> {
+    await this.searchItem.updateFavorites();
+    await this.searchItem.updateRecent();
   }
 
   doRefresh(event: any): void {

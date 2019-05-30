@@ -3,15 +3,9 @@
 
   <!-- Base application theme. -->
   <style name="AppTheme" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
-    <item name="colorPrimary">@color/primary</item>
-    <item name="colorPrimaryDark">@color/dark</item>
-    <item name="android:colorAccent">@color/colorAccent</item>
-
   </style>
 
   <style name="AppTheme.NoActionBar" parent="Theme.AppCompat.NoActionBar">
-    <item name="colorPrimaryDark">@color/dark</item>
-
     <item name="windowActionBar">false</item>
     <item name="windowNoTitle">true</item>
     <item name="android:background">@null</item>

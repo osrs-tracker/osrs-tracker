@@ -91,7 +91,7 @@ export class AppNewsPage implements OnInit {
         )
         .subscribe(
           items => {
-            if (items.length === 0) {
+            if ((items || []).length === 0) {
               return (event.target.disabled = true);
             }
             this.items = [...this.items, ...items];
@@ -105,7 +105,7 @@ export class AppNewsPage implements OnInit {
     }
   }
 
-  trackByNewsItemId(index: number, newsItem: NewsItemApp): number {
+  trackByNewsItemId(_: number, newsItem: NewsItemApp): number {
     return newsItem.id;
   }
 
