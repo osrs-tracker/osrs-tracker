@@ -27,9 +27,6 @@ export class OsrsWikiPage {
   }
 
   async openInBrowser(url: string): Promise<void> {
-    Plugins.Browser.open({
-      url,
-      toolbarColor: '#1e2023',
-    });
+    Plugins.Browser.open({ url, toolbarColor: '#1e2023' });
   }
 }

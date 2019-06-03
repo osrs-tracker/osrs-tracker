@@ -13,6 +13,7 @@
     "start:android": "npx cap sync && npx cap open android",
     "build": "ng build",
     "build:android": "npm run build && npx cap sync && npx cap open android",
+    "build:android:prod": "npm run build:prod && npx cap sync && npx cap open android",
     "build:ci": "ng build --prod --progress false",
     "build:prod": "rm -rf www/ && ng build --prod",
     "lint": "ng lint"

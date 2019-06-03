@@ -35,10 +35,7 @@ export class ItemDetailPage {
 
   async openWiki(): Promise<void> {
     const url = `https://oldschool.runescape.wiki/w/${this.item.name}`;
-    Plugins.Browser.open({
-      url,
-      toolbarColor: '#1e2023',
-    });
+    Plugins.Browser.open({ url, toolbarColor: '#1e2023' });
   }
 
   private async addItemToRecents(): Promise<void> {

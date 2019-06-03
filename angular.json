@@ -26,12 +26,12 @@
                 "output": "./assets"
               },
               {
-                "glob": "**/*.svg",
+                "glob": "**/+(md-menu|md-home|md-today|md-trending-up|md-trophy|md-podium|md-settings|md-star|md-arrow).svg",
                 "input": "node_modules/ionicons/dist/ionicons/svg",
                 "output": "./svg"
               },
               {
-                "glob": "**/*.svg",
+                "glob": "**/+(md-wikipedia|md-discord).svg",
                 "input": "graphics/assets/svg",
                 "output": "./svg"
               }
@@ -66,6 +66,7 @@
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
+
               "budgets": [
                 {
                   "type": "initial",

@@ -113,10 +113,7 @@ export class AppNewsPage implements OnInit {
     document.querySelectorAll<HTMLAnchorElement>('a[href]').forEach(el => {
       el.onclick = (event: Event) => {
         event.preventDefault();
-        Plugins.Browser.open({
-          url: el.href,
-          toolbarColor: '#1e2023',
-        });
+        Plugins.Browser.open({ url: el.href, toolbarColor: '#1e2023' });
       };
     });
   }

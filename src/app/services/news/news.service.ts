@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { NativeHttp } from 'core/native-http/nativeHttp';
 import { environment } from 'environments/environment';
 import { Observable } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
+import { map, switchMap, tap } from 'rxjs/operators';
 import { StorageKey } from 'services/storage/storage-key';
 import { StorageService } from 'services/storage/storage.service';
 import { ElementCompact, xml2js } from 'xml-js';
@@ -42,7 +42,6 @@ export class NewsService {
   constructor(private httpClient: HttpClient, private nativeHttp: NativeHttp, private storageService: StorageService) {}
 
   getOSRSNews(): Observable<NewsItemOSRS[]> {
-    // OLD because no HTTPS available for the rss feed.
     return this.nativeHttp.getText(`${environment.API_RUNESCAPE}/m=news/latest_news.rss?oldschool=true`).pipe(
       map(xmlRss => {
         const xml: ElementCompact = xml2js(xmlRss, { compact: true });
@@ -60,7 +59,8 @@ export class NewsService {
               [item.category._text]
             )
         );
-      })
+      }),
+      tap(news => this.storageService.setValue(StorageKey.CacheOsrsNews, news))
     );
   }
 
