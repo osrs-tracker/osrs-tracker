@@ -2,7 +2,7 @@
   OSRS News
 </h6>
 
-<ion-card *ngFor="let item of items; trackBy: trackByNewsItemDate">
+<ion-card *ngFor="let item of newsItems; trackBy: trackByNewsItemDate">
   <ion-card-header small>
     <ion-card-subtitle>{{ item.pubDate | date }} | {{ (item?.categories)[0] }}</ion-card-subtitle>
     <ion-card-title>{{ item.title }}</ion-card-title>
