@@ -65,7 +65,7 @@ export class SearchItemComponent implements OnInit {
     }
   }
 
-  trackByItemId(index: number, itemId: number): number {
+  trackByItemId(_: number, itemId: number): number {
     return itemId;
   }
 }

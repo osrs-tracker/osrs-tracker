@@ -1,48 +1,18 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { BrowserTab } from '@ionic-native/browser-tab/ngx';
-import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
-import { Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
-import { NewsItemOSRS, NewsService } from 'services/news/news.service';
-import { StorageKey } from 'services/storage/storage-key';
-import { StorageService } from 'services/storage/storage.service';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { Plugins } from '@capacitor/core';
+import { NewsItemOSRS } from 'services/news/news.service';
 
 @Component({
   selector: 'osrs-news',
   templateUrl: './osrs-news.component.html',
   styleUrls: ['./osrs-news.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class OSRSNewsComponent implements OnInit {
-  @Input() cachedNewsItems: NewsItemOSRS[];
-  items: NewsItemOSRS[];
-
-  constructor(
-    private browserTab: BrowserTab,
-    private inAppBrowser: InAppBrowser,
-    private newsProvider: NewsService,
-    private storageService: StorageService
-  ) {}
-
-  ngOnInit(): void {
-    this.items = this.cachedNewsItems;
-    this.getNews().subscribe();
-  }
-
-  getNews(): Observable<NewsItemOSRS[]> {
-    return this.newsProvider.getOSRSNews().pipe(
-      tap(items => {
-        this.items = items;
-        this.storageService.setValue(StorageKey.CacheOsrsNews, items);
-      })
-    );
-  }
+export class OSRSNewsComponent {
+  @Input() newsItems: NewsItemOSRS[];
 
   async openInBrowser(url: string): Promise<void> {
-    if (await this.browserTab.isAvailable()) {
-      this.browserTab.openUrl(url);
-    } else {
-      this.inAppBrowser.create(url, '_system');
-    }
+    Plugins.Browser.open({ url, toolbarColor: '#1e2023' });
   }
 
   trackByNewsItemDate(index: number, newsItem: NewsItemOSRS): Date {

@@ -1,0 +1,13 @@
+{
+  "appId": "com.toxsickproductions.geptv2",
+  "appName": "OSRS Tracker",
+  "bundledWebRuntime": false,
+  "npmClient": "npm",
+  "webDir": "www",
+  "plugins": {
+    "SplashScreen": {
+      "androidScaleType": "CENTER_CROP",
+      "launchAutoHide": false
+    }
+  }
+}

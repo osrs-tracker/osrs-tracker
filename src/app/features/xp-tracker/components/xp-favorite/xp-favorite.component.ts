@@ -43,11 +43,11 @@ export class XpFavoriteComponent implements OnInit {
 
   getData(): Observable<[Xp[], Hiscore, Hiscore]> {
     this.loading = true;
-    return forkJoin(
+    return forkJoin([
       this.xpProvider.getXpFor(this.player, 1),
       this.hiscoreProvider.getHiscore(this.player),
-      this.hiscoreProvider.getHiscoreAndType(this.player)
-    ).pipe(
+      this.hiscoreProvider.getHiscoreAndType(this.player),
+    ]).pipe(
       finalize(() => (this.loading = false)),
       catchError(err => {
         if (err.status === 404) {

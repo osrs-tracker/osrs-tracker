@@ -10,13 +10,13 @@
   },
   "scripts": {
     "start": "ionic serve --open",
+    "start:android": "npx cap sync && npx cap open android",
     "build": "ng build",
+    "build:android": "npm run build && npx cap sync && npx cap open android",
+    "build:android:prod": "npm run build:prod && npx cap sync && npx cap open android",
     "build:ci": "ng build --prod --progress false",
-    "test": "ng test",
-    "lint": "ng lint",
-    "android": "rm -rf ./www/ && ionic cordova run android --prod --device",
-    "android:serve": "rm -rf ./www/ && ionic cordova run android --prod --livereload",
-    "android:build": "rm -rf ./www/ && ionic cordova build android --prod --release"
+    "build:prod": "rm -rf www/ && ng build --prod",
+    "lint": "ng lint"
   },
   "private": true,
   "dependencies": {
@@ -27,32 +27,19 @@
     "@angular/platform-browser": "7.2.15",
     "@angular/platform-browser-dynamic": "7.2.15",
     "@angular/router": "7.2.15",
-    "@ionic-native/browser-tab": "5.5.1",
-    "@ionic-native/core": "5.5.1",
-    "@ionic-native/device": "5.5.1",
-    "@ionic-native/http": "5.5.1",
-    "@ionic-native/in-app-browser": "5.5.1",
-    "@ionic-native/splash-screen": "5.5.1",
-    "@ionic-native/status-bar": "5.5.1",
-    "@ionic/angular": "4.4.0",
-    "@ionic/storage": "2.2.0",
+    "@capacitor/android": "^1.0.0",
+    "@capacitor/cli": "^1.0.0",
+    "@capacitor/core": "^1.0.0",
+    "@ionic-native/core": "5.6.1",
+    "@ionic-native/http": "5.6.1",
+    "@ionic/angular": "4.4.2",
     "chart.js": "2.8.0",
-    "class-transformer": "0.2.2",
-    "cordova-android": "8.0.0",
+    "class-transformer": "0.2.3",
     "cordova-plugin-advanced-http": "2.0.9",
-    "cordova-plugin-browsertab": "0.2.0",
-    "cordova-plugin-compat": "1.2.0",
-    "cordova-plugin-device": "2.0.2",
-    "cordova-plugin-file": "6.0.1",
-    "cordova-plugin-inappbrowser": "3.0.0",
-    "cordova-plugin-ionic-keyboard": "2.1.3",
-    "cordova-plugin-ionic-webview": "4.0.1",
-    "cordova-plugin-splashscreen": "5.0.2",
-    "cordova-plugin-statusbar": "2.4.2",
-    "cordova-plugin-whitelist": "1.3.3",
-    "cordova-sqlite-storage": "3.2.0",
-    "core-js": "3.0.1",
-    "rxjs": "6.4.0",
+    "cordova-plugin-file": "^6.0.1",
+    "core-js": "3.1.3",
+    "rxjs": "6.5.2",
+    "tslib": "^1.9.0",
     "xml-js": "1.6.11",
     "zone.js": "^0.8.29"
   },
@@ -82,30 +69,5 @@
     "tslint": "5.16.0",
     "tslint-eslint-rules": "5.4.0",
     "typescript": "<3.3.0"
-  },
-  "description": "An Ionic project",
-  "cordova": {
-    "platforms": [
-      "android"
-    ],
-    "plugins": {
-      "cordova-plugin-device": {},
-      "cordova-plugin-inappbrowser": {},
-      "cordova-plugin-statusbar": {},
-      "cordova-plugin-whitelist": {},
-      "cordova-plugin-ionic-keyboard": {},
-      "cordova-plugin-splashscreen": {},
-      "cordova-plugin-ionic-webview": {
-        "ANDROID_SUPPORT_ANNOTATIONS_VERSION": "27.+"
-      },
-      "cordova-plugin-advanced-http": {},
-      "cordova-plugin-file": {},
-      "cordova-plugin-browsertab": {},
-      "cordova-sqlite-storage": {}
-    }
-  },
-  "config": {
-    "ionic_bundler": "webpack",
-    "ionic_source_map_type": "#inline-source-map"
   }
 }

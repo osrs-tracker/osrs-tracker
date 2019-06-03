@@ -1,8 +1,6 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { BrowserTab } from '@ionic-native/browser-tab/ngx';
-import { Device } from '@ionic-native/device/ngx';
-import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
+import { Plugins } from '@capacitor/core';
 import { ToastController } from '@ionic/angular';
 import { environment } from 'environments/environment';
 import { forkJoin, Observable, timer } from 'rxjs';
@@ -25,9 +23,6 @@ export class AppNewsPage implements OnInit {
 
   constructor(
     private activatedRoute: ActivatedRoute,
-    private browserTab: BrowserTab,
-    private device: Device,
-    private inAppBrowser: InAppBrowser,
     private newsProvider: NewsService,
     private storageService: StorageService,
     private toastController: ToastController
@@ -36,7 +31,7 @@ export class AppNewsPage implements OnInit {
   }
 
   async ngOnInit(): Promise<void> {
-    this.uuid = environment.production ? this.device.uuid : 'test';
+    this.uuid = environment.production ? (await Plugins.Device.getInfo()).uuid : 'test';
     this.getNews().subscribe();
   }
 
@@ -78,7 +73,7 @@ export class AppNewsPage implements OnInit {
   }
 
   doRefresh(event: any): void {
-    forkJoin(timer(500), this.getNews())
+    forkJoin([timer(500), this.getNews()])
       .pipe(finalize(() => event.target.complete()))
       .subscribe();
   }
@@ -96,7 +91,7 @@ export class AppNewsPage implements OnInit {
         )
         .subscribe(
           items => {
-            if (items.length === 0) {
+            if ((items || []).length === 0) {
               return (event.target.disabled = true);
             }
             this.items = [...this.items, ...items];
@@ -110,7 +105,7 @@ export class AppNewsPage implements OnInit {
     }
   }
 
-  trackByNewsItemId(index: number, newsItem: NewsItemApp): number {
+  trackByNewsItemId(_: number, newsItem: NewsItemApp): number {
     return newsItem.id;
   }
 
@@ -118,13 +113,7 @@ export class AppNewsPage implements OnInit {
     document.querySelectorAll<HTMLAnchorElement>('a[href]').forEach(el => {
       el.onclick = (event: Event) => {
         event.preventDefault();
-        this.browserTab.isAvailable().then(isAvailabe => {
-          if (isAvailabe) {
-            this.browserTab.openUrl(el.href);
-          } else {
-            this.inAppBrowser.create(el.href, '_system');
-          }
-        });
+        Plugins.Browser.open({ url: el.href, toolbarColor: '#1e2023' });
       };
     });
   }

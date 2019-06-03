@@ -1,7 +1,8 @@
-import { AfterViewInit, Component, ViewChild } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { IonMenu, NavController, Platform } from '@ionic/angular';
 import { Logger } from 'core/logger/logger';
+import { environment } from 'environments/environment';
 import { filter } from 'rxjs/operators';
 import { AppRoute } from './app-routing.routes';
 import { AlertManager } from './services/alert-manager/alert.manager';
@@ -23,7 +24,7 @@ class Page {
   selector: 'app-root',
   templateUrl: 'app.component.html',
 })
-export class AppComponent implements AfterViewInit {
+export class AppComponent {
   @ViewChild(IonMenu) menu: IonMenu;
 
   pages: Page[] = [
@@ -42,7 +43,7 @@ export class AppComponent implements AfterViewInit {
     new Page(6, 'md-settings', 'Settings', false, AppRoute.Settings),
   ];
 
-  splitPaneVisible = false;
+  readonly production = environment.production;
 
   constructor(
     private alertManager: AlertManager,
@@ -52,15 +53,11 @@ export class AppComponent implements AfterViewInit {
     private router: Router
   ) {
     this.initializeApp();
-    this.listenForActivePage();
-  }
-
-  ngAfterViewInit(): void {
-    this.menu.ionWillOpen.subscribe({ next: () => this.checkForNewAppNews() });
   }
 
   private initializeApp(): void {
     Logger.log('Initializing app');
+    this.listenForActivePage();
     this.backButtonLogic();
     this.checkForNewAppNews();
   }
@@ -74,12 +71,8 @@ export class AppComponent implements AfterViewInit {
     }
   }
 
-  trackByPageId(index: number, page: Page): number {
+  trackByPageId(_: number, page: Page): number {
     return page.id;
-  }
-
-  splitPaneChanged(event: any): void {
-    this.splitPaneVisible = event.detail.visible;
   }
 
   private async checkForNewAppNews(): Promise<void> {
@@ -94,13 +87,10 @@ export class AppComponent implements AfterViewInit {
     this.router.events.pipe(filter(event => event instanceof NavigationEnd)).subscribe({
       next: () => {
         const activePage = this.router.url.substr(1).split('/')[0];
-        this.pages = this.pages.map(
-          page =>
-            ({
-              ...page,
-              active: activePage === page.route,
-            } as Page)
-        );
+        this.pages = this.pages.map(page => ({
+          ...page,
+          active: activePage === page.route,
+        }));
       },
     });
   }
@@ -110,7 +100,7 @@ export class AppComponent implements AfterViewInit {
       const segments = this.router.url.substr(1).split('/');
       if (this.alertManager.isDialogOpen()) {
         this.alertManager.close();
-      } else if (!this.splitPaneVisible && (await this.menu.isOpen())) {
+      } else if (await this.menu.isOpen()) {
         this.menu.close();
       } else if (segments.includes(AppRoute.XpTracker) && segments.length > 1) {
         this.navCtrl.navigateBack(AppRoute.XpTracker);

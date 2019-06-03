@@ -19,7 +19,7 @@ class QuickNavButton {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class QuickNavComponent {
-  buttons = [
+  readonly buttons = [
     new QuickNavButton(0, 'md-today', 'App News', AppRoute.AppNews),
     new QuickNavButton(1, 'md-trending-up', 'GE Tracker', AppRoute.GrandExchange),
     new QuickNavButton(2, 'md-trophy', 'Hiscores', AppRoute.Hiscores),

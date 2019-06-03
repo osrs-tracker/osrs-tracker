@@ -22,10 +22,10 @@ export class HiscoresService {
   ) {}
 
   getCompareHiscores(username: string, compare: string): Observable<Hiscore[]> {
-    return forkJoin(
+    return forkJoin([
       this.getHiscore(username).pipe(catchError(err => of(err))),
-      this.getHiscore(compare).pipe(catchError(err => of(err)))
-    ).pipe(
+      this.getHiscore(compare).pipe(catchError(err => of(err))),
+    ]).pipe(
       switchMap(([forUsername, forCompare]) => {
         if (forUsername.status !== 404 && forCompare.status !== 404) {
           return of([forUsername, forCompare]);
@@ -90,12 +90,12 @@ export class HiscoresService {
   }
 
   private determineHiscoreAndType(username: string): Observable<Hiscore> {
-    return forkJoin(
+    return forkJoin([
       this.getHiscore(username).pipe(catchError(err => of(err))),
       this.getHiscore(username, 'ironman').pipe(catchError(err => of(err))),
       this.getHiscore(username, 'ultimate').pipe(catchError(err => of(err))),
-      this.getHiscore(username, 'hardcore_ironman').pipe(catchError(err => of(err)))
-    ).pipe(
+      this.getHiscore(username, 'hardcore_ironman').pipe(catchError(err => of(err))),
+    ]).pipe(
       switchMap(response => {
         const [normal, ironman, ultimate, hardcore] = response;
         if (normal.status === 404) {
@@ -104,24 +104,24 @@ export class HiscoresService {
           const deIroned = +ultimate.skills[0].exp < +normal.skills[0].exp;
 
           const player = new Player(username.trim(), 'ultimate', deIroned);
-          return forkJoin(of({ ...(deIroned ? normal : ultimate), player }), this.insertOrUpdatePlayer(player));
+          return forkJoin([of({ ...(deIroned ? normal : ultimate), player }), this.insertOrUpdatePlayer(player)]);
         } else if (hardcore.status !== 404 && ultimate.status === 404) {
           const deIroned = +ironman.skills[0].exp < +normal.skills[0].exp;
           const dead = +ironman.skills[0].exp > +hardcore.skills[0].exp;
 
           const player = new Player(username.trim(), 'hardcore_ironman', deIroned, dead);
-          return forkJoin(
+          return forkJoin([
             of({ ...(deIroned ? normal : dead ? ironman : hardcore), player }),
-            this.insertOrUpdatePlayer(player)
-          );
+            this.insertOrUpdatePlayer(player),
+          ]);
         } else if (ironman.status !== 404) {
           const deIroned = +ironman.skills[0].exp < +normal.skills[0].exp;
 
           const player = new Player(username.trim(), 'ironman', deIroned);
-          return forkJoin(of({ ...(deIroned ? normal : ironman), player }), this.insertOrUpdatePlayer(player));
+          return forkJoin([of({ ...(deIroned ? normal : ironman), player }), this.insertOrUpdatePlayer(player)]);
         } else {
           const player = new Player(username.trim(), 'normal');
-          return forkJoin(of({ ...normal, player }), this.insertOrUpdatePlayer(player));
+          return forkJoin([of({ ...normal, player }), this.insertOrUpdatePlayer(player)]);
         }
       }),
       switchMap(([hiscore, statusCode]: [Hiscore, number]) =>

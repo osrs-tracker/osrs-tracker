@@ -44,10 +44,10 @@ export class XpTrackerAdventureLogPage {
   }
 
   doRefresh(): void {
-    forkJoin(
+    forkJoin([
       this.xpProvider.getXpFor(this.username, this.INFINITE_LOAD_COUNT_PERIOD),
-      this.hiscoreProvider.getHiscoreAndType(this.username)
-    )
+      this.hiscoreProvider.getHiscoreAndType(this.username),
+    ])
       .pipe(
         finalize(() => {
           this.refresher.complete();
@@ -65,10 +65,10 @@ export class XpTrackerAdventureLogPage {
   doInfinite(): void {
     if (!this.loading) {
       this.loading = true;
-      forkJoin(
+      forkJoin([
         this.xpProvider.getXpFor(this.username, this.INFINITE_LOAD_COUNT_INFINITE, this.originalXp.length),
-        timer(500)
-      )
+        timer(500),
+      ])
         .pipe(
           finalize(() => {
             this.loading = false;
