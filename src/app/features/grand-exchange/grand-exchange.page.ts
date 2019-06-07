@@ -8,7 +8,7 @@ import { SearchItemComponent } from './components/search-item/search-item.compon
   templateUrl: './grand-exchange.page.html',
 })
 export class GrandExchangePage {
-  @ViewChild(SearchItemComponent) searchItem: SearchItemComponent;
+  @ViewChild(SearchItemComponent, { static: true }) searchItem: SearchItemComponent;
 
   cachedItems: { favorites: string[]; recents: string[] };
 

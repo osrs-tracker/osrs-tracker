@@ -17,8 +17,8 @@ export class XpTrackerAdventureLogPage {
   private readonly INFINITE_LOAD_COUNT_PERIOD = 14;
   private readonly INFINITE_LOAD_COUNT_INFINITE = 7;
 
-  @ViewChild(IonRefresher) refresher: IonRefresher;
-  @ViewChild(IonInfiniteScroll) infiniteScroll: IonInfiniteScroll;
+  @ViewChild(IonRefresher, { static: true }) refresher: IonRefresher;
+  @ViewChild(IonInfiniteScroll, { static: true }) infiniteScroll: IonInfiniteScroll;
 
   private originalHiscore: Hiscore;
   private originalXp: Xp[];

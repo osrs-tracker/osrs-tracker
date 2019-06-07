@@ -25,7 +25,7 @@ class Page {
   templateUrl: 'app.component.html',
 })
 export class AppComponent {
-  @ViewChild(IonMenu) menu: IonMenu;
+  @ViewChild(IonMenu, { static: true }) menu: IonMenu;
 
   pages: Page[] = [
     new Page(0, 'md-home', 'Home', false, AppRoute.Home),

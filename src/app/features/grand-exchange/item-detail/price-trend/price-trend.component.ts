@@ -11,7 +11,7 @@ import { ItemService } from 'services/item/item.service';
   styleUrls: ['./price-trend.component.scss'],
 })
 export class PriceTrendComponent implements OnInit {
-  @ViewChild('priceTrendCanvas') priceTrendCanvas: ElementRef<HTMLCanvasElement>;
+  @ViewChild('priceTrendCanvas', { static: true }) priceTrendCanvas: ElementRef<HTMLCanvasElement>;
   priceTrendChart: Chart;
 
   @Input() id: number;

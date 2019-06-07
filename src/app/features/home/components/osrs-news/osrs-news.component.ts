@@ -11,8 +11,8 @@ import { NewsItemOSRS } from 'services/news/news.service';
 export class OSRSNewsComponent {
   @Input() newsItems: NewsItemOSRS[];
 
-  async openInBrowser(url: string): Promise<void> {
-    Plugins.Browser.open({ url, toolbarColor: '#1e2023' });
+  openInBrowser(url: string): Promise<void> {
+    return Plugins.Browser.open({ url, toolbarColor: '#1e2023' });
   }
 
   trackByNewsItemDate(index: number, newsItem: NewsItemOSRS): Date {
