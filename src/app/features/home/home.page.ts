@@ -19,7 +19,7 @@ export class HomePage {
   }
 
   ionViewDidEnter(): void {
-    requestAnimationFrame(() => Plugins.SplashScreen.hide());
+    Plugins.SplashScreen.hide();
   }
 
   doRefresh(event: any): void {

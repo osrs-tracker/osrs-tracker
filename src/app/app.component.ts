@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { IonMenu, NavController, Platform } from '@ionic/angular';
 import { Logger } from 'core/logger/logger';
@@ -24,7 +24,7 @@ class Page {
   selector: 'app-root',
   templateUrl: 'app.component.html',
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   @ViewChild(IonMenu, { static: true }) menu: IonMenu;
 
   pages: Page[] = [
@@ -51,11 +51,9 @@ export class AppComponent {
     private newsProvider: NewsService,
     private platform: Platform,
     private router: Router
-  ) {
-    this.initializeApp();
-  }
+  ) {}
 
-  private initializeApp(): void {
+  ngOnInit(): void {
     Logger.log('Initializing app');
     this.listenForActivePage();
     this.backButtonLogic();
