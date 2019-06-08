@@ -17,7 +17,7 @@ import { StorageService } from 'services/storage/storage.service';
 export class PlayerHiscorePage {
   readonly AppRoute = AppRoute;
 
-  @ViewChild(IonRefresher) refresher: IonRefresher;
+  @ViewChild(IonRefresher, { static: true }) refresher: IonRefresher;
 
   hiscore: Hiscore;
   hiscoreSuffix = 'normal';

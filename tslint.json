@@ -57,8 +57,8 @@
       }
     ],
     "whitespace": [true, "check-branch", "check-decl", "check-operator", "check-separator", "check-type"],
-    "directive-selector": [true, "attribute", "app", "camelCase"],
-    "component-selector": [true, "element", "app", "page", "kebab-case"],
+    "directive-selector": [true, "attribute", "", "camelCase"],
+    "component-selector": [true, "element", "", "page", "kebab-case"],
     "no-output-on-prefix": true,
     "no-inputs-metadata-property": true,
     "no-outputs-metadata-property": true,

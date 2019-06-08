@@ -9,7 +9,7 @@ import { SearchXpComponent } from './components/search-xp/search-xp.component';
   templateUrl: 'xp-tracker.page.html',
 })
 export class XpTrackerPage {
-  @ViewChild(SearchXpComponent) searchXp: SearchXpComponent;
+  @ViewChild(SearchXpComponent, { static: true }) searchXp: SearchXpComponent;
 
   cachedXp: { favorites: string[]; recents: string[] };
 
