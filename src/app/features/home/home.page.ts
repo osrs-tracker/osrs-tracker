@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Plugins } from '@capacitor/core';
 import { forkJoin, timer } from 'rxjs';
 import { finalize } from 'rxjs/operators';
-import { NewsItemOSRS, NewsService } from 'services/news/news.service';
+import { NewsItemOSRS, NewsService } from 'src/app/services/news/news.service';
 
 @Component({
   selector: 'page-home',

@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { NavController } from '@ionic/angular';
-import { AppRoute } from '../../../../app-routing.routes';
+import { AppRoute } from 'src/app/app-routing.routes';
 
 class QuickNavButton {
   constructor(

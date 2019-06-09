@@ -1,12 +1,12 @@
 import { Component, Input, OnInit, ViewChildren } from '@angular/core';
 import { NavController } from '@ionic/angular';
-import { AppRoute } from 'app-routing.routes';
-import { favoriteShrink } from 'core/animations/delete-shrink.animation';
-import { XpTrackerRoute } from 'features/xp-tracker/xp-tracker.routes';
 import { forkJoin, Observable, timer } from 'rxjs';
-import { AlertManager } from 'services/alert-manager/alert.manager';
-import { StorageKey } from 'services/storage/storage-key';
-import { StorageService } from 'services/storage/storage.service';
+import { AppRoute } from 'src/app/app-routing.routes';
+import { favoriteShrink } from 'src/app/core/animations/delete-shrink.animation';
+import { AlertManager } from 'src/app/services/alert-manager/alert.manager';
+import { StorageKey } from 'src/app/services/storage/storage-key';
+import { StorageService } from 'src/app/services/storage/storage.service';
+import { XpTrackerRoute } from '../../xp-tracker.routes';
 import { XpFavoriteComponent } from '../xp-favorite/xp-favorite.component';
 
 @Component({

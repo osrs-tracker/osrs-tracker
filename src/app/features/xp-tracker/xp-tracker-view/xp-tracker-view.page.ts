@@ -1,14 +1,14 @@
 import { Component, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NavController } from '@ionic/angular';
-import { AppRoute } from 'app-routing.routes';
-import { HiscoresRoute } from 'features/hiscores/hiscores.routes';
 import { Subscription } from 'rxjs';
-import { Hiscore } from 'services/hiscores/hiscore.model';
-import { PreferredXpTrackerView } from 'services/settings/preferred-xp-tracker-view';
-import { SettingsService } from 'services/settings/settings.service';
-import { StorageKey } from 'services/storage/storage-key';
-import { StorageService } from 'services/storage/storage.service';
+import { AppRoute } from 'src/app/app-routing.routes';
+import { Hiscore } from 'src/app/services/hiscores/hiscore.model';
+import { PreferredXpTrackerView } from 'src/app/services/settings/preferred-xp-tracker-view';
+import { SettingsService } from 'src/app/services/settings/settings.service';
+import { StorageKey } from 'src/app/services/storage/storage-key';
+import { StorageService } from 'src/app/services/storage/storage.service';
+import { HiscoresRoute } from '../../hiscores/hiscores.routes';
 import { XpTrackerRoute } from '../xp-tracker.routes';
 import { XpTrackerViewCache } from './xp-tracker-view-cache.service';
 

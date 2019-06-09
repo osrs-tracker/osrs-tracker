@@ -2,7 +2,7 @@ import { DatePipe } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import { SharedModule } from 'shared/shared.module';
+import { SharedModule } from 'src/app/shared/shared.module';
 import { SearchXpComponent } from './components/search-xp/search-xp.component';
 import { XpFavoriteComponent } from './components/xp-favorite/xp-favorite.component';
 import { XpTrackerAdventureLogPage } from './xp-tracker-adventure-log/xp-tracker-adventure-log.page';

@@ -3,8 +3,8 @@ import { ActivatedRouteSnapshot, Resolve } from '@angular/router';
 import { LoadingController } from '@ionic/angular';
 import { of, throwError } from 'rxjs';
 import { finalize, switchMap } from 'rxjs/operators';
-import { ItemSearchModel } from 'services/item/item.model';
-import { ItemService } from 'services/item/item.service';
+import { ItemSearchModel } from 'src/app/services/item/item.model';
+import { ItemService } from 'src/app/services/item/item.service';
 import { ItemResultsCache } from './item-results-cache.service';
 
 @Injectable({

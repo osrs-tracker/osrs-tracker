@@ -1,4 +1,4 @@
-import { environment } from 'environments/environment';
+import { environment } from 'src/environments/environment';
 
 export const getTrendClass = (signedPrice: string) => {
   if (!signedPrice) {

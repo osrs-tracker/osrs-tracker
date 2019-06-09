@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Plugins } from '@capacitor/core';
-import { AppRoute } from 'app-routing.routes';
-import { ItemSearchModel } from 'services/item/item.model';
-import { StorageKey } from 'services/storage/storage-key';
-import { StorageService } from 'services/storage/storage.service';
+import { AppRoute } from 'src/app/app-routing.routes';
+import { ItemSearchModel } from 'src/app/services/item/item.model';
+import { StorageKey } from 'src/app/services/storage/storage-key';
+import { StorageService } from 'src/app/services/storage/storage.service';
 
 @Component({
   selector: 'page-item-detail',

@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, Resolve } from '@angular/router';
 import { LoadingController } from '@ionic/angular';
 import { finalize } from 'rxjs/operators';
-import { Hiscore } from 'services/hiscores/hiscore.model';
-import { HiscoresService } from 'services/hiscores/hiscores.service';
+import { Hiscore } from 'src/app/services/hiscores/hiscore.model';
+import { HiscoresService } from 'src/app/services/hiscores/hiscores.service';
 
 @Injectable({
   providedIn: 'root',

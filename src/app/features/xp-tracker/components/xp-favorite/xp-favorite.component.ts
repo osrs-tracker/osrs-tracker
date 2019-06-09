@@ -1,14 +1,14 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { NavController } from '@ionic/angular';
-import { AppRoute } from 'app-routing.routes';
-import { XpTrackerRoute } from 'features/xp-tracker/xp-tracker.routes';
 import { forkJoin, Observable, throwError } from 'rxjs';
 import { catchError, delay, finalize, retry, tap } from 'rxjs/operators';
-import { Hiscore } from 'services/hiscores/hiscore.model';
-import { HiscoresService } from 'services/hiscores/hiscores.service';
-import { StorageKey } from 'services/storage/storage-key';
-import { StorageService } from 'services/storage/storage.service';
-import { Xp, XpService } from 'services/xp/xp.service';
+import { AppRoute } from 'src/app/app-routing.routes';
+import { Hiscore } from 'src/app/services/hiscores/hiscore.model';
+import { HiscoresService } from 'src/app/services/hiscores/hiscores.service';
+import { StorageKey } from 'src/app/services/storage/storage-key';
+import { StorageService } from 'src/app/services/storage/storage.service';
+import { Xp, XpService } from 'src/app/services/xp/xp.service';
+import { XpTrackerRoute } from '../../xp-tracker.routes';
 
 @Component({
   selector: 'xp-favorite',

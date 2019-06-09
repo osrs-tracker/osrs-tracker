@@ -1,11 +1,10 @@
 import { Injectable } from '@angular/core';
-import { ItemSearchModel } from 'services/item/item.model';
+import { ItemSearchModel } from 'src/app/services/item/item.model';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ItemResultsCache {
-
   private itemResults: ItemSearchModel[] = [];
 
   store(searchResults: ItemSearchModel[]): void {
@@ -19,5 +18,4 @@ export class ItemResultsCache {
   clear(): void {
     this.itemResults = [];
   }
-
 }

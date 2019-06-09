@@ -1,13 +1,13 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { NavController } from '@ionic/angular';
-import { AppRoute } from 'app-routing.routes';
-import { HiscoresRoute } from 'features/hiscores/hiscores.routes';
 import { EMPTY, Observable } from 'rxjs';
 import { catchError, finalize, tap } from 'rxjs/operators';
-import { Hiscore } from 'services/hiscores/hiscore.model';
-import { HiscoresService } from 'services/hiscores/hiscores.service';
-import { StorageKey } from 'services/storage/storage-key';
-import { StorageService } from 'services/storage/storage.service';
+import { AppRoute } from 'src/app/app-routing.routes';
+import { Hiscore } from 'src/app/services/hiscores/hiscore.model';
+import { HiscoresService } from 'src/app/services/hiscores/hiscores.service';
+import { StorageKey } from 'src/app/services/storage/storage-key';
+import { StorageService } from 'src/app/services/storage/storage.service';
+import { HiscoresRoute } from '../../hiscores.routes';
 
 @Component({
   selector: 'hiscore-favorite',

@@ -1,6 +1,6 @@
 import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { Platform } from '@ionic/angular';
-import { SettingsService } from 'services/settings/settings.service';
+import { SettingsService } from 'src/app/services/settings/settings.service';
 import { Logger } from './logger/logger';
 
 @NgModule({

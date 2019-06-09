@@ -3,9 +3,9 @@ import { Component, ViewChild } from '@angular/core';
 import { IonInfiniteScroll, IonRefresher } from '@ionic/angular';
 import { forkJoin, timer } from 'rxjs';
 import { finalize } from 'rxjs/operators';
-import { Hiscore } from 'services/hiscores/hiscore.model';
-import { HiscoresService } from 'services/hiscores/hiscores.service';
-import { Xp, XpService } from 'services/xp/xp.service';
+import { Hiscore } from 'src/app/services/hiscores/hiscore.model';
+import { HiscoresService } from 'src/app/services/hiscores/hiscores.service';
+import { Xp, XpService } from 'src/app/services/xp/xp.service';
 import { XpTrackerViewCache } from '../xp-tracker-view/xp-tracker-view-cache.service';
 
 @Component({

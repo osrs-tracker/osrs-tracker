@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { StorageKey } from 'services/storage/storage-key';
-import { StorageService } from 'services/storage/storage.service';
+import { StorageKey } from '../storage/storage-key';
+import { StorageService } from '../storage/storage.service';
 import { PreferredXpTrackerView } from './preferred-xp-tracker-view';
 
 export interface Settings {

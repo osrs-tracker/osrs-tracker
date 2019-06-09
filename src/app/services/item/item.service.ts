@@ -1,10 +1,10 @@
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { NativeHttp } from 'app/core/native-http/nativeHttp';
 import { plainToClass } from 'class-transformer';
-import { environment } from 'environments/environment';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { NativeHttp } from 'src/app/core/native-http/nativeHttp';
+import { environment } from 'src/environments/environment';
 import { ItemDetailModel, ItemSearchModel } from './item.model';
 
 @Injectable({

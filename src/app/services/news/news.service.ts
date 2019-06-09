@@ -1,12 +1,12 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { NativeHttp } from 'core/native-http/nativeHttp';
-import { environment } from 'environments/environment';
 import { Observable } from 'rxjs';
 import { map, switchMap, tap } from 'rxjs/operators';
-import { StorageKey } from 'services/storage/storage-key';
-import { StorageService } from 'services/storage/storage.service';
+import { NativeHttp } from 'src/app/core/native-http/nativeHttp';
+import { environment } from 'src/environments/environment';
 import { ElementCompact, xml2js } from 'xml-js';
+import { StorageKey } from '../storage/storage-key';
+import { StorageService } from '../storage/storage.service';
 
 export class NewsItemApp {
   constructor(

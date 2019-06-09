@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { Plugins } from '@capacitor/core';
 import { LoadingController } from '@ionic/angular';
 import { finalize } from 'rxjs/operators';
-import { OsrsWikiService } from 'services/wiki/osrs-wiki.service';
+import { OsrsWikiService } from 'src/app/services/wiki/osrs-wiki.service';
 
 @Component({
   selector: 'osrs-wiki',

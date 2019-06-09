@@ -1,10 +1,10 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { IonMenu, NavController, Platform } from '@ionic/angular';
-import { Logger } from 'core/logger/logger';
-import { environment } from 'environments/environment';
 import { filter } from 'rxjs/operators';
+import { environment } from 'src/environments/environment';
 import { AppRoute } from './app-routing.routes';
+import { Logger } from './core/logger/logger';
 import { AlertManager } from './services/alert-manager/alert.manager';
 import { NewsService } from './services/news/news.service';
 
