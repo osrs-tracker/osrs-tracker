@@ -1,6 +1,7 @@
 import { Component, Input, OnInit, ViewChildren } from '@angular/core';
 import { NavController } from '@ionic/angular';
 import { AppRoute } from 'app-routing.routes';
+import { favoriteShrink } from 'core/animations/delete-shrink.animation';
 import { GrandExchangeRoute } from 'features/grand-exchange/grand-exchange.routes';
 import { forkJoin, Observable, timer } from 'rxjs';
 import { AlertManager } from 'services/alert-manager/alert.manager';
@@ -12,6 +13,7 @@ import { ItemResultComponent } from '../item-result/item-result.component';
   selector: 'search-item',
   templateUrl: 'search-item.component.html',
   styleUrls: ['./search-item.component.scss'],
+  animations: [favoriteShrink],
 })
 export class SearchItemComponent implements OnInit {
   @Input() cachedItems: { favorites: string[]; recents: string[] };

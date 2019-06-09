@@ -1,6 +1,7 @@
 import { Component, Input, OnInit, ViewChildren } from '@angular/core';
 import { NavController } from '@ionic/angular';
 import { AppRoute } from 'app-routing.routes';
+import { favoriteShrink } from 'core/animations/delete-shrink.animation';
 import { XpTrackerRoute } from 'features/xp-tracker/xp-tracker.routes';
 import { forkJoin, Observable, timer } from 'rxjs';
 import { AlertManager } from 'services/alert-manager/alert.manager';
@@ -12,6 +13,7 @@ import { XpFavoriteComponent } from '../xp-favorite/xp-favorite.component';
   selector: 'search-xp',
   templateUrl: 'search-xp.component.html',
   styleUrls: ['./search-xp.component.scss'],
+  animations: [favoriteShrink],
 })
 export class SearchXpComponent implements OnInit {
   @Input() cachedXp: { favorites: string[]; recents: string[] };
