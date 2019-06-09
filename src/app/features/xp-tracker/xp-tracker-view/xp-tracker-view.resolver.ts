@@ -36,7 +36,7 @@ export class XpTrackerViewResolver implements Resolve<[Xp[], Hiscore]> {
         map(([hiscore, typedHiscore]) => ({
           ...hiscore,
           player: typedHiscore.player,
-          type: typedHiscore.type,
+          type: typedHiscore.player.playerType,
         })),
         finalize(() => loader.dismiss()),
         switchMap((hiscore: Hiscore) => forkJoin([this.xpProvider.getXpFor(player), of(hiscore)])),

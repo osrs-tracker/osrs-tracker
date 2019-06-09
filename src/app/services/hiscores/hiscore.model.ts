@@ -1,8 +1,21 @@
+export const enum PlayerType {
+  Normal = 'normal',
+  Ironman = 'ironman',
+  Ultimate = 'ultimate',
+  Hardcore = 'hardcore_ironman',
+}
+
+export const enum PlayerStatus {
+  Default = 0,
+  DeIroned = 1,
+  DeUltimated = 2,
+}
+
 export class Player {
   constructor(
     public username: string,
-    public playerType?: string,
-    public deIroned: boolean = false,
+    public playerType: PlayerType = 'normal' as PlayerType,
+    public deIroned: PlayerStatus = 0,
     public dead: boolean = false,
     public lastChecked?: string
   ) {}

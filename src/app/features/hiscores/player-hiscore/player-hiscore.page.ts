@@ -4,7 +4,7 @@ import { IonRefresher, LoadingController } from '@ionic/angular';
 import { AppRoute } from 'app-routing.routes';
 import { finalize } from 'rxjs/operators';
 import { AlertManager } from 'services/alert-manager/alert.manager';
-import { Hiscore, Minigame, Skill } from 'services/hiscores/hiscore.model';
+import { Hiscore, Minigame, PlayerStatus, Skill } from 'services/hiscores/hiscore.model';
 import { HiscoresService } from 'services/hiscores/hiscores.service';
 import { StorageKey } from 'services/storage/storage-key';
 import { StorageService } from 'services/storage/storage.service';
@@ -51,7 +51,9 @@ export class PlayerHiscorePage {
   }
 
   getTypeImageUrl(): string {
-    return `./assets/imgs/player_types/${this.hiscore.player.deIroned ? 'de_' : ''}${this.hiscore.type}.png`;
+    return `./assets/imgs/player_types/${this.hiscore.player.deIroned ? 'de_' : ''}${
+      this.hiscore.player.playerType
+    }.png`;
   }
 
   refreshHiscore(): void {
@@ -96,10 +98,12 @@ export class PlayerHiscorePage {
   }
 
   private getHiscoreSuffix(): string {
-    if (this.hiscore.type === 'normal' || this.hiscore.player.deIroned) {
+    if (this.hiscore.player.lastChecked === 'normal' || this.hiscore.player.deIroned === PlayerStatus.DeIroned) {
       return 'normal';
     }
-    return this.hiscore.player.dead ? 'ironman' : this.hiscore.type;
+    return this.hiscore.player.dead || this.hiscore.player.deIroned === PlayerStatus.DeUltimated
+      ? 'ironman'
+      : this.hiscore.type;
   }
 
   private async addPlayerToRecents(): Promise<void> {

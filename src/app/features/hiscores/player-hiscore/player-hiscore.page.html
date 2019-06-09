@@ -3,7 +3,7 @@
     <ion-buttons slot="start">
       <ion-back-button [defaultHref]="AppRoute.Hiscores"></ion-back-button>
     </ion-buttons>
-    <ion-title>
+    <ion-title class="pr-none">
       <ion-row align-items-center>
         <ion-col size="auto">
           <ion-label text-capitalize>Player: {{ hiscore.player.username }}</ion-label>
@@ -11,7 +11,7 @@
         <ion-col>
           <ion-row align-items-center>
             <img *ngIf="hiscore.player.dead" class="icon" src="./assets/imgs/player_types/dead.png" />
-            <img *ngIf="hiscore.type !== 'normal'" class="icon" [src]="getTypeImageUrl()" />
+            <img *ngIf="hiscore.player.playerType !== 'normal'" class="icon" [src]="getTypeImageUrl()" />
           </ion-row>
         </ion-col>
       </ion-row>

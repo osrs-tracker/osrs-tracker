@@ -70,7 +70,7 @@ export class XpFavoriteComponent implements OnInit {
 
   get typeImageUrl(): string {
     return this.hiscore
-      ? `./assets/imgs/player_types/${this.hiscore.player.deIroned ? 'de_' : ''}${this.hiscore.type}.png`
+      ? `./assets/imgs/player_types/${this.hiscore.player.deIroned ? 'de_' : ''}${this.hiscore.player.playerType}.png`
       : '';
   }
 
