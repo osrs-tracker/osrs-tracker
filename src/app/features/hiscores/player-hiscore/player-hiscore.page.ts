@@ -98,12 +98,12 @@ export class PlayerHiscorePage {
   }
 
   private getHiscoreSuffix(): string {
-    if (this.hiscore.player.lastChecked === 'normal' || this.hiscore.player.deIroned === PlayerStatus.DeIroned) {
+    if (this.hiscore.player.playerType === 'normal' || this.hiscore.player.deIroned === PlayerStatus.DeIroned) {
       return 'normal';
     }
     return this.hiscore.player.dead || this.hiscore.player.deIroned === PlayerStatus.DeUltimated
       ? 'ironman'
-      : this.hiscore.type;
+      : this.hiscore.player.playerType;
   }
 
   private async addPlayerToRecents(): Promise<void> {

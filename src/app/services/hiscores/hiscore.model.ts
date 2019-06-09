@@ -32,7 +32,6 @@ export class Minigame {
 export class Hiscore {
   constructor(
     public player: Player,
-    public type: string,
     public skills: Skill[],
     public cluescrolls: Minigame[],
     public bountyhunter: Minigame[],

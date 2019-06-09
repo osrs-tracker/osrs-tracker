@@ -61,7 +61,7 @@ export class XpTrackerViewPage implements OnDestroy {
   }
 
   getTypeImageUrl(): string {
-    return `./assets/imgs/player_types/${this.hiscore.player.deIroned ? 'de_' : ''}${this.hiscore.type ||
+    return `./assets/imgs/player_types/${this.hiscore.player.deIroned ? 'de_' : ''}${this.hiscore.player.playerType ||
       'normal'}.png`;
   }
 

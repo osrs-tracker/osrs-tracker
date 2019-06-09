@@ -59,7 +59,6 @@ export class XpFavoriteComponent implements OnInit {
         this.hiscore = {
           ...hiscore,
           player: typedHiscore.player,
-          type: typedHiscore.type,
         };
         this.gains = this.xpProvider.calcXpGains(xp, hiscore)[0].xp.skills[0].exp;
       }),
