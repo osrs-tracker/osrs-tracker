@@ -11,7 +11,7 @@
         <ion-col size="auto">
           <ion-row align-items-center>
             <img *ngIf="hiscore?.player.dead" src="./assets/imgs/player_types/dead.png" />
-            <img *ngIf="hiscore?.type !== 'normal'" [src]="icon" />
+            <img *ngIf="hiscore?.player.playerType !== 'normal'" [src]="icon" />
           </ion-row>
         </ion-col>
         <ion-col size="auto">

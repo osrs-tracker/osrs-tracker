@@ -53,7 +53,9 @@ export class HiscoreFavoriteComponent implements OnInit {
       tap(hiscore => {
         this.hiscore = hiscore;
         this.combatLevel = this.calculateCombatLevel(hiscore);
-        this.icon = `./assets/imgs/player_types/${this.hiscore.player.deIroned ? 'de_' : ''}${this.hiscore.type}.png`;
+        this.icon = `./assets/imgs/player_types/${this.hiscore.player.deIroned ? 'de_' : ''}${
+          this.hiscore.player.playerType
+        }.png`;
       })
     );
   }

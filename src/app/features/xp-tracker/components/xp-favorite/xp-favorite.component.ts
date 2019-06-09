@@ -59,7 +59,6 @@ export class XpFavoriteComponent implements OnInit {
         this.hiscore = {
           ...hiscore,
           player: typedHiscore.player,
-          type: typedHiscore.type,
         };
         this.gains = this.xpProvider.calcXpGains(xp, hiscore)[0].xp.skills[0].exp;
       }),
@@ -70,7 +69,7 @@ export class XpFavoriteComponent implements OnInit {
 
   get typeImageUrl(): string {
     return this.hiscore
-      ? `./assets/imgs/player_types/${this.hiscore.player.deIroned ? 'de_' : ''}${this.hiscore.type}.png`
+      ? `./assets/imgs/player_types/${this.hiscore.player.deIroned ? 'de_' : ''}${this.hiscore.player.playerType}.png`
       : '';
   }
 
