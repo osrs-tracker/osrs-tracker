@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { environment } from 'environments/environment';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { environment } from 'src/environments/environment';
 import { HiscoreUtilitiesService } from '../hiscores/hiscore-utilities.service';
 import { Hiscore, Minigame, Skill } from '../hiscores/hiscore.model';
 

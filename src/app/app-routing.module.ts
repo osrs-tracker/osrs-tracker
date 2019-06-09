@@ -4,16 +4,34 @@ import { AppRoute } from './app-routing.routes';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
-  { path: AppRoute.Home, loadChildren: './features/home/home.module#HomeModule' },
-  { path: AppRoute.AppNews, loadChildren: './features/app-news/app-news.module#AppNewsModule' },
+  {
+    path: AppRoute.Home,
+    loadChildren: () => import('./features/home/home.module').then(m => m.HomeModule),
+  },
+  {
+    path: AppRoute.AppNews,
+    loadChildren: () => import('./features/app-news/app-news.module').then(m => m.AppNewsModule),
+  },
   {
     path: AppRoute.GrandExchange,
-    loadChildren: './features/grand-exchange/grand-exchange.module#GrandExchangeModule',
+    loadChildren: () => import('./features/grand-exchange/grand-exchange.module').then(m => m.GrandExchangeModule),
   },
-  { path: AppRoute.Hiscores, loadChildren: './features/hiscores/hiscores.module#HiscoresModule' },
-  { path: AppRoute.Settings, loadChildren: './features/settings/settings.module#SettingsModule' },
-  { path: AppRoute.OSRSWiki, loadChildren: './features/osrs-wiki/osrs-wiki.module#OsrsWikiModule' },
-  { path: AppRoute.XpTracker, loadChildren: './features/xp-tracker/xp-tracker.module#XpTrackerModule' },
+  {
+    path: AppRoute.Hiscores,
+    loadChildren: () => import('./features/hiscores/hiscores.module').then(m => m.HiscoresModule),
+  },
+  {
+    path: AppRoute.Settings,
+    loadChildren: () => import('./features/settings/settings.module').then(m => m.SettingsModule),
+  },
+  {
+    path: AppRoute.OSRSWiki,
+    loadChildren: () => import('./features/osrs-wiki/osrs-wiki.module').then(m => m.OsrsWikiModule),
+  },
+  {
+    path: AppRoute.XpTracker,
+    loadChildren: () => import('./features/xp-tracker/xp-tracker.module').then(m => m.XpTrackerModule),
+  },
 ];
 
 @NgModule({

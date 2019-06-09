@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
-import { NativeHttpModule } from 'core/native-http/nativeHttp.module';
 import { AppInitializerModule } from './app-initializer.module';
+import { NativeHttpModule } from './native-http/nativeHttp.module';
 import { NerdStatisticsComponent } from './nerd-statistics/nerd-statistics.component';
 
 @NgModule({

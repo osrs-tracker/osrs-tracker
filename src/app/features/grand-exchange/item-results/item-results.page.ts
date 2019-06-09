@@ -1,9 +1,9 @@
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NavController } from '@ionic/angular';
-import { AppRoute } from 'app-routing.routes';
-import { environment } from 'environments/environment';
-import { ItemSearchModel } from 'services/item/item.model';
+import { AppRoute } from 'src/app/app-routing.routes';
+import { ItemSearchModel } from 'src/app/services/item/item.model';
+import { environment } from 'src/environments/environment';
 import { GrandExchangeRoute } from '../grand-exchange.routes';
 import { ItemResultsCache } from './item-results-cache.service';
 

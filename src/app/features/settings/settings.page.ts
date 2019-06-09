@@ -1,7 +1,7 @@
 import { Component, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { PreferredXpTrackerView } from 'services/settings/preferred-xp-tracker-view';
-import { Settings, SettingsService } from 'services/settings/settings.service';
+import { PreferredXpTrackerView } from 'src/app/services/settings/preferred-xp-tracker-view';
+import { Settings, SettingsService } from 'src/app/services/settings/settings.service';
 
 @Component({
   selector: 'page-settings',

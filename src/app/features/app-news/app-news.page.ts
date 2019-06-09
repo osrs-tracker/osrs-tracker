@@ -2,12 +2,12 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Plugins } from '@capacitor/core';
 import { ToastController } from '@ionic/angular';
-import { environment } from 'environments/environment';
 import { forkJoin, Observable, timer } from 'rxjs';
 import { finalize, tap } from 'rxjs/operators';
-import { NewsItemApp, NewsService } from 'services/news/news.service';
-import { StorageKey } from 'services/storage/storage-key';
-import { StorageService } from 'services/storage/storage.service';
+import { NewsItemApp, NewsService } from 'src/app/services/news/news.service';
+import { StorageKey } from 'src/app/services/storage/storage-key';
+import { StorageService } from 'src/app/services/storage/storage.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'page-app-news',

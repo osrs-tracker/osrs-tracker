@@ -1,7 +1,7 @@
 import { Component, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { finalize } from 'rxjs/operators';
-import { AlertManager } from 'services/alert-manager/alert.manager';
+import { AlertManager } from 'src/app/services/alert-manager/alert.manager';
 import { SearchXpComponent } from './components/search-xp/search-xp.component';
 
 @Component({

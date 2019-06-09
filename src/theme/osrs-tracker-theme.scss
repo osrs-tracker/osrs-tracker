@@ -41,7 +41,7 @@
       color: rgba(255, 255, 255, 0.75);
       &.active,
       &.active ion-icon {
-        color: var(--ion-color-primary);
+        color: var(--ion-color-primary-tint);
       }
     }
     .menu-item ion-icon {

@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { Plugins } from '@capacitor/core';
-import { NewsItemOSRS } from 'services/news/news.service';
+import { NewsItemOSRS } from 'src/app/services/news/news.service';
 
 @Component({
   selector: 'osrs-news',

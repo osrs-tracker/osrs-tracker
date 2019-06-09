@@ -1,13 +1,13 @@
 import { Component, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { IonRefresher, LoadingController } from '@ionic/angular';
-import { AppRoute } from 'app-routing.routes';
 import { finalize } from 'rxjs/operators';
-import { AlertManager } from 'services/alert-manager/alert.manager';
-import { Hiscore, Minigame, PlayerStatus, Skill } from 'services/hiscores/hiscore.model';
-import { HiscoresService } from 'services/hiscores/hiscores.service';
-import { StorageKey } from 'services/storage/storage-key';
-import { StorageService } from 'services/storage/storage.service';
+import { AppRoute } from 'src/app/app-routing.routes';
+import { AlertManager } from 'src/app/services/alert-manager/alert.manager';
+import { Hiscore, Minigame, PlayerStatus, Skill } from 'src/app/services/hiscores/hiscore.model';
+import { HiscoresService } from 'src/app/services/hiscores/hiscores.service';
+import { StorageKey } from 'src/app/services/storage/storage-key';
+import { StorageService } from 'src/app/services/storage/storage.service';
 
 @Component({
   selector: 'page-player-hiscore',

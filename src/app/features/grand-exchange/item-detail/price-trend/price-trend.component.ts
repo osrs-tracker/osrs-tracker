@@ -2,8 +2,8 @@ import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { Chart } from 'chart.js';
 import { forkJoin, Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
-import { ItemDetailModel } from 'services/item/item.model';
-import { ItemService } from 'services/item/item.service';
+import { ItemDetailModel } from 'src/app/services/item/item.model';
+import { ItemService } from 'src/app/services/item/item.service';
 
 @Component({
   selector: 'price-trend',

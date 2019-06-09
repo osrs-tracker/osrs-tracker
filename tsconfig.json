@@ -1,21 +1,19 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
-    "baseUrl": "./src/",
+    "baseUrl": "./",
     "declaration": false,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "importHelpers": true,
     "lib": ["es2018", "dom"],
-    "module": "es2015",
+    "module": "esnext",
     "moduleResolution": "node",
     "noUnusedLocals": true,
     "noImplicitAny": true,
     "outDir": "./dist/out-tsc",
     "paths": {
-      "*": ["app/*", "*"],
-      "stream": ["../node_modules/readable-stream/readable.js"],
-      "core-js/es7/reflect": ["../node_modules/core-js/proposals/reflect-metadata"]
+      "stream": ["./node_modules/readable-stream/readable.js"]
     },
     "sourceMap": true,
     "suppressImplicitAnyIndexErrors": true,

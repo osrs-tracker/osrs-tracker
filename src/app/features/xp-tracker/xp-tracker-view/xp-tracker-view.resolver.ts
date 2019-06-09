@@ -3,10 +3,10 @@ import { ActivatedRouteSnapshot, Resolve } from '@angular/router';
 import { LoadingController } from '@ionic/angular';
 import { forkJoin, of } from 'rxjs';
 import { finalize, map, switchMap, tap } from 'rxjs/operators';
-import { AlertManager } from 'services/alert-manager/alert.manager';
-import { Hiscore } from 'services/hiscores/hiscore.model';
-import { HiscoresService } from 'services/hiscores/hiscores.service';
-import { Xp, XpService } from 'services/xp/xp.service';
+import { AlertManager } from 'src/app/services/alert-manager/alert.manager';
+import { Hiscore } from 'src/app/services/hiscores/hiscore.model';
+import { HiscoresService } from 'src/app/services/hiscores/hiscores.service';
+import { Xp, XpService } from 'src/app/services/xp/xp.service';
 import { XpTrackerViewCache } from './xp-tracker-view-cache.service';
 
 @Injectable({

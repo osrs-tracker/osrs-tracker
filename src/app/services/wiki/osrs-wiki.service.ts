@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { NativeHttp } from 'core/native-http/nativeHttp';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { NativeHttp } from 'src/app/core/native-http/nativeHttp';
 
 @Injectable({
   providedIn: 'root',

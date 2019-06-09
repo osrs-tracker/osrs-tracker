@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { SharedModule } from 'app/shared/shared.module';
+import { SharedModule } from 'src/app/shared/shared.module';
 import { ItemResultComponent } from './components/item-result/item-result.component';
 import { SearchItemComponent } from './components/search-item/search-item.component';
 import { GrandExchangePage } from './grand-exchange.page';

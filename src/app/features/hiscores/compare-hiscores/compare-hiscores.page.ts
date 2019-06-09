@@ -1,10 +1,10 @@
 import { Component, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { IonRefresher } from '@ionic/angular';
-import { AppRoute } from 'app-routing.routes';
 import { finalize } from 'rxjs/operators';
-import { Hiscore, Minigame, Skill } from 'services/hiscores/hiscore.model';
-import { HiscoresService } from 'services/hiscores/hiscores.service';
+import { AppRoute } from 'src/app/app-routing.routes';
+import { Hiscore, Minigame, Skill } from 'src/app/services/hiscores/hiscore.model';
+import { HiscoresService } from 'src/app/services/hiscores/hiscores.service';
 
 @Component({
   selector: 'page-compare-hiscores',
