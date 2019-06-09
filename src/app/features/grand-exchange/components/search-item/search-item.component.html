@@ -13,12 +13,13 @@
   </ion-card-content>
 </ion-card>
 
-<ion-card *ngIf="favoriteItems?.length > 0">
+<ion-card *ngIf="favoriteItems?.length > 0" [@favoriteShrink]>
   <ion-list lines="full">
     <ion-list-header no-margin color="secondary">
       <ion-label>Favorites</ion-label>
     </ion-list-header>
     <item-result
+      [@favoriteShrink]
       *ngFor="let item of favoriteItems; trackBy: trackByItemId"
       [slide]="true"
       [itemId]="item"
@@ -27,12 +28,13 @@
   </ion-list>
 </ion-card>
 
-<ion-card *ngIf="recentItems?.length > 0">
+<ion-card *ngIf="recentItems?.length > 0" [@favoriteShrink]>
   <ion-list lines="full">
     <ion-list-header no-margin color="secondary">
       <ion-label>Recent</ion-label>
     </ion-list-header>
     <item-result
+      [@favoriteShrink]
       *ngFor="let item of recentItems; trackBy: trackByItemId"
       [slide]="true"
       [itemId]="item"

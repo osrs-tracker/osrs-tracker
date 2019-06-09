@@ -1,6 +1,7 @@
 import { Component, Input, OnInit, ViewChildren } from '@angular/core';
 import { NavController } from '@ionic/angular';
 import { AppRoute } from 'app-routing.routes';
+import { favoriteShrink } from 'core/animations/delete-shrink.animation';
 import { HiscoresRoute } from 'features/hiscores/hiscores.routes';
 import { forkJoin, Observable, timer } from 'rxjs';
 import { AlertManager } from 'services/alert-manager/alert.manager';
@@ -12,6 +13,7 @@ import { HiscoreFavoriteComponent } from '../hiscore-favorite/hiscore-favorite.c
   selector: 'search-hiscore',
   templateUrl: './search-hiscore.component.html',
   styleUrls: ['./search-hiscore.component.scss'],
+  animations: [favoriteShrink],
 })
 export class SearchHiscoreComponent implements OnInit {
   @Input() cachedHiscores: { favorites: string[]; recents: string[] };

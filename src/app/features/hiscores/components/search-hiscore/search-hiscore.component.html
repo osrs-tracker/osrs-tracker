@@ -41,12 +41,13 @@
   </ion-card-content>
 </ion-card>
 
-<ion-card *ngIf="favoriteHiscores?.length > 0">
+<ion-card *ngIf="favoriteHiscores?.length > 0" [@favoriteShrink]>
   <ion-list lines="full">
     <ion-list-header no-margin color="secondary">
       <ion-label>Favorites</ion-label>
     </ion-list-header>
     <hiscore-favorite
+      [@favoriteShrink]
       *ngFor="let player of favoriteHiscores; trackBy: trackByPlayer"
       [player]="player"
       (delete)="updateFavorites()"
@@ -55,12 +56,13 @@
   </ion-list>
 </ion-card>
 
-<ion-card *ngIf="recentHiscores?.length > 0">
+<ion-card *ngIf="recentHiscores?.length > 0" [@favoriteShrink]>
   <ion-list lines="full">
     <ion-list-header no-margin color="secondary">
       <ion-label>Recent</ion-label>
     </ion-list-header>
     <hiscore-favorite
+      [@favoriteShrink]
       *ngFor="let player of recentHiscores; trackBy: trackByPlayer"
       [player]="player"
       (delete)="updateRecent()"
