@@ -1,4 +1,4 @@
-import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, Input, NgZone, OnInit, ViewChild } from '@angular/core';
 import { Chart } from 'chart.js';
 import { forkJoin, Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
@@ -21,7 +21,7 @@ export class PriceTrendComponent implements OnInit {
   period = 90;
   loading = false;
 
-  constructor(private itemService: ItemService) {}
+  constructor(private itemService: ItemService, private ngZone: NgZone) {}
 
   ngOnInit(): void {
     this.loading = true;
@@ -49,77 +49,81 @@ export class PriceTrendComponent implements OnInit {
   }
 
   updateData(period: number): void {
-    this.period = period;
-    Object.assign(this.priceTrendChart.config!.options!.scales!.xAxes![0].time, {
-      unit: period === 30 ? 'week' : 'month',
-      stepSize: period === 180 ? 2 : 1,
-    });
+    this.ngZone.runOutsideAngular(() => {
+      this.period = period;
+      Object.assign(this.priceTrendChart.config!.options!.scales!.xAxes![0].time, {
+        unit: period === 30 ? 'week' : 'month',
+        stepSize: period === 180 ? 2 : 1,
+      });
 
-    this.priceTrendChart.data.datasets = [
-      {
-        backgroundColor: 'rgba(78,67,55,0.25)',
-        borderColor: '#4E4337',
-        borderWidth: 2,
-        pointBackgroundColor: '#4E4337',
-        pointRadius: 0,
-        pointHitRadius: 5,
-        data: this.data.slice(180 - period, 180),
-        cubicInterpolationMode: 'monotone',
-      },
-    ];
+      this.priceTrendChart.data.datasets = [
+        {
+          backgroundColor: 'rgba(78,67,55,0.25)',
+          borderColor: '#4E4337',
+          borderWidth: 2,
+          pointBackgroundColor: '#4E4337',
+          pointRadius: 0,
+          pointHitRadius: 5,
+          data: this.data.slice(180 - period, 180),
+          cubicInterpolationMode: 'monotone',
+        },
+      ];
 
-    this.priceTrendChart.update({
-      duration: 600,
+      this.priceTrendChart.update({
+        duration: 600,
+      });
     });
   }
 
   private setupChart(): void {
-    this.priceTrendChart = new Chart(this.priceTrendCanvas.nativeElement, {
-      type: 'line',
-      options: {
-        responsive: true,
-        legend: {
-          display: false,
-        },
-        tooltips: {
-          displayColors: false,
-          position: 'nearest',
-          callbacks: {
-            title: (tooltipItems, data) =>
-              new Date(tooltipItems[0].xLabel!).toLocaleDateString('en-us', {
-                day: 'numeric',
-                month: 'short',
-                year: 'numeric',
-              }),
-            label: (tooltipItem, data) => `${tooltipItem.yLabel}`.replace(/\B(?=(\d{3})+(?!\d))/g, ','),
+    this.ngZone.runOutsideAngular(() => {
+      this.priceTrendChart = new Chart(this.priceTrendCanvas.nativeElement, {
+        type: 'line',
+        options: {
+          responsive: true,
+          legend: {
+            display: false,
           },
-        },
-        scales: {
-          yAxes: [
-            {
-              ticks: {
-                fontColor: '#333',
-                callback: label => this.formatNumber(label, 1),
-              },
+          tooltips: {
+            displayColors: false,
+            position: 'nearest',
+            callbacks: {
+              title: (tooltipItems, data) =>
+                new Date(tooltipItems[0].xLabel!).toLocaleDateString('en-us', {
+                  day: 'numeric',
+                  month: 'short',
+                  year: 'numeric',
+                }),
+              label: (tooltipItem, data) => `${tooltipItem.yLabel}`.replace(/\B(?=(\d{3})+(?!\d))/g, ','),
             },
-          ],
-          xAxes: [
-            {
-              type: 'time',
-              distribution: 'linear',
-              ticks: {
-                fontColor: '#333',
-              },
-              time: {
-                displayFormats: {
-                  week: 'MMM D',
-                  month: 'MMM YYYY',
+          },
+          scales: {
+            yAxes: [
+              {
+                ticks: {
+                  fontColor: '#333',
+                  callback: label => this.formatNumber(label, 1),
                 },
               },
-            },
-          ],
+            ],
+            xAxes: [
+              {
+                type: 'time',
+                distribution: 'linear',
+                ticks: {
+                  fontColor: '#333',
+                },
+                time: {
+                  displayFormats: {
+                    week: 'MMM D',
+                    month: 'MMM YYYY',
+                  },
+                },
+              },
+            ],
+          },
         },
-      },
+      });
     });
   }
 

@@ -24,7 +24,7 @@ export class XpTrackerViewPage implements OnDestroy {
   hiscore: Hiscore;
   isFavorite = false;
   username: string;
-  settingsSubscription = new Subscription();
+  settingsSubscription = Subscription.EMPTY;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -47,7 +47,7 @@ export class XpTrackerViewPage implements OnDestroy {
     this.loadPreferredRoute();
   }
 
-  getTabRoute(tab: string): string {
+  createTabRoute(tab: string): string {
     return `/${AppRoute.XpTracker}/${XpTrackerRoute.View}/${this.username}/(${tab}:${tab})`;
   }
 
@@ -71,7 +71,7 @@ export class XpTrackerViewPage implements OnDestroy {
   }
 
   private loadPreferredRoute(): void {
-    const settingsSubscribtion = this.settingsProvider.settings.subscribe({
+    this.settingsSubscription = this.settingsProvider.settings.subscribe({
       next: settings => {
         if (this.activatedRoute.children.length !== 0) {
           return;
@@ -94,8 +94,6 @@ export class XpTrackerViewPage implements OnDestroy {
         }
       },
     });
-
-    this.settingsSubscription.add(settingsSubscribtion);
   }
 
   private async addXpToRecents(): Promise<void> {
