@@ -10,11 +10,13 @@ import { Settings, SettingsService } from 'src/app/services/settings/settings.se
 export class SettingsPage implements OnDestroy {
   readonly XpTrackerView = PreferredXpTrackerView;
 
-  settingsSubscription = new Subscription();
+  settingsSubscription = Subscription.EMPTY;
   settings: Settings;
 
   constructor(private settingsProvider: SettingsService) {
-    this.settingsSubscription.add(this.settingsProvider.settings.subscribe(settings => (this.settings = settings)));
+    this.settingsSubscription = this.settingsProvider.settings.subscribe({
+      next: settings => (this.settings = settings),
+    });
   }
 
   updateSettings(): void {
