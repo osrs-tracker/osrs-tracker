@@ -1,4 +1,4 @@
-import { HttpClient, HttpResponse } from '@angular/common/http';
+import { HttpClient, HttpParams, HttpResponse, HttpUrlEncodingCodec } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { plainToClass } from 'class-transformer';
 import { Observable } from 'rxjs';
@@ -6,6 +6,17 @@ import { map } from 'rxjs/operators';
 import { NativeHttp } from 'src/app/core/native-http/nativeHttp';
 import { environment } from 'src/environments/environment';
 import { ItemDetailModel, ItemSearchModel } from './item.model';
+
+// WORKAROUND FOR: https://github.com/angular/angular/issues/18884
+class UrlParameterEncodingCodec extends HttpUrlEncodingCodec {
+  encodeKey(key: string): string {
+    return encodeURIComponent(key);
+  }
+
+  encodeValue(value: string): string {
+    return encodeURIComponent(value);
+  }
+}
 
 @Injectable({
   providedIn: 'root',
@@ -16,7 +27,10 @@ export class ItemService {
   searchItems(query: string): Observable<HttpResponse<ItemSearchModel[]>> {
     return this.httpClient
       .get<ItemSearchModel[]>(`${environment.API_GEPT}/item`, {
-        params: { query },
+        params: new HttpParams({
+          fromObject: { query },
+          encoder: new UrlParameterEncodingCodec(),
+        }),
         observe: 'response',
       })
       .pipe(map(res => Object.assign(res, { body: plainToClass(ItemSearchModel, res.body) })));
