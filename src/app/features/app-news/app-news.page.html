@@ -12,6 +12,11 @@
     <ion-refresher-content pullingText="Pull to refresh" refreshingText="Refreshing..."></ion-refresher-content>
   </ion-refresher>
 
+  <div *ngIf="items.length === 0" text-center margin-top>
+    <ion-spinner></ion-spinner>
+    <p>Loading news...</p>
+  </div>
+
   <ion-card *ngFor="let item of items; trackBy: trackByNewsItemId">
     <ion-card-header small>
       <ion-card-subtitle>{{ item.date | date }} | {{ item.category }}</ion-card-subtitle>

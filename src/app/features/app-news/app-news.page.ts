@@ -120,7 +120,7 @@ export class AppNewsPage implements OnInit {
 
   private async voteErrorToast(): Promise<void> {
     const toast = await this.toastController.create({
-      message: 'Failed to process vote. Check your internet connection.',
+      message: 'Failed to process vote. Please try again later.',
       duration: 3000,
     });
     await toast.present();
