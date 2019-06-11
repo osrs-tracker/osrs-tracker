@@ -2,6 +2,11 @@
   OSRS News
 </h6>
 
+<div *ngIf="newsItems.length === 0" text-center>
+  <ion-spinner></ion-spinner>
+  <p>Loading news...</p>
+</div>
+
 <ion-card *ngFor="let item of newsItems; trackBy: trackByNewsItemDate">
   <ion-card-header small>
     <ion-card-subtitle>{{ item.pubDate | date }} | {{ (item?.categories)[0] }}</ion-card-subtitle>

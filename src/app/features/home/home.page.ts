@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Plugins } from '@capacitor/core';
 import { forkJoin, timer } from 'rxjs';
@@ -8,7 +8,6 @@ import { NewsItemOSRS, NewsService } from 'src/app/services/news/news.service';
 @Component({
   selector: 'page-home',
   templateUrl: 'home.page.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HomePage {
   newsItems: NewsItemOSRS[];
