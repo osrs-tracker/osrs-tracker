@@ -16,9 +16,10 @@
           >
             180 days
           </ion-button>
-          <p class="trend" [ngClass]="item.day180.trend" text-center>
-            {{ item.day180.change }}
-          </p>
+          <div *ngFor="let item of items" class="trend" [ngClass]="item.day180.trend" text-center>
+            <br *ngIf="items.length > 1" />
+            <div>{{ item.day180.change }}</div>
+          </div>
         </ion-col>
         <ion-col>
           <ion-button
@@ -30,9 +31,10 @@
           >
             90 days
           </ion-button>
-          <p class="trend" [ngClass]="item.day90.trend" text-center>
-            {{ item.day90.change }}
-          </p>
+          <div *ngFor="let item of items" class="trend" text-center>
+            <div class="item-name" *ngIf="items.length > 1">{{ item.name }}</div>
+            <div [ngClass]="item.day90.trend">{{ item.day90.change }}</div>
+          </div>
         </ion-col>
         <ion-col>
           <ion-button
@@ -44,9 +46,10 @@
           >
             30 days
           </ion-button>
-          <p class="trend" [ngClass]="item.day30.trend" text-center>
-            {{ item.day30.change }}
-          </p>
+          <div *ngFor="let item of items" class="trend" [ngClass]="item.day30.trend" text-center>
+            <br *ngIf="items.length > 1" />
+            <div>{{ item.day30.change }}</div>
+          </div>
         </ion-col>
       </ion-row>
     </div>

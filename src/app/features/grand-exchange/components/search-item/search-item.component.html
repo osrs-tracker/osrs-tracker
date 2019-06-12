@@ -1,14 +1,43 @@
 <ion-card>
   <ion-card-header>
-    <ion-card-title>Find item</ion-card-title>
+    <ion-row align-items-center>
+      <ion-col no-padding>
+        <ion-card-title>Find item</ion-card-title>
+      </ion-col>
+      <ion-col size="auto" no-padding>
+        <ion-row align-items-center class="compare">
+          compare
+          <ion-toggle color="secondary" [(ngModel)]="compare"></ion-toggle>
+        </ion-row>
+      </ion-col>
+    </ion-row>
   </ion-card-header>
   <ion-card-content>
     <ion-item no-padding color="secondary">
-      <ion-input placeholder="Enter item name" (keyup.enter)="searchItem(search.value)" clearInput #search></ion-input>
+      <ion-input
+        [(ngModel)]="itemName"
+        placeholder="Enter item name"
+        (keyup.enter)="compare ? compareItem() : searchItem()"
+        clearInput
+      ></ion-input>
     </ion-item>
-    <ion-button no-margin (click)="searchItem(search.value)" type="submit" expand="full" color="secondary">
-      <ion-icon slot="start" name="search"></ion-icon>
-      Search
+    <ion-item no-padding color="secondary" *ngIf="compare">
+      <ion-input
+        [(ngModel)]="compareItemName"
+        placeholder="Enter compare item name"
+        (keyup.enter)="compare ? compareItem() : searchItem()"
+        clearInput
+      ></ion-input>
+    </ion-item>
+    <ion-button
+      no-margin
+      (click)="compare ? compareItem() : searchItem()"
+      type="submit"
+      expand="full"
+      color="secondary"
+    >
+      <ion-icon slot="start" [name]="compare ? 'swap' : 'search'"></ion-icon>
+      {{ compare ? 'Compare' : 'Search' }}
     </ion-button>
   </ion-card-content>
 </ion-card>
