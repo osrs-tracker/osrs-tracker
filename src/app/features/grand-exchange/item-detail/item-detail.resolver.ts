@@ -11,7 +11,7 @@ import { ItemResultsCache } from '../item-results/item-results-cache.service';
 })
 export class ItemDetailResolver implements Resolve<ItemSearchModel | null> {
   constructor(
-    private itemProvider: ItemService,
+    private itemService: ItemService,
     private itemResultsCache: ItemResultsCache,
     private loadCtrl: LoadingController
   ) {}
@@ -25,7 +25,7 @@ export class ItemDetailResolver implements Resolve<ItemSearchModel | null> {
 
     const loader = await this.loadCtrl.create({ message: 'Please wait...' });
     await loader.present();
-    return this.itemProvider
+    return this.itemService
       .getItem(route.params.id)
       .pipe(finalize(() => loader.dismiss()))
       .toPromise();

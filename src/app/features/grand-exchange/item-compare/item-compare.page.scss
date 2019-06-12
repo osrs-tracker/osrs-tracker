@@ -1,0 +1,58 @@
+ion-card-content {
+  padding: 0;
+}
+ion-grid > ion-row > ion-col {
+  padding: 8px 0 0 0;
+  &:nth-child(even) {
+    border-left: 1px solid var(--ion-color-primary-shade);
+  }
+  &:nth-child(odd) {
+    border-right: 1px solid var(--ion-color-primary-shade);
+  }
+}
+.item {
+  border-bottom: 1px solid var(--ion-color-primary-shade);
+  .name {
+    padding: 0 8px;
+  }
+  .item-icon {
+    max-width: 50%;
+    margin: auto;
+    image-rendering: pixelated;
+  }
+  .description {
+    padding: 8px 16px;
+  }
+}
+.prices ion-col {
+  padding-bottom: 0;
+}
+.prices + div {
+  margin-top: -4px;
+}
+.id {
+  padding: 0 8px;
+  color: var(--ion-color-secondary);
+  opacity: 0.3;
+}
+
+h3 {
+  margin-bottom: 4px;
+}
+h2,
+h3,
+.number {
+  font-weight: 500;
+}
+.number {
+  line-height: 29px;
+  font-size: 1.1em;
+}
+.coins img {
+  width: 20px;
+  height: 19px;
+  display: inline-block;
+  vertical-align: middle;
+  padding-right: 3px;
+  image-rendering: pixelated;
+}

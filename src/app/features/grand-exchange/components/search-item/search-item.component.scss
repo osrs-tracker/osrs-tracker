@@ -1,3 +1,13 @@
+.compare {
+  color: var(--ion-color-secondary-tint);
+  ion-toggle {
+    --handle-background: var(--ion-color-light);
+    --ion-color-base-rgb: 50, 50, 50 !important;
+    padding-top: 5px;
+    padding-right: 0;
+    padding-bottom: 5px;
+  }
+}
 ion-list-header {
   min-height: 30px;
 }
@@ -5,5 +15,8 @@ ion-item ion-input {
   --padding-start: 16px;
 }
 ion-item + ion-button {
+  margin-top: 4px;
+}
+ion-item + ion-item {
   margin-top: 4px;
 }
