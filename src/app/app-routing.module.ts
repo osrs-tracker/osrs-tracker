@@ -5,10 +5,6 @@ import { AppRoute } from './app-routing.routes';
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
   {
-    path: AppRoute.Home,
-    loadChildren: () => import('./features/home/home.module').then(m => m.HomeModule),
-  },
-  {
     path: AppRoute.AppNews,
     loadChildren: () => import('./features/app-news/app-news.module').then(m => m.AppNewsModule),
   },
@@ -21,12 +17,20 @@ const routes: Routes = [
     loadChildren: () => import('./features/hiscores/hiscores.module').then(m => m.HiscoresModule),
   },
   {
-    path: AppRoute.Settings,
-    loadChildren: () => import('./features/settings/settings.module').then(m => m.SettingsModule),
+    path: AppRoute.Home,
+    loadChildren: () => import('./features/home/home.module').then(m => m.HomeModule),
   },
   {
     path: AppRoute.OSRSWiki,
     loadChildren: () => import('./features/osrs-wiki/osrs-wiki.module').then(m => m.OsrsWikiModule),
+  },
+  {
+    path: AppRoute.Settings,
+    loadChildren: () => import('./features/settings/settings.module').then(m => m.SettingsModule),
+  },
+  {
+    path: AppRoute.SupportMe,
+    loadChildren: () => import('./features/support-me/support-me.module').then(m => m.SupportMeModule),
   },
   {
     path: AppRoute.XpTracker,
