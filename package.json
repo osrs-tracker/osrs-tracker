@@ -33,7 +33,7 @@
     "@capacitor/core": "1.0.0",
     "@ionic-native/core": "5.8.0",
     "@ionic-native/http": "5.8.0",
-    "@ionic/angular": "4.5.0",
+    "@ionic/angular": "~4.4.2",
     "chart.js": "2.8.0",
     "class-transformer": "0.2.3",
     "cordova-plugin-advanced-http": "2.1.1",
