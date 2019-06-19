@@ -6,8 +6,8 @@ android {
         applicationId "com.toxsickproductions.geptv2"
         minSdkVersion 21
         targetSdkVersion 28
-        versionCode 4000003
-        versionName "4.0.0-alpha.4"
+        versionCode 4000004
+        versionName "4.0.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
