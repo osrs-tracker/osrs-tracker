@@ -8,7 +8,7 @@ import { XpService } from '../xp/xp.service';
 import { HiscoreUtilitiesService } from './hiscore-utilities.service';
 import { Hiscore, Player, PlayerStatus, PlayerType } from './hiscore.model';
 
-const CACHE_TIME_TYPES = 12; // hours
+const CACHE_TIME_TYPES = 6; // hours
 
 @Injectable({
   providedIn: 'root',
@@ -107,10 +107,10 @@ export class HiscoresService {
         } else if (ultimate.status !== 404 && hardcore.status === 404) {
           const deIroned =
             +ironman.skills[0].exp < +normal.skills[0].exp
-              ? PlayerStatus.Default
+              ? PlayerStatus.DeIroned
               : +ultimate.skills[0].exp < +ironman.skills[0].exp
               ? PlayerStatus.DeUltimated
-              : PlayerStatus.DeIroned;
+              : PlayerStatus.Default;
 
           const player = new Player(username.trim(), PlayerType.Ultimate, deIroned);
           let hiscore: Hiscore;
