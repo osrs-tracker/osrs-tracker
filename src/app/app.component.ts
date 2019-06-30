@@ -7,6 +7,7 @@ import { AppRoute } from './app-routing.routes';
 import { Logger } from './core/logger/logger';
 import { AlertManager } from './services/alert-manager/alert.manager';
 import { NewsService } from './services/news/news.service';
+import { SettingsService } from './services/settings/settings.service';
 
 class Page {
   constructor(
@@ -25,6 +26,14 @@ class Page {
   templateUrl: 'app.component.html',
 })
 export class AppComponent implements OnInit {
+  constructor(
+    private alertManager: AlertManager,
+    private navCtrl: NavController,
+    private newsProvider: NewsService,
+    private platform: Platform,
+    private router: Router,
+    private settingsService: SettingsService
+  ) {}
   @ViewChild(IonMenu, { static: true }) menu: IonMenu;
 
   pages: Page[] = [
@@ -46,19 +55,8 @@ export class AppComponent implements OnInit {
 
   readonly production = environment.production;
 
-  constructor(
-    private alertManager: AlertManager,
-    private navCtrl: NavController,
-    private newsProvider: NewsService,
-    private platform: Platform,
-    private router: Router
-  ) {}
-
   ngOnInit(): void {
-    Logger.log('Initializing app');
-    this.listenForActivePage();
-    this.backButtonLogic();
-    this.checkForNewAppNews();
+    this.initializeApp();
   }
 
   linkClicked(page: Page): void {
@@ -72,6 +70,18 @@ export class AppComponent implements OnInit {
 
   trackByPageId(_: number, page: Page): number {
     return page.id;
+  }
+
+  private async initializeApp(): Promise<void> {
+    await this.platform.ready();
+    Logger.log('IonicPlatform ready');
+    await this.settingsService.init();
+    Logger.log('Settings loaded');
+
+    this.checkForNewAppNews();
+    this.listenForActivePage();
+    this.backButtonLogic();
+    Logger.log('Finished initializing app');
   }
 
   private async checkForNewAppNews(): Promise<void> {
