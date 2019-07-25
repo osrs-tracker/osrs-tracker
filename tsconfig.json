@@ -15,7 +15,6 @@
     "paths": {
       "stream": ["./node_modules/readable-stream/readable.js"]
     },
-    "sourceMap": true,
     "suppressImplicitAnyIndexErrors": true,
     "strictFunctionTypes": true,
     "strictNullChecks": true,
