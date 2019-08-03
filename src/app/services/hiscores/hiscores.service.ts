@@ -2,11 +2,9 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { forkJoin, Observable, of, throwError } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
-import { NativeHttp } from 'src/app/core/native-http/nativeHttp';
 import { environment } from 'src/environments/environment';
 import { XpService } from '../xp/xp.service';
-import { HiscoreUtilitiesService } from './hiscore-utilities.service';
-import { Hiscore, Player, PlayerStatus, PlayerType } from './hiscore.model';
+import { Hiscore, Minigame, Player, PlayerStatus, PlayerType, Skill } from './hiscore.model';
 
 const CACHE_TIME_TYPES = 6; // hours
 
@@ -16,10 +14,8 @@ const CACHE_TIME_TYPES = 6; // hours
 export class HiscoresService {
   constructor(
     private httpClient: HttpClient,
-    private nativeHttp: NativeHttp,
-    private hiscoreUtilitiesService: HiscoreUtilitiesService,
     private xpService: XpService
-  ) {}
+  ) { }
 
   getCompareHiscores(username: string, compare: string): Observable<Hiscore[]> {
     return forkJoin([
@@ -38,17 +34,38 @@ export class HiscoresService {
 
   getHiscore(username: string, type: string = ''): Observable<Hiscore> {
     type = type === 'normal' ? '' : type;
-    return this.nativeHttp
-      .getText(
-        `${environment.API_RUNESCAPE}/m=hiscore_oldschool${type ? `_${type}` : ''}/index_lite.ws?player=${username}`
-      )
-      .pipe(
-        map(response => ({
-          ...this.hiscoreUtilitiesService.parseHiscoreString(response, new Date()),
-          player: new Player(username),
-          type: type ? type : 'normal',
-        }))
-      );
+
+    return this.httpClient.get<{ [hiscorePart: string]: [number, number, number] }>(
+      `${environment.API_GEPT}/proxy/hiscore/${username}`,
+      { params: (type ? { type } : {}) }
+    ).pipe(
+      map(newHiscore => {
+        const entries = Object.entries(newHiscore);
+
+        const skills: Skill[] = [];
+        const minigames: Minigame[] = [];
+        const cluescrolls: Minigame[] = [];
+
+        entries.forEach(entry => {
+          if (entry[0].startsWith('MiniGame')) {
+            minigames.push(new Minigame(entry[0].substring(8), entry[1][0].toString(), entry[1][1].toString()));
+          } else if (entry[0].startsWith('ClueScroll')) {
+            cluescrolls.push(new Minigame(entry[0].substring(10), entry[1][0].toString(), entry[1][1].toString()));
+          } else {
+            skills.push(new Skill(entry[0], entry[1][0].toString(), entry[1][1].toString(), entry[1][2].toString()));
+          }
+        });
+
+        return new Hiscore(
+          new Player(username),
+          skills,
+          cluescrolls,
+          minigames.filter(mg => mg.name !== 'LMS'),
+          minigames.filter(mg => mg.name === 'LMS').map(mg => ({ rank: mg.rank, score: mg.amount }))[0],
+          ''
+        );
+      })
+    );
   }
 
   getHiscoreAndType(username: string): Observable<Hiscore> {
@@ -79,8 +96,8 @@ export class HiscoresService {
               player.deIroned === PlayerStatus.DeIroned
                 ? 'normal'
                 : player.dead || player.deIroned === PlayerStatus.DeUltimated
-                ? 'ironman'
-                : player.playerType
+                  ? 'ironman'
+                  : player.playerType
             ).pipe(
               map((hiscore: Hiscore) => ({ ...hiscore, player })),
               catchError(err => throwError(err))
@@ -109,8 +126,8 @@ export class HiscoresService {
             +ironman.skills[0].exp < +normal.skills[0].exp
               ? PlayerStatus.DeIroned
               : +ultimate.skills[0].exp < +ironman.skills[0].exp
-              ? PlayerStatus.DeUltimated
-              : PlayerStatus.Default;
+                ? PlayerStatus.DeUltimated
+                : PlayerStatus.Default;
 
           const player = new Player(username.trim(), PlayerType.Ultimate, deIroned);
           let hiscore: Hiscore;

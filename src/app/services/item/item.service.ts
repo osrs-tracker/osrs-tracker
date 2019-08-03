@@ -3,7 +3,6 @@ import { Injectable } from '@angular/core';
 import { plainToClass } from 'class-transformer';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { NativeHttp } from 'src/app/core/native-http/nativeHttp';
 import { environment } from 'src/environments/environment';
 import { ItemDetailModel, ItemSearchModel } from './item.model';
 
@@ -22,7 +21,7 @@ class UrlParameterEncodingCodec extends HttpUrlEncodingCodec {
   providedIn: 'root',
 })
 export class ItemService {
-  constructor(private httpClient: HttpClient, private nativeHttp: NativeHttp) {}
+  constructor(private httpClient: HttpClient) { }
 
   searchItems(query: string): Observable<HttpResponse<ItemSearchModel[]>> {
     return this.httpClient
@@ -47,14 +46,10 @@ export class ItemService {
   }
 
   itemGraph(id: number): Observable<any> {
-    return this.nativeHttp.get(`${environment.API_RUNESCAPE}/m=itemdb_oldschool/api/graph/${id}.json`);
+    return this.httpClient.get<any>(`${environment.API_GEPT}/proxy/item/${id}/graph`);
   }
 
   itemDetails(id: number): Observable<ItemDetailModel> {
-    return this.nativeHttp
-      .get<{ item: ItemDetailModel }>(
-        `${environment.API_RUNESCAPE}/m=itemdb_oldschool/api/catalogue/detail.json?item=${id}`
-      )
-      .pipe(map(response => response.item));
+    return this.httpClient.get<ItemDetailModel>(`${environment.API_GEPT}/proxy/item/${id}`);
   }
 }

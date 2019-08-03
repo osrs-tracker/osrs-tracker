@@ -1,10 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { map, switchMap, tap } from 'rxjs/operators';
-import { NativeHttp } from 'src/app/core/native-http/nativeHttp';
+import { switchMap, tap } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
-import { ElementCompact, xml2js } from 'xml-js';
 import { StorageKey } from '../storage/storage-key';
 import { StorageService } from '../storage/storage.service';
 
@@ -18,7 +16,7 @@ export class NewsItemApp {
     public upvotes: number,
     public downvotes: number,
     public vote: number
-  ) {}
+  ) { }
 }
 
 export class NewsItemOSRS {
@@ -32,36 +30,18 @@ export class NewsItemOSRS {
       type: string;
     },
     public categories: string[]
-  ) {}
+  ) { }
 }
 
 @Injectable({
   providedIn: 'root',
 })
 export class NewsService {
-  constructor(private httpClient: HttpClient, private nativeHttp: NativeHttp, private storageService: StorageService) {}
+  constructor(private httpClient: HttpClient, private storageService: StorageService) { }
 
   getOSRSNews(): Observable<NewsItemOSRS[]> {
-    return this.nativeHttp.getText(`${environment.API_RUNESCAPE}/m=news/latest_news.rss?oldschool=true`).pipe(
-      map(xmlRss => {
-        const xml: ElementCompact = xml2js(xmlRss, { compact: true });
-        return xml.rss.channel.item.map(
-          (item: ElementCompact) =>
-            new NewsItemOSRS(
-              item.title._text,
-              item.pubDate._text,
-              item.link._text,
-              item.description._text,
-              {
-                link: item.enclosure._attributes.url,
-                type: item.enclosure._attributes.type,
-              },
-              [item.category._text]
-            )
-        );
-      }),
-      tap(news => this.storageService.setValue(StorageKey.CacheOsrsNews, news))
-    );
+    return this.httpClient.get<NewsItemOSRS[]>(`${environment.API_GEPT}/proxy/news`)
+      .pipe(tap(news => this.storageService.setValue(StorageKey.CacheOsrsNews, news)));
   }
 
   getAppNews(uuid: string | null = null, offset: number = 0): Observable<NewsItemApp[]> {
