@@ -12,7 +12,7 @@ import { Component, ChangeDetectionStrategy } from '@angular/core';
       margin: 0 auto;
     }`,
     `.web-view-content {
-      margin: 32px 0;
+      padding: 32px 0;
     }`
   ],
   changeDetection: ChangeDetectionStrategy.OnPush
