@@ -15,10 +15,11 @@ class Page {
     public icon: string,
     public title: string,
     public active: boolean,
+    public visible: boolean,
     public route?: string,
     public badge?: string,
     public action?: () => void
-  ) {}
+  ) { }
 }
 
 @Component({
@@ -34,24 +35,24 @@ export class AppComponent implements OnInit {
     private router: Router,
     private settingsService: SettingsService,
     private ngZone: NgZone
-  ) {}
+  ) { }
   @ViewChild(IonMenu, { static: true }) menu: IonMenu;
 
   pages: Page[] = [
-    new Page(0, 'md-home', 'Home', false, AppRoute.Home),
-    new Page(1, 'md-today', 'App News', false, AppRoute.AppNews, undefined, () => this.checkForNewAppNews()),
-    new Page(2, 'md-trending-up', 'Grand Exchange', false, AppRoute.GrandExchange),
-    new Page(3, 'md-trophy', 'Hiscores', false, AppRoute.Hiscores),
-    new Page(4, 'md-podium', 'XP Tracker', false, AppRoute.XpTracker),
-    new Page(5, 'md-wikipedia', 'OSRS Wiki', false, AppRoute.OSRSWiki),
-    new Page(5, 'md-discord', 'Discord', false, undefined, undefined, () =>
+    new Page(0, 'md-home', 'Home', false, true, AppRoute.Home),
+    new Page(1, 'md-today', 'App News', false, true, AppRoute.AppNews, undefined, () => this.checkForNewAppNews()),
+    new Page(2, 'md-trending-up', 'Grand Exchange', false, true, AppRoute.GrandExchange),
+    new Page(3, 'md-trophy', 'Hiscores', false, true, AppRoute.Hiscores),
+    new Page(4, 'md-podium', 'XP Tracker', false, true, AppRoute.XpTracker),
+    new Page(5, 'md-wikipedia', 'OSRS Wiki', false, true, AppRoute.OSRSWiki),
+    new Page(6, 'md-discord', 'Discord', false, true, undefined, undefined, () =>
       window.open('https://discord.gg/k7E6WZj', '_system')
     ),
-    new Page(5, 'md-star', 'Rate App', false, undefined, undefined, () =>
+    new Page(7, 'md-star', 'Rate App', false, !environment.web, undefined, undefined, () =>
       window.open('market://details?id=com.toxsickproductions.geptv2', '_system')
     ),
-    new Page(5, 'md-wallet', 'Support OSRS Tracker', false, AppRoute.SupportMe),
-    new Page(6, 'md-settings', 'Settings', false, AppRoute.Settings),
+    new Page(8, 'md-wallet', 'Support OSRS Tracker', false, true, AppRoute.SupportMe),
+    new Page(9, 'md-settings', 'Settings', false, true, AppRoute.Settings),
   ];
 
   readonly production = environment.production;
@@ -74,6 +75,10 @@ export class AppComponent implements OnInit {
   }
 
   private async initializeApp(): Promise<void> {
+    if (environment.web) {
+      document.getElementsByTagName('body')[0].classList.add('osrs-tracker-web');
+    }
+
     await this.platform.ready();
     Logger.log('IonicPlatform ready');
     await this.settingsService.init();

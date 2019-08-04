@@ -8,52 +8,54 @@
 </ion-header>
 
 <ion-content>
-  <ion-refresher slot="fixed" pullMin="70" pullMax="250" pullFactor="0.5" (ionRefresh)="doRefresh($event)">
+  <ion-refresher *mobileOnly slot="fixed" pullMin="70" pullMax="250" pullFactor="0.5" (ionRefresh)="doRefresh($event)">
     <ion-refresher-content pullingText="Pull to refresh" refreshingText="Refreshing..."></ion-refresher-content>
   </ion-refresher>
 
-  <div *ngIf="items.length === 0" text-center margin-top>
-    <ion-spinner></ion-spinner>
-    <p>Loading news...</p>
-  </div>
+  <web-view>
+    <div *ngIf="items.length === 0" text-center margin-top>
+      <ion-spinner></ion-spinner>
+      <p>Loading news...</p>
+    </div>
 
-  <ion-card *ngFor="let item of items; trackBy: trackByNewsItemId">
-    <ion-card-header small>
-      <ion-card-subtitle>{{ item.date | date }} | {{ item.category }}</ion-card-subtitle>
-      <ion-card-title>{{ item.title }}</ion-card-title>
-    </ion-card-header>
-    <ion-card-content class="content" [innerHTML]="item.content"></ion-card-content>
-    <ion-item color="transparant" lines="none">
-      <ion-buttons slot="end" class="votes">
-        <ion-button
-          fill="clear"
-          size="small"
-          color="dark"
-          shape="round"
-          no-padding
-          no-margin
-          (click)="upvote(item.id)"
-          class="upvotes"
-          [ngClass]="{ voted: item.vote > 0 }"
-        >
-          <ion-icon slot="start" name="thumbs-up"></ion-icon> {{ item.upvotes }}
-        </ion-button>
-        <ion-button
-          fill="clear"
-          size="small"
-          color="dark"
-          shape="round"
-          no-padding
-          no-margin
-          (click)="downvote(item.id)"
-          class="downvotes"
-          [ngClass]="{ voted: item.vote < 0 }"
-        >
-          <ion-icon slot="start" name="thumbs-down"></ion-icon> {{ item.downvotes }}
-        </ion-button>
-      </ion-buttons>
-    </ion-item>
-  </ion-card>
+    <ion-card *ngFor="let item of items; trackBy: trackByNewsItemId">
+      <ion-card-header small>
+        <ion-card-subtitle>{{ item.date | date }} | {{ item.category }}</ion-card-subtitle>
+        <ion-card-title>{{ item.title }}</ion-card-title>
+      </ion-card-header>
+      <ion-card-content class="content" [innerHTML]="item.content"></ion-card-content>
+      <ion-item color="transparant" lines="none">
+        <ion-buttons slot="end" class="votes">
+          <ion-button
+            fill="clear"
+            size="small"
+            color="dark"
+            shape="round"
+            no-padding
+            no-margin
+            (click)="upvote(item.id)"
+            class="upvotes"
+            [ngClass]="{ voted: item.vote > 0 }"
+          >
+            <ion-icon slot="start" name="thumbs-up"></ion-icon> {{ item.upvotes }}
+          </ion-button>
+          <ion-button
+            fill="clear"
+            size="small"
+            color="dark"
+            shape="round"
+            no-padding
+            no-margin
+            (click)="downvote(item.id)"
+            class="downvotes"
+            [ngClass]="{ voted: item.vote < 0 }"
+          >
+            <ion-icon slot="start" name="thumbs-down"></ion-icon> {{ item.downvotes }}
+          </ion-button>
+        </ion-buttons>
+      </ion-item>
+    </ion-card>
+  </web-view>
 
   <ion-infinite-scroll (ionInfinite)="doInfinite($event)">
     <ion-infinite-scroll-content

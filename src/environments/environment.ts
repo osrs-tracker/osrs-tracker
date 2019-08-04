@@ -1,6 +1,9 @@
-export const environment = {
+import { IEnvironment } from './environment.interface';
+import { Capacitor } from '@capacitor/core';
+
+export const environment: IEnvironment = {
   production: false,
-  // API_GEPT: 'https://api.greendemon.io/osrs-tracker',
-  API_GEPT: 'http://localhost:8080',
-  // API_RUNESCAPE: 'https://services.runescape.com',
+  web: Capacitor.platform === 'web',
+  // API_OSRS_TRACKER: 'https://api.greendemon.io/osrs-tracker-next',
+  API_OSRS_TRACKER: 'http://localhost:8080',
 };

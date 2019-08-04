@@ -12,17 +12,19 @@
       <ion-content>
         <ion-list>
           <ion-menu-toggle auto-hide="false">
-            <ion-item
-              button
-              class="menu-item"
-              [class.active]="page.active"
-              *ngFor="let page of pages; trackBy: trackByPageId"
-              (click)="linkClicked(page)"
-            >
-              <ion-icon slot="start" [name]="page.icon"></ion-icon>
-              {{ page.title }}
-              <ion-badge margin-start color="light">{{ page.badge }}</ion-badge>
-            </ion-item>
+            <ng-template ngFor [ngForOf]="pages" [ngForTrackBy]="trackByPageId" let-page>
+              <ion-item
+                button
+                class="menu-item"
+                [class.active]="page.active"
+                *ngIf="page.visible"
+                (click)="linkClicked(page)"
+              >
+                <ion-icon slot="start" [name]="page.icon"></ion-icon>
+                {{ page.title }}
+                <ion-badge margin-start color="light">{{ page.badge }}</ion-badge>
+              </ion-item>
+            </ng-template>
           </ion-menu-toggle>
         </ion-list>
       </ion-content>

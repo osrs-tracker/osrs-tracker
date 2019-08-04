@@ -19,4 +19,4 @@ import { AppNewsResolver } from './app-news.resolver';
   ],
   declarations: [AppNewsPage],
 })
-export class AppNewsModule {}
+export class AppNewsModule { }

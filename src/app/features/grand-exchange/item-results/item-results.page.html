@@ -8,7 +8,9 @@
 </ion-header>
 
 <ion-content>
-  <ion-list lines="full">
-    <item-result *ngFor="let item of items; trackBy: trackByItemId" [item]="item"></item-result>
-  </ion-list>
+  <web-view>
+    <ion-list lines="full">
+      <item-result *ngFor="let item of items; trackBy: trackByItemId" [item]="item"></item-result>
+    </ion-list>
+  </web-view>
 </ion-content>

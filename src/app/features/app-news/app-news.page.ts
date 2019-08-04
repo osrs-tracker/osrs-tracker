@@ -7,7 +7,6 @@ import { finalize, tap } from 'rxjs/operators';
 import { NewsItemApp, NewsService } from 'src/app/services/news/news.service';
 import { StorageKey } from 'src/app/services/storage/storage-key';
 import { StorageService } from 'src/app/services/storage/storage.service';
-import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'page-app-news',
@@ -31,7 +30,7 @@ export class AppNewsPage implements OnInit {
   }
 
   async ngOnInit(): Promise<void> {
-    this.uuid = environment.production ? (await Plugins.Device.getInfo()).uuid : 'test';
+    this.uuid = (await Plugins.Device.getInfo()).uuid;
     this.getNews().subscribe();
   }
 

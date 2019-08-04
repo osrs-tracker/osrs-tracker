@@ -8,48 +8,48 @@ import { ItemDetailModel, ItemSearchModel } from './item.model';
 
 // WORKAROUND FOR: https://github.com/angular/angular/issues/18884
 class UrlParameterEncodingCodec extends HttpUrlEncodingCodec {
-  encodeKey(key: string): string {
-    return encodeURIComponent(key);
-  }
+    encodeKey(key: string): string {
+        return encodeURIComponent(key);
+    }
 
-  encodeValue(value: string): string {
-    return encodeURIComponent(value);
-  }
+    encodeValue(value: string): string {
+        return encodeURIComponent(value);
+    }
 }
 
 @Injectable({
-  providedIn: 'root',
+    providedIn: 'root',
 })
 export class ItemService {
-  constructor(private httpClient: HttpClient) { }
+    constructor(private httpClient: HttpClient) { }
 
-  searchItems(query: string): Observable<HttpResponse<ItemSearchModel[]>> {
-    return this.httpClient
-      .get<ItemSearchModel[]>(`${environment.API_GEPT}/item`, {
-        params: new HttpParams({
-          fromObject: { query },
-          encoder: new UrlParameterEncodingCodec(),
-        }),
-        observe: 'response',
-      })
-      .pipe(map(res => Object.assign(res, { body: plainToClass(ItemSearchModel, res.body) })));
-  }
+    searchItems(query: string): Observable<HttpResponse<ItemSearchModel[]>> {
+        return this.httpClient
+            .get<ItemSearchModel[]>(`${environment.API_OSRS_TRACKER}/item`, {
+                params: new HttpParams({
+                    fromObject: { query },
+                    encoder: new UrlParameterEncodingCodec(),
+                }),
+                observe: 'response',
+            })
+            .pipe(map(res => Object.assign(res, { body: plainToClass(ItemSearchModel, res.body) })));
+    }
 
-  getItem(id: number): Observable<ItemSearchModel | null> {
-    return this.httpClient
-      .get<ItemSearchModel[]>(`${environment.API_GEPT}/item/${id}`)
-      .pipe(map(items => (items ? plainToClass(ItemSearchModel, items[0]) : null)));
-  }
+    getItem(id: number): Observable<ItemSearchModel | null> {
+        return this.httpClient
+            .get<ItemSearchModel[]>(`${environment.API_OSRS_TRACKER}/item/${id}`)
+            .pipe(map(items => (items ? plainToClass(ItemSearchModel, items[0]) : null)));
+    }
 
-  itemIcon(id: number): string {
-    return `${environment.API_GEPT}/icon/${id}`;
-  }
+    itemIcon(id: number): string {
+        return `${environment.API_OSRS_TRACKER}/icon/${id}`;
+    }
 
-  itemGraph(id: number): Observable<any> {
-    return this.httpClient.get<any>(`${environment.API_GEPT}/proxy/item/${id}/graph`);
-  }
+    itemGraph(id: number): Observable<any> {
+        return this.httpClient.get<any>(`${environment.API_OSRS_TRACKER}/proxy/item/${id}/graph`);
+    }
 
-  itemDetails(id: number): Observable<ItemDetailModel> {
-    return this.httpClient.get<ItemDetailModel>(`${environment.API_GEPT}/proxy/item/${id}`);
-  }
+    itemDetails(id: number): Observable<ItemDetailModel> {
+        return this.httpClient.get<ItemDetailModel>(`${environment.API_OSRS_TRACKER}/proxy/item/${id}`);
+    }
 }

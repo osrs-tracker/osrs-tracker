@@ -25,154 +25,159 @@
 </ion-header>
 
 <ion-content>
-  <ion-refresher pullMin="70" pullMax="250" pullFactor="0.5" (ionRefresh)="refreshHiscore()">
+  <ion-refresher *mobileOnly pullMin="70" pullMax="250" pullFactor="0.5" (ionRefresh)="refreshHiscore()">
     <ion-refresher-content pullingText="Pull to refresh" refreshingText="Refreshing..."></ion-refresher-content>
   </ion-refresher>
 
-  <ion-list no-margin>
-    <ion-item>
-      <ion-label>Hiscores</ion-label>
-      <ion-select [(ngModel)]="hiscoreSuffix" (ionChange)="changeHiscore()">
-        <ion-select-option value="normal">Normal</ion-select-option>
-        <ion-select-option value="ironman">Ironman</ion-select-option>
-        <ion-select-option value="ultimate">Ultimate Ironman</ion-select-option>
-        <ion-select-option value="hardcore_ironman">Hardcore Ironman</ion-select-option>
-        <ion-select-option value="deadman">Deadman</ion-select-option>
-        <ion-select-option value="seasonal">Seasonal</ion-select-option>
-        <ion-select-option value="tournament">Tournament</ion-select-option>
-      </ion-select>
-    </ion-item>
-  </ion-list>
+  <web-view>
+    <ion-list no-margin>
+      <ion-item>
+        <ion-label>Hiscores</ion-label>
+        <ion-select [(ngModel)]="hiscoreSuffix" (ionChange)="changeHiscore()">
+          <ion-select-option value="normal">Normal</ion-select-option>
+          <ion-select-option value="ironman">Ironman</ion-select-option>
+          <ion-select-option value="ultimate">Ultimate Ironman</ion-select-option>
+          <ion-select-option value="hardcore_ironman">Hardcore Ironman</ion-select-option>
+          <ion-select-option value="deadman">Deadman</ion-select-option>
+          <ion-select-option value="seasonal">Seasonal</ion-select-option>
+          <ion-select-option value="tournament">Tournament</ion-select-option>
+        </ion-select>
+      </ion-item>
+    </ion-list>
 
-  <ion-card>
-    <ion-card-content no-padding>
-      <ion-list>
-        <ion-list-header no-margin color="secondary">
-          <ion-row align-items-center>
-            <ion-col size="1"></ion-col>
-            <ion-col size="3" class="pr-none">Skills</ion-col>
-            <ion-col size="4" no-padding>
-              <ion-row>
-                <ion-col size="7" class="pr-none" text-right>Rank</ion-col>
-                <ion-col size="5" class="pr-none" text-right>Level</ion-col>
-              </ion-row>
-            </ion-col>
-            <ion-col size="4" text-right>Experience</ion-col>
-          </ion-row>
-        </ion-list-header>
-        <ion-item
-          color="primary"
-          lines="full"
-          *ngFor="let skill of hiscore.skills; trackBy: trackBySkillName; let index = index"
-        >
-          <ion-row align-items-center>
-            <ion-col size="1" class="pl-xs" no-padding>
-              <skill-icon [skill]="skill.name" height="22px"></skill-icon>
-            </ion-col>
-            <ion-col size="3" class="pr-none">
-              <div>{{ skill.name }}</div>
-            </ion-col>
-            <ion-col size="4" no-padding>
-              <ion-row>
-                <ion-col size="7" class="pr-none" text-right>
-                  <div>{{ skill.rank | numberFormat | notFound }}</div>
-                </ion-col>
-                <ion-col size="5" class="pr-none" text-right>
-                  <div>{{ skill.level | numberFormat | notFound }}</div>
-                </ion-col>
-              </ion-row>
-            </ion-col>
-            <ion-col size="4" text-right>
-              <div>{{ skill.exp | numberFormat | notFound }}</div>
-            </ion-col>
-          </ion-row>
-        </ion-item>
-      </ion-list>
-    </ion-card-content>
-  </ion-card>
+    <ion-card>
+      <ion-card-content no-padding>
+        <ion-list>
+          <ion-list-header no-margin color="secondary">
+            <ion-row align-items-center>
+              <ion-col size="1"></ion-col>
+              <ion-col size="3" class="pr-none">Skills</ion-col>
+              <ion-col size="4" no-padding>
+                <ion-row>
+                  <ion-col size="7" class="pr-none" text-right>Rank</ion-col>
+                  <ion-col size="5" class="pr-none" text-right>Level</ion-col>
+                </ion-row>
+              </ion-col>
+              <ion-col size="4" text-right>Experience</ion-col>
+            </ion-row>
+          </ion-list-header>
+          <ion-item
+            color="primary"
+            lines="full"
+            *ngFor="let skill of hiscore.skills; trackBy: trackBySkillName; let index = index"
+          >
+            <ion-row align-items-center>
+              <ion-col size="1" class="pl-xs" no-padding>
+                <skill-icon [skill]="skill.name" height="22px"></skill-icon>
+              </ion-col>
+              <ion-col size="3" class="pr-none">
+                <div>{{ skill.name }}</div>
+              </ion-col>
+              <ion-col size="4" no-padding>
+                <ion-row>
+                  <ion-col size="7" class="pr-none" text-right>
+                    <div>{{ skill.rank | numberFormat | notFound }}</div>
+                  </ion-col>
+                  <ion-col size="5" class="pr-none" text-right>
+                    <div>{{ skill.level | numberFormat | notFound }}</div>
+                  </ion-col>
+                </ion-row>
+              </ion-col>
+              <ion-col size="4" text-right>
+                <div>{{ skill.exp | numberFormat | notFound }}</div>
+              </ion-col>
+            </ion-row>
+          </ion-item>
+        </ion-list>
+      </ion-card-content>
+    </ion-card>
 
-  <ion-card>
-    <ion-card-content no-padding>
-      <ion-list>
-        <ion-list-header no-margin color="secondary">
-          <ion-row align-items-center>
-            <ion-col size="1"></ion-col>
-            <ion-col size="5">Clue scrolls</ion-col>
-            <ion-col size="3" text-right>Rank</ion-col>
-            <ion-col size="3" text-right>Amount</ion-col>
-          </ion-row>
-        </ion-list-header>
-        <ion-item color="primary" lines="full" *ngFor="let clue of hiscore.cluescrolls; trackBy: trackByMinigameName">
-          <ion-row align-items-center>
-            <ion-col size="1" class="pl-xs" no-padding>
-              <img class="icon" [src]="'./assets/imgs/hiscore/cluescroll_' + clue.name.toLocaleLowerCase() + '.gif'" />
-            </ion-col>
-            <ion-col size="5">
-              <div>{{ clue.name }}</div>
-            </ion-col>
-            <ion-col size="3" text-right>
-              <div>{{ clue.rank | numberFormat | notFound }}</div>
-            </ion-col>
-            <ion-col size="3" text-right>
-              <div>{{ clue.amount | numberFormat | notFound }}</div>
-            </ion-col>
-          </ion-row>
-        </ion-item>
-      </ion-list>
-    </ion-card-content>
-  </ion-card>
+    <ion-card>
+      <ion-card-content no-padding>
+        <ion-list>
+          <ion-list-header no-margin color="secondary">
+            <ion-row align-items-center>
+              <ion-col size="1"></ion-col>
+              <ion-col size="5">Clue scrolls</ion-col>
+              <ion-col size="3" text-right>Rank</ion-col>
+              <ion-col size="3" text-right>Amount</ion-col>
+            </ion-row>
+          </ion-list-header>
+          <ion-item color="primary" lines="full" *ngFor="let clue of hiscore.cluescrolls; trackBy: trackByMinigameName">
+            <ion-row align-items-center>
+              <ion-col size="1" class="pl-xs" no-padding>
+                <img
+                  class="icon"
+                  [src]="'./assets/imgs/hiscore/cluescroll_' + clue.name.toLocaleLowerCase() + '.gif'"
+                />
+              </ion-col>
+              <ion-col size="5">
+                <div>{{ clue.name }}</div>
+              </ion-col>
+              <ion-col size="3" text-right>
+                <div>{{ clue.rank | numberFormat | notFound }}</div>
+              </ion-col>
+              <ion-col size="3" text-right>
+                <div>{{ clue.amount | numberFormat | notFound }}</div>
+              </ion-col>
+            </ion-row>
+          </ion-item>
+        </ion-list>
+      </ion-card-content>
+    </ion-card>
 
-  <ion-card>
-    <ion-card-content no-padding>
-      <ion-list>
-        <ion-list-header no-margin color="secondary">
-          <ion-row>
-            <ion-col size="1"></ion-col>
-            <ion-col size="5">Minigames</ion-col>
-            <ion-col size="3" text-right>Rank</ion-col>
-            <ion-col size="3" text-right>Score</ion-col>
-          </ion-row>
-        </ion-list-header>
-        <ion-item
-          color="primary"
-          lines="full"
-          *ngFor="let bounty of hiscore.bountyhunter; trackBy: trackByMinigameName; let index = index"
-        >
-          <ion-row align-items-center>
-            <ion-col size="1" class="icon" class="pl-xs" no-padding>
-              <img
-                class="icon"
-                [src]="'./assets/imgs/hiscore/bountyhunter-' + (index === 0 ? 'hunter.gif' : 'rogue.gif')"
-              />
-            </ion-col>
-            <ion-col size="5">
-              <div>{{ bounty.name }}</div>
-            </ion-col>
-            <ion-col size="3" text-right>
-              <div>{{ bounty.rank | numberFormat | notFound }}</div>
-            </ion-col>
-            <ion-col size="3" text-right>
-              <div>{{ bounty.amount | numberFormat | notFound }}</div>
-            </ion-col>
-          </ion-row>
-        </ion-item>
-        <ion-item color="primary">
-          <ion-row align-items-center>
-            <ion-col size="1" class="icon" class="pl-xs" no-padding>
-              <img class="icon" src="./assets/imgs/hiscore/last-man-standing.gif" />
-            </ion-col>
-            <ion-col size="5">
-              <div>Last Man Standing</div>
-            </ion-col>
-            <ion-col size="3" text-right>
-              <div>{{ hiscore.lms.rank | numberFormat | notFound }}</div>
-            </ion-col>
-            <ion-col size="3" text-right>
-              <div>{{ hiscore.lms.score | numberFormat | notFound }}</div>
-            </ion-col>
-          </ion-row>
-        </ion-item>
-      </ion-list>
-    </ion-card-content>
-  </ion-card>
+    <ion-card>
+      <ion-card-content no-padding>
+        <ion-list>
+          <ion-list-header no-margin color="secondary">
+            <ion-row>
+              <ion-col size="1"></ion-col>
+              <ion-col size="5">Minigames</ion-col>
+              <ion-col size="3" text-right>Rank</ion-col>
+              <ion-col size="3" text-right>Score</ion-col>
+            </ion-row>
+          </ion-list-header>
+          <ion-item
+            color="primary"
+            lines="full"
+            *ngFor="let bounty of hiscore.bountyhunter; trackBy: trackByMinigameName; let index = index"
+          >
+            <ion-row align-items-center>
+              <ion-col size="1" class="icon" class="pl-xs" no-padding>
+                <img
+                  class="icon"
+                  [src]="'./assets/imgs/hiscore/bountyhunter-' + (index === 0 ? 'hunter.gif' : 'rogue.gif')"
+                />
+              </ion-col>
+              <ion-col size="5">
+                <div>{{ bounty.name }}</div>
+              </ion-col>
+              <ion-col size="3" text-right>
+                <div>{{ bounty.rank | numberFormat | notFound }}</div>
+              </ion-col>
+              <ion-col size="3" text-right>
+                <div>{{ bounty.amount | numberFormat | notFound }}</div>
+              </ion-col>
+            </ion-row>
+          </ion-item>
+          <ion-item color="primary">
+            <ion-row align-items-center>
+              <ion-col size="1" class="icon" class="pl-xs" no-padding>
+                <img class="icon" src="./assets/imgs/hiscore/last-man-standing.gif" />
+              </ion-col>
+              <ion-col size="5">
+                <div>Last Man Standing</div>
+              </ion-col>
+              <ion-col size="3" text-right>
+                <div>{{ hiscore.lms.rank | numberFormat | notFound }}</div>
+              </ion-col>
+              <ion-col size="3" text-right>
+                <div>{{ hiscore.lms.score | numberFormat | notFound }}</div>
+              </ion-col>
+            </ion-row>
+          </ion-item>
+        </ion-list>
+      </ion-card-content>
+    </ion-card>
+  </web-view>
 </ion-content>

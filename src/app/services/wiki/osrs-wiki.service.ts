@@ -4,15 +4,15 @@ import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
-  providedIn: 'root',
+    providedIn: 'root',
 })
 export class OsrsWikiService {
-  constructor(private httpClient: HttpClient) { }
+    constructor(private httpClient: HttpClient) { }
 
-  searchWiki(query: string, limit?: number): Observable<{ keyword: string; url: string }[]> {
-    return this.httpClient.get<{ keyword: string; url: string }[]>(
-      `${environment.API_GEPT}/proxy/wiki/${query}`,
-      { params: (limit ? { limit: limit.toString() } : {}) }
-    );
-  }
+    searchWiki(query: string, limit?: number): Observable<{ keyword: string; url: string }[]> {
+        return this.httpClient.get<{ keyword: string; url: string }[]>(
+            `${environment.API_OSRS_TRACKER}/proxy/wiki/${query}`,
+            { params: (limit ? { limit: limit.toString() } : {}) }
+        );
+    }
 }

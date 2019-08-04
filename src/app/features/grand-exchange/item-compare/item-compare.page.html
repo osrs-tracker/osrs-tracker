@@ -8,60 +8,62 @@
 </ion-header>
 
 <ion-content>
-  <ion-card>
-    <ion-card-content>
-      <ion-grid no-padding>
-        <ion-row class="item">
-          <ion-col size="6">
-            <h2 class="name" text-center>{{ searchItem.name }}</h2>
-            <img class="item-icon" [src]="searchItem.icon" />
-            <div class="description">{{ searchItem.description }}</div>
-          </ion-col>
-          <ion-col size="6">
-            <h2 class="name" text-center>{{ compareItem.name }}</h2>
-            <img class="item-icon" [src]="compareItem.icon" />
-            <div class="description">{{ compareItem.description }}</div>
-          </ion-col>
-        </ion-row>
-        <ion-row>
-          <ion-col size="6">
-            <ion-row class="prices">
-              <ion-col size="6" text-center>
-                <h3>Price</h3>
-                <p class="coins number"><img src="./assets/imgs/coins.png" /> {{ searchItem.current }}</p>
-              </ion-col>
-              <ion-col size="6" text-center>
-                <h3>Today</h3>
-                <p class="number" [ngClass]="searchItem.trendClass">
-                  {{ searchItem.today }}
-                </p>
-              </ion-col>
-            </ion-row>
-            <div>
-              <small class="id">ID: {{ searchItem.id }}</small>
-            </div>
-          </ion-col>
-          <ion-col size="6">
-            <ion-row class="prices">
-              <ion-col size="6" text-center>
-                <h3>Price</h3>
-                <p class="coins number"><img src="./assets/imgs/coins.png" /> {{ compareItem.current }}</p>
-              </ion-col>
-              <ion-col size="6" text-center>
-                <h3>Today</h3>
-                <p class="number" [ngClass]="compareItem.trendClass">
-                  {{ compareItem.today }}
-                </p>
-              </ion-col>
-            </ion-row>
-            <div text-right>
-              <small class="id">ID: {{ compareItem.id }}</small>
-            </div>
-          </ion-col>
-        </ion-row>
-      </ion-grid>
-    </ion-card-content>
-  </ion-card>
+  <web-view>
+    <ion-card>
+      <ion-card-content>
+        <ion-grid no-padding>
+          <ion-row class="item">
+            <ion-col size="6">
+              <h2 class="name" text-center>{{ searchItem.name }}</h2>
+              <img class="item-icon" [src]="searchItem.icon" />
+              <div class="description">{{ searchItem.description }}</div>
+            </ion-col>
+            <ion-col size="6">
+              <h2 class="name" text-center>{{ compareItem.name }}</h2>
+              <img class="item-icon" [src]="compareItem.icon" />
+              <div class="description">{{ compareItem.description }}</div>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col size="6">
+              <ion-row class="prices">
+                <ion-col size="6" text-center>
+                  <h3>Price</h3>
+                  <p class="coins number"><img src="./assets/imgs/coins.png" /> {{ searchItem.current }}</p>
+                </ion-col>
+                <ion-col size="6" text-center>
+                  <h3>Today</h3>
+                  <p class="number" [ngClass]="searchItem.trendClass">
+                    {{ searchItem.today }}
+                  </p>
+                </ion-col>
+              </ion-row>
+              <div>
+                <small class="id">ID: {{ searchItem.id }}</small>
+              </div>
+            </ion-col>
+            <ion-col size="6">
+              <ion-row class="prices">
+                <ion-col size="6" text-center>
+                  <h3>Price</h3>
+                  <p class="coins number"><img src="./assets/imgs/coins.png" /> {{ compareItem.current }}</p>
+                </ion-col>
+                <ion-col size="6" text-center>
+                  <h3>Today</h3>
+                  <p class="number" [ngClass]="compareItem.trendClass">
+                    {{ compareItem.today }}
+                  </p>
+                </ion-col>
+              </ion-row>
+              <div text-right>
+                <small class="id">ID: {{ compareItem.id }}</small>
+              </div>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-card-content>
+    </ion-card>
 
-  <price-trend [ids]="[searchItem.id, compareItem.id]"></price-trend>
+    <price-trend [ids]="[searchItem.id, compareItem.id]"></price-trend>
+  </web-view>
 </ion-content>

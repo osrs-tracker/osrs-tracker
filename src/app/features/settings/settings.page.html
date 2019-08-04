@@ -8,16 +8,18 @@
 </ion-header>
 
 <ion-content>
-  <ion-list no-margin>
-    <ion-list-header no-margin>
-      <strong>XP TRACKER</strong>
-    </ion-list-header>
-    <ion-item>
-      <ion-label>Preferred view</ion-label>
-      <ion-select [(ngModel)]="settings.preferredXpTrackerView" (ionChange)="updateSettings()">
-        <ion-select-option [value]="XpTrackerView.AdventureLog">{{ XpTrackerView.AdventureLog }}</ion-select-option>
-        <ion-select-option [value]="XpTrackerView.DataTable">{{ XpTrackerView.DataTable }}</ion-select-option>
-      </ion-select>
-    </ion-item>
-  </ion-list>
+  <web-view>
+    <ion-list no-margin>
+      <ion-list-header no-margin>
+        <strong>XP TRACKER</strong>
+      </ion-list-header>
+      <ion-item>
+        <ion-label>Preferred view</ion-label>
+        <ion-select [(ngModel)]="settings.preferredXpTrackerView" (ionChange)="updateSettings()">
+          <ion-select-option [value]="XpTrackerView.AdventureLog">{{ XpTrackerView.AdventureLog }}</ion-select-option>
+          <ion-select-option [value]="XpTrackerView.DataTable">{{ XpTrackerView.DataTable }}</ion-select-option>
+        </ion-select>
+      </ion-item>
+    </ion-list>
+  </web-view>
 </ion-content>

@@ -1,34 +1,36 @@
 <ion-content>
-  <ion-refresher pullMin="70" pullMax="250" pullFactor="0.5" (ionRefresh)="doRefresh()">
+  <ion-refresher *mobileOnly pullMin="70" pullMax="250" pullFactor="0.5" (ionRefresh)="doRefresh()">
     <ion-refresher-content pullingText="Pull to refresh" refreshingText="Refreshing..."></ion-refresher-content>
   </ion-refresher>
 
-  <ion-card *ngFor="let gains of dataTable; trackBy: trackByXpDate; let index = index">
-    <ion-card-content no-padding>
-      <ion-list-header no-margin color="secondary">
-        {{ getFormattedDate(gains.date, index) }}
-      </ion-list-header>
-      <ion-grid no-padding>
-        <ion-row *ngIf="gains.xp.skills.length === 0">
-          <ion-col>
-            <div class="no-gains">No experience gained.</div>
-          </ion-col>
-        </ion-row>
-        <ion-row>
-          <ion-col size="6" class="skill" *ngFor="let skill of gains.xp.skills; trackBy: trackBySkillName">
-            <ion-row align-items-start>
-              <skill-icon [skill]="skill.name" height="18px"></skill-icon>
-              <span class="skill-label">{{ skill.name }}</span>
-              <span class="level-increase" *ngIf="skill.level > 0">+{{ skill.level }}</span>
-            </ion-row>
-            <ion-row>
-              <span class="xp-increase">+ {{ skill.exp | numberFormat }} XP</span>
-            </ion-row>
-          </ion-col>
-        </ion-row>
-      </ion-grid>
-    </ion-card-content>
-  </ion-card>
+  <web-view>
+    <ion-card *ngFor="let gains of dataTable; trackBy: trackByXpDate; let index = index">
+      <ion-card-content no-padding>
+        <ion-list-header no-margin color="secondary">
+          {{ getFormattedDate(gains.date, index) }}
+        </ion-list-header>
+        <ion-grid no-padding>
+          <ion-row *ngIf="gains.xp.skills.length === 0">
+            <ion-col>
+              <div class="no-gains">No experience gained.</div>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col size="6" class="skill" *ngFor="let skill of gains.xp.skills; trackBy: trackBySkillName">
+              <ion-row align-items-start>
+                <skill-icon [skill]="skill.name" height="18px"></skill-icon>
+                <span class="skill-label">{{ skill.name }}</span>
+                <span class="level-increase" *ngIf="skill.level > 0">+{{ skill.level }}</span>
+              </ion-row>
+              <ion-row>
+                <span class="xp-increase">+ {{ skill.exp | numberFormat }} XP</span>
+              </ion-row>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-card-content>
+    </ion-card>
+  </web-view>
 
   <ion-infinite-scroll (ionInfinite)="doInfinite()">
     <ion-infinite-scroll-content
