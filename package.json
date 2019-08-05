@@ -1,6 +1,6 @@
 {
   "name": "osrs-tracker-app",
-  "version": "4.0.2",
+  "version": "4.1.0-next.0",
   "license": "MIT",
   "author": "Freek Mencke",
   "homepage": "https://twitter.com/FreekMencke",
@@ -17,6 +17,8 @@
     "build:android:prod": "npm run build:prod && npx cap sync && npx cap open android",
     "build:ci": "ng build --prod --progress false",
     "build:prod": "rm -rf www/ && ng build --prod",
+    "docker:build": "docker build -t 'toxsickcoder/osrs-tracker-app:dev' .",
+    "docker:deploy": "bash ./build/deploy.sh",
     "lint": "ng lint"
   },
   "private": true,
