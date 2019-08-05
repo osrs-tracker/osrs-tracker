@@ -10,8 +10,7 @@ RUN npm run build:prod
 
 FROM nginx:1.17-alpine
 
-# RUN rm -rf /etc/nginx/conf.d/default.conf
-# COPY something /etc/nginx/conf.d/
+COPY build/nginx.conf /etc/nginx/conf.d/default.conf
 
 RUN rm -rf /usr/share/nginx/html/*
 COPY --from=builder /usr/src/app/www/ /usr/share/nginx/html/
