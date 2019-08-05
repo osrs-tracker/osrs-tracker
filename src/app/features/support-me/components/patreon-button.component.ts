@@ -3,7 +3,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 @Component({
   selector: 'patreon-button',
   template: `
-    <a href="https://www.patreon.com/freek_mencke" class="patreon-button">
+    <a href="https://www.patreon.com/freek_mencke" target="_system" class="patreon-button">
       <img src="./assets/imgs/patreon.svg" />
       <div>Become a patron</div>
     </a>
@@ -33,4 +33,4 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class PatreonButtonComponent {}
+export class PatreonButtonComponent { }
