@@ -9,7 +9,7 @@ import { NewsItemOSRS } from 'src/app/services/news/news.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class OSRSNewsComponent {
-  @Input() newsItems: NewsItemOSRS[];
+  @Input() newsItems!: NewsItemOSRS[];
 
   openInBrowser(url: string): Promise<void> {
     return Plugins.Browser.open({ url, toolbarColor: '#1e2023' });

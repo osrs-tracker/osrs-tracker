@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NavController } from '@ionic/angular';
 import { AppRoute } from 'src/app/app-routing.routes';
@@ -12,7 +12,7 @@ import { ItemResultsCache } from './item-results-cache.service';
   templateUrl: './item-results.page.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ItemResultsPage implements OnInit, OnDestroy {
+export class ItemResultsPage implements OnDestroy {
   readonly AppRoute = AppRoute;
   readonly environment = environment;
 
@@ -23,9 +23,7 @@ export class ItemResultsPage implements OnInit, OnDestroy {
     private activatedRoute: ActivatedRoute,
     private itemResultsCache: ItemResultsCache,
     private navCtrl: NavController
-  ) {}
-
-  ngOnInit(): void {
+  ) {
     this.title = `Search: ${this.activatedRoute.snapshot.params.query}` || 'Search';
     this.items = (this.activatedRoute.snapshot.data.itemResults || []).filter((item: ItemSearchModel) => item.current);
     this.itemResultsCache.store(this.items);

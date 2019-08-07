@@ -15,14 +15,14 @@ import { HiscoresRoute } from '../../hiscores.routes';
   styleUrls: ['hiscore-favorite.component.scss'],
 })
 export class HiscoreFavoriteComponent implements OnInit {
-  @Input() player: string;
+  @Input() player!: string;
 
   @Output() notFound = new EventEmitter();
   @Output() delete: EventEmitter<void> = new EventEmitter<void>();
 
-  icon: string;
-  hiscore: Hiscore;
-  combatLevel: number;
+  icon?: string;
+  hiscore?: Hiscore;
+  combatLevel?: number;
 
   loading = true;
 
@@ -30,7 +30,7 @@ export class HiscoreFavoriteComponent implements OnInit {
     private hiscoreProvider: HiscoresService,
     private storageService: StorageService,
     private navCtrl: NavController
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.getData().subscribe();
@@ -55,7 +55,7 @@ export class HiscoreFavoriteComponent implements OnInit {
         this.combatLevel = this.calculateCombatLevel(hiscore);
         this.icon = `./assets/imgs/player_types/${this.hiscore.player.deIroned ? 'de_' : ''}${
           this.hiscore.player.playerType
-        }.png`;
+          }.png`;
       })
     );
   }

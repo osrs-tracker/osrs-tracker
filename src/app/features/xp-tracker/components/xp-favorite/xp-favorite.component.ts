@@ -25,14 +25,14 @@ import { XpTrackerRoute } from '../../xp-tracker.routes';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class XpFavoriteComponent implements OnInit {
-  @Input() player: string;
+  @Input() player!: string;
 
   @Output() notFound = new EventEmitter();
   @Output() delete: EventEmitter<void> = new EventEmitter<void>();
 
-  hiscore: Hiscore;
+  hiscore?: Hiscore;
   gains?: string;
-  typeImageUrl: string;
+  typeImageUrl?: string;
 
   loading = true;
 
@@ -42,7 +42,7 @@ export class XpFavoriteComponent implements OnInit {
     private navCtrl: NavController,
     private xpProvider: XpService,
     private changeDetectorRef: ChangeDetectorRef
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.getData().subscribe();
@@ -73,7 +73,7 @@ export class XpFavoriteComponent implements OnInit {
         this.gains = this.xpProvider.calcXpGains(xp, typedHiscore)[0].xp.skills[0].exp;
         this.typeImageUrl = `./assets/imgs/player_types/${this.hiscore.player.deIroned ? 'de_' : ''}${
           this.hiscore.player.playerType
-        }.png`;
+          }.png`;
       }),
       retryWhen(errors =>
         errors.pipe(

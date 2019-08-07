@@ -17,7 +17,7 @@ import { StorageService } from 'src/app/services/storage/storage.service';
 export class PlayerHiscorePage {
   readonly AppRoute = AppRoute;
 
-  @ViewChild(IonRefresher, { static: true }) refresher: IonRefresher;
+  @ViewChild(IonRefresher, { static: true }) refresher!: IonRefresher;
 
   hiscore: Hiscore;
   hiscoreSuffix = 'normal';
@@ -53,7 +53,7 @@ export class PlayerHiscorePage {
   getTypeImageUrl(): string {
     return `./assets/imgs/player_types/${this.hiscore.player.deIroned ? 'de_' : ''}${
       this.hiscore.player.playerType
-    }.png`;
+      }.png`;
   }
 
   refreshHiscore(): void {

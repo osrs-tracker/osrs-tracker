@@ -14,7 +14,7 @@ import { HiscoresService } from 'src/app/services/hiscores/hiscores.service';
 export class HiscoresComparePage {
   readonly AppRoute = AppRoute;
 
-  @ViewChild(IonRefresher, { static: true }) refresher: IonRefresher;
+  @ViewChild(IonRefresher, { static: true }) refresher!: IonRefresher;
 
   playerHiscore: Hiscore;
   compareHiscore: Hiscore;

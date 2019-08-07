@@ -34,9 +34,9 @@ export class SkillIconComponent implements OnInit {
     'construction',
   ];
 
-  @Input() skill: string;
-  @Input() height: string;
-  src: string;
+  @Input() skill!: string;
+  @Input() height!: string;
+  src!: string;
 
   ngOnInit(): void {
     this.src = `./assets/imgs/skills/${SkillIconComponent.SKILL_NAMES.indexOf(this.skill.toLocaleLowerCase()) + 1}.gif`;

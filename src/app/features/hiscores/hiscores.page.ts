@@ -8,7 +8,7 @@ import { SearchHiscoreComponent } from './components/search-hiscore/search-hisco
   templateUrl: './hiscores.page.html',
 })
 export class HiscoresPage {
-  @ViewChild(SearchHiscoreComponent, { static: true }) searchHiscore: SearchHiscoreComponent;
+  @ViewChild(SearchHiscoreComponent, { static: true }) searchHiscore!: SearchHiscoreComponent;
 
   cachedHiscores: { favorites: string[]; recents: string[] };
 

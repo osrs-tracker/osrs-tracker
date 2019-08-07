@@ -11,7 +11,7 @@ export class SettingsPage implements OnDestroy {
   readonly XpTrackerView = PreferredXpTrackerView;
 
   settingsSubscription = Subscription.EMPTY;
-  settings: Settings;
+  settings!: Settings;
 
   constructor(private settingsProvider: SettingsService) {
     this.settingsSubscription = this.settingsProvider.settings.subscribe({

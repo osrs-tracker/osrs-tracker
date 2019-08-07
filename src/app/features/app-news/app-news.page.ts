@@ -15,9 +15,9 @@ import { StorageService } from 'src/app/services/storage/storage.service';
   encapsulation: ViewEncapsulation.None, // needed for innerHTML styling
 })
 export class AppNewsPage implements OnInit {
-  uuid: string;
+  uuid!: string;
   items: NewsItemApp[];
-  originalItems: NewsItemApp[];
+  originalItems: NewsItemApp[] = [];
   loading = false;
 
   constructor(

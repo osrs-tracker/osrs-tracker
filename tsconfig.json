@@ -10,14 +10,9 @@
     "module": "esnext",
     "moduleResolution": "node",
     "noUnusedLocals": true,
-    "noImplicitAny": true,
     "outDir": "./dist/out-tsc",
-    "paths": {
-      "stream": ["./node_modules/readable-stream/readable.js"]
-    },
     "suppressImplicitAnyIndexErrors": true,
-    "strictFunctionTypes": true,
-    "strictNullChecks": true,
+    "strict": true,
     "target": "es2015",
     "typeRoots": ["node_modules/@types"]
   }

@@ -11,17 +11,17 @@ import { ItemService } from 'src/app/services/item/item.service';
   styleUrls: ['./price-trend.component.scss'],
 })
 export class PriceTrendComponent implements OnInit {
-  @ViewChild('priceTrendCanvas', { static: true }) priceTrendCanvas: ElementRef<HTMLCanvasElement>;
-  priceTrendChart: Chart;
+  @ViewChild('priceTrendCanvas', { static: true }) priceTrendCanvas!: ElementRef<HTMLCanvasElement>;
+  priceTrendChart?: Chart;
 
-  @Input() ids: number[];
+  @Input() ids!: number[];
   items: ItemDetailModel[] = [ItemDetailModel.empty()];
 
-  lines: { t: string; y: number }[][];
+  lines: { t: string; y: number }[][] = [];
   period = 90;
   loading = false;
 
-  constructor(private itemService: ItemService, private ngZone: NgZone) {}
+  constructor(private itemService: ItemService, private ngZone: NgZone) { }
 
   ngOnInit(): void {
     this.createLineWithLineChartType();
@@ -53,6 +53,8 @@ export class PriceTrendComponent implements OnInit {
 
   updateData(period: number): void {
     this.ngZone.runOutsideAngular(() => {
+      if (!this.priceTrendChart) { return; }
+
       this.period = period;
       Object.assign(this.priceTrendChart.config!.options!.scales!.xAxes![0].time, {
         unit: period === 30 ? 'week' : 'month',
@@ -62,24 +64,20 @@ export class PriceTrendComponent implements OnInit {
       const colors = ['#453b30', '#60564b'];
 
       this.priceTrendChart.data.datasets = this.lines.map(
-        (data, index) =>
-          ({
-            label: this.items[index].name,
-            backgroundColor: 'rgba(78,67,55,0.25)',
-            borderColor: colors[index],
-            borderWidth: 2,
-            pointBackgroundColor: colors[index],
-            pointRadius: 0,
-            pointHitRadius: 0,
-            data: data.slice(180 - period, 180),
-            cubicInterpolationMode: 'monotone',
-            borderDash: index > 0 ? [10, 2] : [],
-          } as ChartDataSets)
-      );
+        (data, index) => ({
+          label: this.items[index].name,
+          backgroundColor: 'rgba(78,67,55,0.25)',
+          borderColor: colors[index],
+          borderWidth: 2,
+          pointBackgroundColor: colors[index],
+          pointRadius: 0,
+          pointHitRadius: 0,
+          data: data.slice(180 - period, 180),
+          cubicInterpolationMode: 'monotone',
+          borderDash: index > 0 ? [10, 2] : [],
+        } as ChartDataSets));
 
-      this.priceTrendChart.update({
-        duration: 600,
-      });
+      this.priceTrendChart.update({ duration: 600 });
     });
   }
 

@@ -17,13 +17,13 @@ export class XpTrackerAdventureLogPage {
   private readonly INFINITE_LOAD_COUNT_PERIOD = 14;
   private readonly INFINITE_LOAD_COUNT_INFINITE = 7;
 
-  @ViewChild(IonRefresher, { static: true }) refresher: IonRefresher;
-  @ViewChild(IonInfiniteScroll, { static: true }) infiniteScroll: IonInfiniteScroll;
+  @ViewChild(IonRefresher, { static: true }) refresher!: IonRefresher;
+  @ViewChild(IonInfiniteScroll, { static: true }) infiniteScroll!: IonInfiniteScroll;
 
   private originalHiscore: Hiscore;
   private originalXp: Xp[];
   private period: Xp[];
-  logs: Xp[];
+  logs: Xp[] = [];
 
   username: string;
   private loading = false;
