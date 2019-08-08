@@ -9,171 +9,172 @@ import { Hiscore, Minigame, Player, PlayerStatus, PlayerType, Skill } from './hi
 const CACHE_TIME_TYPES = 6; // hours
 
 @Injectable({
-    providedIn: 'root',
+  providedIn: 'root',
 })
 export class HiscoresService {
-    constructor(
-        private httpClient: HttpClient,
-        private xpService: XpService
-    ) { }
+  constructor(
+    private httpClient: HttpClient,
+    private xpService: XpService
+  ) { }
 
-    getCompareHiscores(username: string, compare: string): Observable<Hiscore[]> {
-        return forkJoin([
-            this.getHiscore(username).pipe(catchError(err => of(err))),
-            this.getHiscore(compare).pipe(catchError(err => of(err))),
-        ]).pipe(
-            switchMap(([forUsername, forCompare]) => {
-                if (forUsername.status !== 404 && forCompare.status !== 404) {
-                    return of([forUsername, forCompare]);
-                } else {
-                    return throwError((forUsername.status === 404 ? 1 : 0) + (forCompare.status === 404 ? 2 : 0));
-                }
-            })
+  getCompareHiscores(username: string, compare: string): Observable<Hiscore[]> {
+    return forkJoin([
+      this.getHiscore(username).pipe(catchError(err => of(err))),
+      this.getHiscore(compare).pipe(catchError(err => of(err))),
+    ]).pipe(
+      switchMap(([forUsername, forCompare]) => {
+        if (forUsername.status !== 404 && forCompare.status !== 404) {
+          return of([forUsername, forCompare]);
+        } else {
+          return throwError((forUsername.status === 404 ? 1 : 0) + (forCompare.status === 404 ? 2 : 0));
+        }
+      })
+    );
+  }
+
+  getHiscore(username: string, type: string = ''): Observable<Hiscore> {
+    type = type === 'normal' ? '' : type;
+
+    return this.httpClient.get<{ [hiscorePart: string]: [number, number, number] }>(
+      `${environment.API_OSRS_TRACKER}/proxy/hiscore/${username}`,
+      { params: (type ? { type } : {}) }
+    ).pipe(
+      map(newHiscore => {
+        const entries = Object.entries(newHiscore);
+
+        const skills: Skill[] = [];
+        const minigames: Minigame[] = [];
+        const cluescrolls: Minigame[] = [];
+
+        entries.forEach(entry => {
+          if (entry[0].startsWith('MiniGame')) {
+            minigames.push(new Minigame(entry[0].substring(8), entry[1][0].toString(), entry[1][1].toString()));
+          } else if (entry[0].startsWith('ClueScroll')) {
+            cluescrolls.push(new Minigame(entry[0].substring(10), entry[1][0].toString(), entry[1][1].toString()));
+          } else {
+            skills.push(new Skill(entry[0], entry[1][0].toString(), entry[1][1].toString(), entry[1][2].toString()));
+          }
+        });
+
+        return new Hiscore(
+          new Player(username),
+          skills,
+          cluescrolls,
+          minigames.filter(mg => mg.name !== 'LMS'),
+          minigames.filter(mg => mg.name === 'LMS').map(mg => ({ rank: mg.rank, score: mg.amount }))[0],
+          // build xpString for backcomp
+          entries.map(([, skillParts]) => skillParts.join(',')).reduce((hiscore, skill) => `${hiscore}\n${skill}`)
         );
-    }
+      })
+    );
+  }
 
-    getHiscore(username: string, type: string = ''): Observable<Hiscore> {
-        type = type === 'normal' ? '' : type;
+  getHiscoreAndType(username: string): Observable<Hiscore> {
+    return this.httpClient.get(`${environment.API_OSRS_TRACKER}/player/${username}`, { observe: 'response' }).pipe(
+      catchError(err => of(err)),
+      switchMap(response => {
+        if (response.status === 200) {
+          const player = response.body as Player;
+          const hoursSinceCheck = (Date.now() - new Date(player.lastChecked!).getTime()) / 36e5;
 
-        return this.httpClient.get<{ [hiscorePart: string]: [number, number, number] }>(
-            `${environment.API_OSRS_TRACKER}/proxy/hiscore/${username}`,
-            { params: (type ? { type } : {}) }
-        ).pipe(
-            map(newHiscore => {
-                const entries = Object.entries(newHiscore);
+          // When a player is a normal player, don't try to redetermine it's type.
+          if (player.playerType === 'normal') {
+            const requests$: Observable<any>[] = [this.getHiscore(player.username)];
+            if (hoursSinceCheck > CACHE_TIME_TYPES) {
+              // Update lastChecked only when CACHE_TIME_TYPES expired
+              requests$.push(this.insertOrUpdatePlayer(player));
+            }
+            return forkJoin(requests$).pipe(
+              map(([hiscore]) => ({ ...hiscore, player })),
+              catchError(err => throwError(err))
+            );
+          }
 
-                const skills: Skill[] = [];
-                const minigames: Minigame[] = [];
-                const cluescrolls: Minigame[] = [];
+          // Return cached ironman status.
+          if (hoursSinceCheck < CACHE_TIME_TYPES) {
+            return this.getHiscore(
+              username,
+              player.deIroned === PlayerStatus.DeIroned
+                ? 'normal'
+                : player.dead || player.deIroned === PlayerStatus.DeUltimated
+                  ? 'ironman'
+                  : player.playerType
+            ).pipe(
+              map((hiscore: Hiscore) => ({ ...hiscore, player })),
+              catchError(err => throwError(err))
+            );
+          }
+        }
+        // Determine ironman status after CACHE_TIME_TYPES have expired (dead hardcore? deironed?)
+        return this.determineHiscoreAndType(username);
+      })
+    );
+  }
 
-                entries.forEach(entry => {
-                    if (entry[0].startsWith('MiniGame')) {
-                        minigames.push(new Minigame(entry[0].substring(8), entry[1][0].toString(), entry[1][1].toString()));
-                    } else if (entry[0].startsWith('ClueScroll')) {
-                        cluescrolls.push(new Minigame(entry[0].substring(10), entry[1][0].toString(), entry[1][1].toString()));
-                    } else {
-                        skills.push(new Skill(entry[0], entry[1][0].toString(), entry[1][1].toString(), entry[1][2].toString()));
-                    }
-                });
+  private determineHiscoreAndType(username: string): Observable<Hiscore> {
+    return forkJoin([
+      this.getHiscore(username).pipe(catchError(err => of(err))),
+      this.getHiscore(username, PlayerType.Ironman).pipe(catchError(err => of(err))),
+      this.getHiscore(username, PlayerType.Ultimate).pipe(catchError(err => of(err))),
+      this.getHiscore(username, PlayerType.Hardcore).pipe(catchError(err => of(err))),
+    ]).pipe(
+      switchMap(response => {
+        const [normal, ironman, ultimate, hardcore] = response;
+        if (normal.status === 404) {
+          return throwError(normal);
+        } else if (ultimate.status !== 404 && hardcore.status === 404) {
+          const deIroned =
+            +ironman.skills[0].exp < +normal.skills[0].exp
+              ? PlayerStatus.DeIroned
+              : +ultimate.skills[0].exp < +ironman.skills[0].exp
+                ? PlayerStatus.DeUltimated
+                : PlayerStatus.Default;
 
-                return new Hiscore(
-                    new Player(username),
-                    skills,
-                    cluescrolls,
-                    minigames.filter(mg => mg.name !== 'LMS'),
-                    minigames.filter(mg => mg.name === 'LMS').map(mg => ({ rank: mg.rank, score: mg.amount }))[0],
-                    ''
-                );
-            })
-        );
-    }
+          const player = new Player(username.trim(), PlayerType.Ultimate, deIroned);
+          let hiscore: Hiscore;
 
-    getHiscoreAndType(username: string): Observable<Hiscore> {
-        return this.httpClient.get(`${environment.API_OSRS_TRACKER}/player/${username}`, { observe: 'response' }).pipe(
-            catchError(err => of(err)),
-            switchMap(response => {
-                if (response.status === 200) {
-                    const player = response.body as Player;
-                    const hoursSinceCheck = (Date.now() - new Date(player.lastChecked!).getTime()) / 36e5;
+          switch (deIroned) {
+            case PlayerStatus.DeUltimated:
+              hiscore = ironman;
+              break;
+            case PlayerStatus.DeIroned:
+              hiscore = normal;
+              break;
+            case PlayerStatus.Default:
+            default:
+              hiscore = ultimate;
+              break;
+          }
 
-                    // When a player is a normal player, don't try to redetermine it's type.
-                    if (player.playerType === 'normal') {
-                        const requests$: Observable<any>[] = [this.getHiscore(player.username)];
-                        if (hoursSinceCheck > CACHE_TIME_TYPES) {
-                            // Update lastChecked only when CACHE_TIME_TYPES expired
-                            requests$.push(this.insertOrUpdatePlayer(player));
-                        }
-                        return forkJoin(requests$).pipe(
-                            map(([hiscore]) => ({ ...hiscore, player })),
-                            catchError(err => throwError(err))
-                        );
-                    }
+          return forkJoin([of({ ...hiscore, player }), this.insertOrUpdatePlayer(player)]);
+        } else if (hardcore.status !== 404 && ultimate.status === 404) {
+          const deIroned = +ironman.skills[0].exp < +normal.skills[0].exp;
+          const dead = +ironman.skills[0].exp > +hardcore.skills[0].exp;
 
-                    // Return cached ironman status.
-                    if (hoursSinceCheck < CACHE_TIME_TYPES) {
-                        return this.getHiscore(
-                            username,
-                            player.deIroned === PlayerStatus.DeIroned
-                                ? 'normal'
-                                : player.dead || player.deIroned === PlayerStatus.DeUltimated
-                                    ? 'ironman'
-                                    : player.playerType
-                        ).pipe(
-                            map((hiscore: Hiscore) => ({ ...hiscore, player })),
-                            catchError(err => throwError(err))
-                        );
-                    }
-                }
-                // Determine ironman status after CACHE_TIME_TYPES have expired (dead hardcore? deironed?)
-                return this.determineHiscoreAndType(username);
-            })
-        );
-    }
+          const player = new Player(username.trim(), PlayerType.Hardcore, Number(deIroned), dead);
+          return forkJoin([
+            of({ ...(deIroned ? normal : dead ? ironman : hardcore), player }),
+            this.insertOrUpdatePlayer(player),
+          ]);
+        } else if (ironman.status !== 404) {
+          const deIroned = +ironman.skills[0].exp < +normal.skills[0].exp;
 
-    private determineHiscoreAndType(username: string): Observable<Hiscore> {
-        return forkJoin([
-            this.getHiscore(username).pipe(catchError(err => of(err))),
-            this.getHiscore(username, PlayerType.Ironman).pipe(catchError(err => of(err))),
-            this.getHiscore(username, PlayerType.Ultimate).pipe(catchError(err => of(err))),
-            this.getHiscore(username, PlayerType.Hardcore).pipe(catchError(err => of(err))),
-        ]).pipe(
-            switchMap(response => {
-                const [normal, ironman, ultimate, hardcore] = response;
-                if (normal.status === 404) {
-                    return throwError(normal);
-                } else if (ultimate.status !== 404 && hardcore.status === 404) {
-                    const deIroned =
-                        +ironman.skills[0].exp < +normal.skills[0].exp
-                            ? PlayerStatus.DeIroned
-                            : +ultimate.skills[0].exp < +ironman.skills[0].exp
-                                ? PlayerStatus.DeUltimated
-                                : PlayerStatus.Default;
+          const player = new Player(username.trim(), PlayerType.Ironman, Number(deIroned));
+          return forkJoin([of({ ...(deIroned ? normal : ironman), player }), this.insertOrUpdatePlayer(player)]);
+        } else {
+          const player = new Player(username.trim(), PlayerType.Normal);
+          return forkJoin([of({ ...normal, player }), this.insertOrUpdatePlayer(player)]);
+        }
+      }),
+      switchMap(([hiscore, statusCode]: [Hiscore, number]) =>
+        statusCode === 201 ? this.xpService.insertInitialXpDatapoint(username, hiscore) : of(hiscore)
+      )
+    );
+  }
 
-                    const player = new Player(username.trim(), PlayerType.Ultimate, deIroned);
-                    let hiscore: Hiscore;
-
-                    switch (deIroned) {
-                        case PlayerStatus.DeUltimated:
-                            hiscore = ironman;
-                            break;
-                        case PlayerStatus.DeIroned:
-                            hiscore = normal;
-                            break;
-                        case PlayerStatus.Default:
-                        default:
-                            hiscore = ultimate;
-                            break;
-                    }
-
-                    return forkJoin([of({ ...hiscore, player }), this.insertOrUpdatePlayer(player)]);
-                } else if (hardcore.status !== 404 && ultimate.status === 404) {
-                    const deIroned = +ironman.skills[0].exp < +normal.skills[0].exp;
-                    const dead = +ironman.skills[0].exp > +hardcore.skills[0].exp;
-
-                    const player = new Player(username.trim(), PlayerType.Hardcore, Number(deIroned), dead);
-                    return forkJoin([
-                        of({ ...(deIroned ? normal : dead ? ironman : hardcore), player }),
-                        this.insertOrUpdatePlayer(player),
-                    ]);
-                } else if (ironman.status !== 404) {
-                    const deIroned = +ironman.skills[0].exp < +normal.skills[0].exp;
-
-                    const player = new Player(username.trim(), PlayerType.Ironman, Number(deIroned));
-                    return forkJoin([of({ ...(deIroned ? normal : ironman), player }), this.insertOrUpdatePlayer(player)]);
-                } else {
-                    const player = new Player(username.trim(), PlayerType.Normal);
-                    return forkJoin([of({ ...normal, player }), this.insertOrUpdatePlayer(player)]);
-                }
-            }),
-            switchMap(([hiscore, statusCode]: [Hiscore, number]) =>
-                statusCode === 201 ? this.xpService.insertInitialXpDatapoint(username, hiscore) : of(hiscore)
-            )
-        );
-    }
-
-    private insertOrUpdatePlayer(player: Player): Observable<number> {
-        return this.httpClient
-            .post(`${environment.API_OSRS_TRACKER}/player`, player, { observe: 'response' })
-            .pipe(map(res => res.status));
-    }
+  private insertOrUpdatePlayer(player: Player): Observable<number> {
+    return this.httpClient
+      .post(`${environment.API_OSRS_TRACKER}/player`, player, { observe: 'response' })
+      .pipe(map(res => res.status));
+  }
 }
