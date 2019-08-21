@@ -2,9 +2,9 @@ import { Directive, OnInit, TemplateRef, ViewContainerRef } from '@angular/core'
 import { environment } from 'src/environments/environment';
 
 @Directive({
-  selector: '[mobileOnly]',
+  selector: '[nativeOnly]',
 })
-export class MobileOnlyDirective implements OnInit {
+export class NativeOnlyDirective implements OnInit {
   constructor(
     private container: ViewContainerRef,
     private template: TemplateRef<any>
@@ -15,4 +15,5 @@ export class MobileOnlyDirective implements OnInit {
       this.container.createEmbeddedView(this.template);
     }
   }
+
 }

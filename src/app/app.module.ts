@@ -15,7 +15,10 @@ import { environment } from 'src/environments/environment';
     BrowserModule,
     BrowserAnimationsModule,
     HttpClientModule,
-    IonicModule.forRoot({ refreshingSpinner: 'crescent' }),
+    IonicModule.forRoot({
+      mode: 'md',
+      refreshingSpinner: 'crescent'
+    }),
     CoreModule,
     AppRoutingModule,
   ],

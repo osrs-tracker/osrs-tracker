@@ -51,7 +51,6 @@ export class AppComponent implements OnInit {
     new Page(7, 'md-star', 'Rate App', false, !environment.web, undefined, undefined, () =>
       window.open('market://details?id=com.toxsickproductions.geptv2', '_system')
     ),
-    new Page(8, 'md-wallet', 'Support OSRS Tracker', false, true, AppRoute.SupportMe),
     new Page(9, 'md-settings', 'Settings', false, true, AppRoute.Settings),
   ];
 

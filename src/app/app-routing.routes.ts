@@ -5,6 +5,5 @@ export enum AppRoute {
   Home = 'home',
   OSRSWiki = 'osrs-wiki',
   Settings = 'settings',
-  SupportMe = 'support-me',
   XpTracker = 'xp-tracker',
 }

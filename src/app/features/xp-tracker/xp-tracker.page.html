@@ -13,7 +13,7 @@
 </ion-header>
 
 <ion-content>
-  <ion-refresher *mobileOnly pullMin="70" pullMax="250" pullFactor="0.5" (ionRefresh)="doRefresh($event)">
+  <ion-refresher *nativeOnly pullMin="70" pullMax="250" pullFactor="0.5" (ionRefresh)="doRefresh($event)">
     <ion-refresher-content pullingText="Pull to refresh" refreshingText="Refreshing..."></ion-refresher-content>
   </ion-refresher>
 

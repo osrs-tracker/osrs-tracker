@@ -29,10 +29,6 @@ const routes: Routes = [
     loadChildren: () => import('./features/settings/settings.module').then(m => m.SettingsModule),
   },
   {
-    path: AppRoute.SupportMe,
-    loadChildren: () => import('./features/support-me/support-me.module').then(m => m.SupportMeModule),
-  },
-  {
     path: AppRoute.XpTracker,
     loadChildren: () => import('./features/xp-tracker/xp-tracker.module').then(m => m.XpTrackerModule),
   },
@@ -42,4 +38,4 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }
