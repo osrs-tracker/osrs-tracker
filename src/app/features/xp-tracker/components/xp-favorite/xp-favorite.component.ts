@@ -54,6 +54,8 @@ export class XpFavoriteComponent implements OnInit {
 
   getData(): Observable<[Xp[], Hiscore]> {
     this.loading = true;
+    this.changeDetectorRef.markForCheck();
+
     return forkJoin([
       this.xpProvider.getXpFor(this.player, 1),
       this.hiscoreProvider.getHiscoreAndType(this.player),
